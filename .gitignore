@@ -1,53 +1,51 @@
-## Edits of this file MUST be in their own commit ##
-## Whenever possible, use wildcards to keep this clean ##
-## Alphabetize, or else ##
-## Put your edits in the proper section, or I'll grouch at you ##
-
-## General housekeeping
-*.bat
+## General stuff to keep the repo clean
 *.class
+dist
+download
+.DS_Store
+CREDITS-fml.txt
+options.txt
+MinecraftForge-Credits.txt
+MinecraftForge-License.txt
+
+## gradle
+/.gradle
+/build
+/eclipse
+
+## ForgeGradle
+/run
+/out
+
+## idea
+/.idea
 *.iml
 *.ipr
 *.iws
-*.log
-*.pdf
-*.py
-*.sh
-*.txt
-.cache
-build.xml
-lib/
-libs/
-libs_sources/
-natives/
-
-## Because Macs
-.DS_Store
-._*
-
-## Gradle
-.gradle/
-build/
-gradle/
-gradlew
-out/
-output/
-run/
-
-## sublime
-*.sublime*
+/classes
 
 ## eclipse
-.classpath
-.metadata/
-.project
-.settings/
-bin/
-eclipse/
-
-## Intellij IDEA
-.idea/
+/.settings
+/.metadata
+/.classpath
+/.project
+/bin
 
 ## netbeans
-nbbuild/
+.nb*
+/nbproject/private/
+/nbbuild/
+output/
+install.bat
+.cache
+build.xml
+natives/
 nbproject/
+
+## minecraft
+/config/
+/mods/
+/saves/
+/logs/
+/crash-reports/
+/screenshots/
