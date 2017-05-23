@@ -11,7 +11,6 @@ import minechem.helper.ResearchHelper;
 import minechem.item.chemical.ChemicalItem;
 import minechem.proxy.client.render.RenderHelper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -29,7 +28,7 @@ public class OpticalMicroscopeGUI extends BasicGuiContainer
     protected static final int eyePieceY = 16;
     protected static final int eyePieceW = 54;
     protected static final int eyePieceH = 54;
-    private RenderItem renderItem;
+    private MicroscopeRenderItem renderItem;
 
     public OpticalMicroscopeGUI(InventoryPlayer inventoryPlayer, OpticalMicroscopeTileEntity opticalMicroscope)
     {
@@ -37,12 +36,13 @@ public class OpticalMicroscopeGUI extends BasicGuiContainer
         this.opticalMicroscope = opticalMicroscope;
         texture = Compendium.Resource.GUI.opticalMicroscope;
         name = LocalizationHelper.getLocalString("tile.opticalMicroscope.name");
-        renderItem = new MicroscopeRenderItem(this);
+        renderItem = new MicroscopeRenderItem();
     }
 
     public boolean isMouseInMicroscope()
     {
-        return mouseX >= eyePieceX && mouseX <= eyePieceX + eyePieceW && mouseY >= eyePieceY && mouseY <= eyePieceY + eyePieceH;
+        return false;
+        //return mouseX >= eyePieceX && mouseX <= eyePieceX + eyePieceW && mouseY >= eyePieceY && mouseY <= eyePieceY + eyePieceH;
     }
 
     private void drawMicroscopeOverlay()
@@ -66,9 +66,9 @@ public class OpticalMicroscopeGUI extends BasicGuiContainer
             if (itemStack.getItem() instanceof ChemicalItem)
             {
                 ChemicalBase chemicalBase = ChemicalBase.readFromNBT(itemStack.getTagCompound());
-                fontRendererObj.drawString(chemicalBase.fullName, eyePieceX + eyePieceH + 5, eyePieceY, 0);
-                fontRendererObj.drawString("Formula:", eyePieceX + eyePieceH + 5, eyePieceY + 10, 0);
-                fontRendererObj.drawString(chemicalBase.getFormula(), eyePieceX + eyePieceH + 5, eyePieceY + 20, 0);
+                fontRenderer.drawString(chemicalBase.fullName, eyePieceX + eyePieceH + 5, eyePieceY, 0);
+                fontRenderer.drawString("Formula:", eyePieceX + eyePieceH + 5, eyePieceY + 10, 0);
+                fontRenderer.drawString(chemicalBase.getFormula(), eyePieceX + eyePieceH + 5, eyePieceY + 20, 0);
 
                 if (!chemicalBase.isElement())
                 {
@@ -100,7 +100,7 @@ public class OpticalMicroscopeGUI extends BasicGuiContainer
     public void drawScreen(int x, int y, float z)
     {
         super.drawScreen(x, y, z);
-        renderItem.renderItemAndEffectIntoGUI(fontRendererObj, this.mc.getTextureManager(), opticalMicroscope.getStackInSlot(0), x, y);
-        renderItem.renderItemAndEffectIntoGUI(fontRendererObj, this.mc.getTextureManager(), getContainer().getInventoryPlayer().getItemStack(), x, y);
+        renderItem.renderItemAndEffectIntoGUI(opticalMicroscope.getStackInSlot(0), x, y);
+        renderItem.renderItemAndEffectIntoGUI(getContainer().getInventoryPlayer().getItemStack(), x, y);
     }
 }

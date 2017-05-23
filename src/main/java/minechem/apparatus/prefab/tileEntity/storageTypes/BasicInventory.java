@@ -1,9 +1,13 @@
 package minechem.apparatus.prefab.tileEntity.storageTypes;
 
-import codechicken.lib.inventory.InventoryUtils;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
+
+import java.util.Arrays;
 
 /**
  * Defines basic properties for TileEntities
@@ -21,12 +25,13 @@ public class BasicInventory implements IInventory
     public BasicInventory(int inventorySize, String inventoryName)
     {
         inventory = new ItemStack[inventorySize];
+        Arrays.fill(inventory, ItemStack.EMPTY);
         this.inventoryName = inventoryName;
     }
 
     @Override
-    public void closeInventory()
-    {
+    public void closeInventory(EntityPlayer player) {
+
     }
 
     /**
@@ -39,18 +44,25 @@ public class BasicInventory implements IInventory
     @Override
     public ItemStack decrStackSize(int slot, int amount)
     {
-        return InventoryUtils.decrStackSize(this, slot, amount);
+        inventory[slot].shrink(amount);
+        return inventory[slot];
+    }
+
+    @Override
+    public ItemStack removeStackFromSlot(int index) {
+        ItemStack stack = inventory[index];
+        inventory[index] = ItemStack.EMPTY;
+        return stack;
     }
 
     /**
      * Get the inventory name
      *
-     * @return String the unlocalized inventory name
+     * @return the inventory name
      */
     @Override
-    public String getInventoryName()
-    {
-        return inventoryName;
+    public ITextComponent getDisplayName() {
+        return new TextComponentTranslation(inventoryName);
     }
 
     /**
@@ -75,6 +87,16 @@ public class BasicInventory implements IInventory
         return inventory.length;
     }
 
+    @Override
+    public boolean isEmpty() {
+        for (ItemStack stack : inventory) {
+            if (!stack.isEmpty()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     /**
      * Get the item from a specific slot
      *
@@ -87,16 +109,9 @@ public class BasicInventory implements IInventory
         return inventory[slot];
     }
 
-    /**
-     * Get the stack in a given slot on GUI close
-     *
-     * @param slot the slot to get from
-     * @return ItemStack the stack from the slot
-     */
     @Override
-    public ItemStack getStackInSlotOnClosing(int slot)
-    {
-        return InventoryUtils.getStackInSlotOnClosing(this, slot);
+    public String getName() {
+        return inventoryName;
     }
 
     /**
@@ -105,7 +120,7 @@ public class BasicInventory implements IInventory
      * @return false
      */
     @Override
-    public boolean hasCustomInventoryName()
+    public boolean hasCustomName()
     {
         return false;
     }
@@ -123,6 +138,28 @@ public class BasicInventory implements IInventory
         return true;
     }
 
+    @Override
+    public int getField(int id) {
+        return 0;
+    }
+
+    @Override
+    public void setField(int id, int value) {
+
+    }
+
+    @Override
+    public int getFieldCount() {
+        return 0;
+    }
+
+    @Override
+    public void clear() {
+        for (int i = 0; i < inventory.length; i++) {
+            inventory[i] = ItemStack.EMPTY;
+        }
+    }
+
     /**
      * Check if the player can use the inventory
      *
@@ -130,14 +167,14 @@ public class BasicInventory implements IInventory
      * @return boolean based on distance and tileEntity status
      */
     @Override
-    public boolean isUseableByPlayer(EntityPlayer entityPlayer)
+    public boolean isUsableByPlayer(EntityPlayer entityPlayer)
     {
         return true;
     }
 
-    public boolean isUseableByPlayer(EntityPlayer entityPlayer, int x, int y, int z)
+    public boolean isUsableByPlayer(EntityPlayer entityPlayer, BlockPos pos)
     {
-        return entityPlayer.getDistanceSq(x + 0.5D, y + 0.5D, z + 0.5D) <= 64.0D;
+        return entityPlayer.getDistanceSq(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D) <= 64.0D;
     }
 
     @Override
@@ -146,8 +183,8 @@ public class BasicInventory implements IInventory
     }
 
     @Override
-    public void openInventory()
-    {
+    public void openInventory(EntityPlayer player) {
+
     }
 
     /**

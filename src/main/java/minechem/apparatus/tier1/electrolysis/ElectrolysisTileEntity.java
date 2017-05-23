@@ -37,14 +37,8 @@ public class ElectrolysisTileEntity extends BasicFluidInventoryTileEntity
     }
 
     @Override
-    public String getInventoryName()
-    {
+    public String getName() {
         return Compendium.Naming.electrolysis;
-    }
-
-    @Override
-    public void updateEntity()
-    {
     }
 
     /**
@@ -130,9 +124,10 @@ public class ElectrolysisTileEntity extends BasicFluidInventoryTileEntity
      * @param nbttagcompound
      */
     @Override
-    public void writeToNBT(NBTTagCompound nbttagcompound)
+    public NBTTagCompound writeToNBT(NBTTagCompound nbttagcompound)
     {
         super.writeToNBT(nbttagcompound);
+        return nbttagcompound;
     }
 
     /**

@@ -12,14 +12,9 @@ public class ElectricCrucibleTileEntity extends BasicInventoryTileEntity
     }
 
     @Override
-    public String getInventoryName()
+    public String getName()
     {
         return Compendium.Naming.electricCrucible;
-    }
-
-    @Override
-    public void updateEntity()
-    {
     }
 
 }

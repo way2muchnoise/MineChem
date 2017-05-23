@@ -1,15 +1,15 @@
 package minechem.proxy.client.render;
 
-import net.minecraft.util.IIcon;
+import net.minecraft.util.ResourceLocation;
 
 public class IconLayer implements ILayer
 {
-    private final IIcon iIcon;
+    private final ResourceLocation icon;
     private final boolean colour;
 
-    public IconLayer(IIcon iIcon, boolean colour)
+    public IconLayer(ResourceLocation icon, boolean colour)
     {
-        this.iIcon = iIcon;
+        this.icon = icon;
         this.colour = colour;
     }
 
@@ -21,7 +21,7 @@ public class IconLayer implements ILayer
         {
             RenderHelper.setOpenGLColour(colour);
         }
-        RenderHelper.drawTexturedRectUV(0, 0, z, 16, 16, this.iIcon);
+        RenderHelper.drawTexturedRectUV(0, 0, z, 16, 16, 16, 16, this.icon);
     }
 
     @Override
@@ -32,7 +32,7 @@ public class IconLayer implements ILayer
         {
             RenderHelper.setOpenGLColour(colour);
         }
-        RenderHelper.drawTextureIn2D(this.iIcon);
+        // RenderHelper.drawTextureIn2D(this.icon);
     }
 
     @Override
@@ -43,6 +43,6 @@ public class IconLayer implements ILayer
         {
             RenderHelper.setOpenGLColour(colour);
         }
-        RenderHelper.drawTextureIn3D(this.iIcon);
+        // RenderHelper.drawTextureIn3D(this.icon);
     }
 }

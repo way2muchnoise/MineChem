@@ -1,12 +1,13 @@
 package minechem.achievement;
 
+import betterachievements.api.components.page.ICustomBackground;
+import betterachievements.api.components.page.ICustomScale;
 import minechem.Compendium;
 import minechem.proxy.client.render.RenderHelper;
-import net.minecraft.client.Minecraft;
 import net.minecraft.stats.Achievement;
 import net.minecraftforge.common.AchievementPage;
 
-public class ElementAchievementPage extends AchievementPage implements IAchievementPageRenderer
+public class ElementAchievementPage extends AchievementPage implements ICustomBackground, ICustomScale
 {
     public ElementAchievementPage(String name, Achievement... achievements)
     {
@@ -14,30 +15,29 @@ public class ElementAchievementPage extends AchievementPage implements IAchievem
     }
 
     @Override
-    public void drawBackground(Minecraft mc, float z, float scale, int columnWidth, int rowHeight)
-    {
-        int k = (columnWidth + 288);
-        int l = (rowHeight + 288);
+    public void drawBackground(int left, int top, int width, int height, float z, float scale) {
         RenderHelper.setScissor(254, 200, 0, 0, 250, 200);
-        RenderHelper.drawTexturedRectUV(-10 - k, 50 - l, z, 0, 0, 640, 480, 640, 480, Compendium.Resource.GUI.achievements);
+        RenderHelper.drawTexturedRectUV(-10 - left, 50 - top, z, 0, 0, 640, 480, 640, 480, Compendium.Resource.GUI.achievements);
         RenderHelper.stopScissor();
     }
 
     @Override
-    public float setScaleOnLoad()
-    {
+    public boolean resetScaleOnLoad() {
+        return true;
+    }
+
+    @Override
+    public float setScale() {
         return 2.0F;
     }
 
     @Override
-    public float getMaxZoomOut()
-    {
+    public float getMaxScale() {
         return 3.0F;
     }
 
     @Override
-    public float getMaxZoomIn()
-    {
+    public float getMinScale() {
         return 1.0F;
     }
 }

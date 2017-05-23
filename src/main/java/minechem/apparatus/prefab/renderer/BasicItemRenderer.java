@@ -1,8 +1,7 @@
 package minechem.apparatus.prefab.renderer;
-
+/*
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.client.IItemRenderer;
 import org.lwjgl.opengl.GL11;
 
 public class BasicItemRenderer implements IItemRenderer
@@ -37,4 +36,4 @@ public class BasicItemRenderer implements IItemRenderer
     {
         return true;
     }
-}
+}*/

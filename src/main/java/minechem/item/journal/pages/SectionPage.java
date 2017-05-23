@@ -7,8 +7,10 @@ import java.util.Map;
 import java.util.regex.Matcher;
 
 import minechem.item.journal.pages.elements.JournalHeader;
-import net.afterlifelochie.fontbox.data.FormattedString;
-import net.afterlifelochie.fontbox.document.CompilerHint;
+import net.afterlifelochie.fontbox.api.data.FormattedString;
+import net.afterlifelochie.fontbox.api.formatting.layout.CompilerHint;
+import net.afterlifelochie.fontbox.api.layout.IElement;
+import net.afterlifelochie.fontbox.document.CompilerHintElement;
 import net.afterlifelochie.fontbox.document.Element;
 import net.afterlifelochie.fontbox.document.Heading;
 import net.minecraft.entity.player.EntityPlayer;
@@ -110,16 +112,16 @@ public class SectionPage extends JournalPage
     }
 
     @Override
-    public List<Element> getElements(EntityPlayer player)
+    public List<IElement> getElements(EntityPlayer player)
     {
-        List<Element> result = new ArrayList<Element>();
+        List<IElement> result = new ArrayList<>();
         for (IJournalPage page : pages.values())
         {
-            List<Element> elements = page.getElements(player);
+            List<IElement> elements = page.getElements(player);
             if (elements.size() > 0 && page instanceof SectionPage)
             {
                 result.addAll(((SectionPage) page).getIndexPage(player, 0));
-                result.add(new CompilerHint(CompilerHint.HintType.PAGEBREAK));
+                result.add(new CompilerHintElement(CompilerHint.PAGE_BREAK));
             }
             result.addAll(elements);
             result.addAll(page.getElements(player));
@@ -132,16 +134,16 @@ public class SectionPage extends JournalPage
     }
 
     @Override
-    public List<Element> getElements(String[] keys)
+    public List<IElement> getElements(String[] keys)
     {
-        List<Element> result = new ArrayList<Element>();
+        List<IElement> result = new ArrayList<>();
         for (IJournalPage page : pages.values())
         {
-            List<Element> elements = page.getElements(keys);
+            List<IElement> elements = page.getElements(keys);
             if (elements.size() > 0 && page instanceof SectionPage)
             {
                 result.addAll(((SectionPage) page).getIndexPage(keys, 0));
-                result.add(new CompilerHint(CompilerHint.HintType.PAGEBREAK));
+                result.add(new CompilerHintElement(CompilerHint.PAGE_BREAK));
             }
             result.addAll(elements);
         }
@@ -178,9 +180,9 @@ public class SectionPage extends JournalPage
         return false;
     }
 
-    public List<Element> getIndexPage(String[] keys, int indent)
+    public List<IElement> getIndexPage(String[] keys, int indent)
     {
-        List<Element> result = new ArrayList<Element>();
+        List<IElement> result = new ArrayList<>();
         result.add(heading.getElement(indent));
         if (indent > 1)
         {
@@ -207,9 +209,9 @@ public class SectionPage extends JournalPage
         return result;
     }
 
-    public List<Element> getIndexPage(EntityPlayer player, int indent)
+    public List<IElement> getIndexPage(EntityPlayer player, int indent)
     {
-        List<Element> result = new ArrayList<Element>();
+        List<IElement> result = new ArrayList<>();
         result.add(heading.getElement(indent));
         if (indent > 1)
         {

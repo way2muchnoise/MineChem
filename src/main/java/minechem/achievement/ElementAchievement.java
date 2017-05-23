@@ -1,24 +1,23 @@
 package minechem.achievement;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import betterachievements.api.components.achievement.ICustomBackgroundColour;
+import betterachievements.api.components.achievement.ICustomIconRenderer;
+import betterachievements.api.components.achievement.ICustomTitle;
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.text.translation.I18n;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import minechem.Compendium;
 import minechem.chemical.Element;
 import minechem.helper.ColourHelper;
 import minechem.helper.LocalizationHelper;
 import minechem.proxy.client.font.Font;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IChatComponent;
 
 /**
  * {@link net.minecraft.stats.Achievement} wrapper for {@link minechem.chemical.Element}s
  */
-public class ElementAchievement extends Achievement implements IAchievementRenderer
+public class ElementAchievement extends Achievement implements ICustomBackgroundColour, ICustomIconRenderer, ICustomTitle
 {
     private final static String achievementPrefix = "achievement.";
     private final static String defaultElementTitle = "achievement.minechem.element";
@@ -40,19 +39,6 @@ public class ElementAchievement extends Achievement implements IAchievementRende
     public String getDescription()
     {
         return String.format(LocalizationHelper.getLocalString(defaultElementDescription), element.fullName);
-    }
-
-    /**
-     * Returns the title
-     *
-     * @return an {@link net.minecraft.util.IChatComponent}
-     */
-    @Override
-    public IChatComponent func_150951_e()
-    {
-        IChatComponent iChatComponent = new ChatComponentTranslation(defaultElementTitle, element.shortName);
-        iChatComponent.getChatStyle().setColor(this.getSpecial() ? EnumChatFormatting.DARK_PURPLE : EnumChatFormatting.GREEN);
-        return iChatComponent;
     }
 
     /**
@@ -100,23 +86,21 @@ public class ElementAchievement extends Achievement implements IAchievementRende
     }
 
     @Override
-    public boolean hasSpecialIconRenderer()
-    {
-        return true;
+    public String getTitle() {
+        return I18n.translateToLocalFormatted(defaultElementTitle, element.shortName);
     }
 
     @Override
-    public void renderIcon(FontRenderer fontRenderer, TextureManager textureManager, ItemStack itemStack, int left, int top)
-    {
+    public void renderIcon(int x, int y) {
         if (regularFont == null)
         {
-            regularFont = new Font(fontRenderer);
+            regularFont = new Font(Minecraft.getMinecraft().fontRenderer);
         }
         if (smallFont == null)
         {
-            smallFont = new Font(fontRenderer).setFontSize(8);
+            smallFont = new Font(Minecraft.getMinecraft().fontRenderer).setFontSize(8);
         }
-        regularFont.print(element.shortName, left + 10 - (element.shortName.length() - 1) * 5, top + 8, Compendium.Color.TrueColor.white, true);
-        smallFont.print(element.atomicNumber, left, top, Compendium.Color.TrueColor.white, true);
+        regularFont.print(element.shortName, x + 10 - (element.shortName.length() - 1) * 5, y + 8, Compendium.Color.TrueColor.white, true);
+        smallFont.print(element.atomicNumber, x, y, Compendium.Color.TrueColor.white, true);
     }
 }

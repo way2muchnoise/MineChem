@@ -1,11 +1,9 @@
 package minechem.apparatus.prefab.tileEntity.storageTypes;
 
-import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
-import net.minecraftforge.fluids.FluidTankInfo;
-import net.minecraftforge.fluids.IFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidTankProperties;
 
 /**
  * Implementation of a basic single fluid type tank
@@ -25,55 +23,14 @@ public class BasicFluidTank implements IFluidHandler
     }
 
     /**
-     * Can the tank be drained
-     *
-     * @param from  which direction is being checked
-     * @param fluid the fluid object
-     * @return boolean based on the fluid
-     */
-    @Override
-    public boolean canDrain(ForgeDirection from, Fluid fluid)
-    {
-        if (fluid != null && fluid.getID() == tank.getFluid().getFluidID())
-        {
-            return tank.getFluidAmount() > 0;
-        }
-        return false;
-    }
-
-    /**
-     * Can the tank be filled
-     *
-     * @param from  which direction is being checked
-     * @param fluid the fluid object
-     * @return boolean based on the fluid
-     */
-    @Override
-    public boolean canFill(ForgeDirection from, Fluid fluid)
-    {
-        if (tank != null)
-        {
-            if (tank.getFluid().getFluidID() == fluid.getID())
-            {
-                return tank.getFluidAmount() < tank.getCapacity();
-            } else if (tank.getFluidAmount() == 0)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
      * Attempt to drain a resource from the tank
      *
-     * @param from     which direction is being checked
      * @param resource the fluid stack being drained
      * @param doDrain  should it actually be drained
      * @return FluidStack object
      */
     @Override
-    public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain)
+    public FluidStack drain(FluidStack resource, boolean doDrain)
     {
         if (resource != null && resource.isFluidEqual(tank.getFluid()))
         {
@@ -85,13 +42,12 @@ public class BasicFluidTank implements IFluidHandler
     /**
      * Attemt to drain any fluid from the tank
      *
-     * @param from    which direction is being checked
      * @param amount  how much to drain
      * @param doDrain should it actually be drained
      * @return FluidStack object
      */
     @Override
-    public FluidStack drain(ForgeDirection from, int amount, boolean doDrain)
+    public FluidStack drain(int amount, boolean doDrain)
     {
         if (amount <= tank.getFluidAmount())
         {
@@ -103,13 +59,12 @@ public class BasicFluidTank implements IFluidHandler
     /**
      * Fill the tank with a resource from a specific side
      *
-     * @param from     which side is the tank being filled from
      * @param resource the FluidStack to fill with
      * @param doFill   should it be filled
      * @return how much was actually filled
      */
     @Override
-    public int fill(ForgeDirection from, FluidStack resource, boolean doFill)
+    public int fill(FluidStack resource, boolean doFill)
     {
         if (tank != null & resource != null)
         {
@@ -125,15 +80,11 @@ public class BasicFluidTank implements IFluidHandler
     /**
      * Get info for the specific tank
      *
-     * @param from which side is requesting the info
-     * @return FluidTankInfo array
+     * @return IFluidTankProperties array
      */
     @Override
-    public FluidTankInfo[] getTankInfo(ForgeDirection from)
+    public IFluidTankProperties[] getTankProperties()
     {
-        FluidTankInfo[] tankInfo = new FluidTankInfo[1];
-        tankInfo[0] = tank.getInfo();
-        return tankInfo;
+        return tank.getTankProperties();
     }
-
 }

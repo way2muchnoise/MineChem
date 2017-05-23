@@ -5,17 +5,21 @@ import minechem.Compendium;
 import minechem.Minechem;
 import minechem.helper.ItemHelper;
 import minechem.helper.ResearchHelper;
-import minechem.proxy.CommonProxy;
 import minechem.registry.CreativeTabRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 /**
@@ -39,7 +43,7 @@ public abstract class BasicBlockContainer extends BlockContainer
      */
     public BasicBlockContainer(String blockName)
     {
-        this(blockName, Material.grass, Block.soundTypeGrass);
+        this(blockName, Material.GRASS, SoundType.GROUND);
     }
 
     /**
@@ -49,13 +53,12 @@ public abstract class BasicBlockContainer extends BlockContainer
      * @param material  Material type
      * @param sound     Block sound type
      */
-    public BasicBlockContainer(String blockName, Material material, Block.SoundType sound)
+    public BasicBlockContainer(String blockName, Material material, SoundType sound)
     {
         super(material);
-        setBlockName(blockName);
-        setStepSound(sound);
-        setCreativeTab(CreativeTabRegistry.TAB_PRIMARY);
-        textureName = Compendium.Texture.prefix + blockName + "Icon";
+        this.setRegistryName(blockName);
+        this.setSoundType(sound);
+        this.setCreativeTab(CreativeTabRegistry.TAB_PRIMARY);
     }
 
     /**
@@ -72,18 +75,15 @@ public abstract class BasicBlockContainer extends BlockContainer
      * Called when the block is broken
      *
      * @param world    the world object
-     * @param x        world X coordinate of broken block
-     * @param y        world Y coordinate of broken block
-     * @param z        world Z coordinate of broken block
-     * @param block    the block being broken
-     * @param metaData block metadata value
+     * @param pos      the x,y,z position
+     * @param state     the state of the block being broken
      */
     @Override
-    public void breakBlock(World world, int x, int y, int z, Block block, int metaData)
-    {
+    public void breakBlock(World world, BlockPos pos, IBlockState state) {
+        Block block = state.getBlock();
         if (block instanceof BasicBlockContainer)
         {
-            TileEntity tileEntity = world.getTileEntity(x, y, z);
+            TileEntity tileEntity = world.getTileEntity(pos);
             if (tileEntity != null)
             {
                 ArrayList<ItemStack> droppedStacks = new ArrayList<ItemStack>();
@@ -107,9 +107,9 @@ public abstract class BasicBlockContainer extends BlockContainer
                 addStacksDroppedOnBlockBreak(tileEntity, droppedStacks);
                 for (ItemStack itemstack : droppedStacks)
                 {
-                    ItemHelper.throwItemStack(world, itemstack, x, y, z);
+                    ItemHelper.throwItemStack(world, itemstack, pos);
                 }
-                super.breakBlock(world, x, y, z, block, metaData);
+                super.breakBlock(world, pos, state);
             }
         }
     }
@@ -135,51 +135,26 @@ public abstract class BasicBlockContainer extends BlockContainer
     }
 
     /**
-     * Get the render type
-     *
-     * @return render ID from the CommonProxy
-     */
-    @Override
-    public int getRenderType()
-    {
-        return CommonProxy.RENDER_ID;
-    }
-
-    /**
-     * Disable opaque cube rendering
-     *
-     * @return false
-     */
-    @Override
-    public boolean isOpaqueCube()
-    {
-        return false;
-    }
-
-    /**
      * Open the GUI on block activation
      *
      * @param world  the game world object
-     * @param x      the x coordinate of the block being activated
-     * @param y      the y coordinate of the block being activated
-     * @param z      the z coordinate of the block being activated
+     * @param pos      the x,y,z position
      * @param player the entityplayer object
-     * @param side   which side was hit
+     * @param facing   which side was hit
      * @param hitX   on the side that was hit, the x coordinate
      * @param hitY   on the side that was hit, the y coordinate
      * @param hitZ   on the side that was hit, the z coordinate
      * @return boolean does the block get activated
      */
     @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
-    {
-        TileEntity tileEntity = world.getTileEntity(x, y, z);
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+        TileEntity tileEntity = world.getTileEntity(pos);
         if (tileEntity != null && !player.isSneaking())
         {
             acquireResearch(player, world);
             if (!world.isRemote)
             {
-                player.openGui(Minechem.INSTANCE, 0, world, x, y, z);
+                player.openGui(Minechem.INSTANCE, 0, world, pos.getX(), pos.getY(), pos.getZ());
             }
             return true;
         }
@@ -222,28 +197,14 @@ public abstract class BasicBlockContainer extends BlockContainer
      * Set block metadata for model rotation
      *
      * @param world        the world object
-     * @param x            world X coordinate of placed block
-     * @param y            world Y coordinate of placed block
-     * @param z            world Z coordinate of placed block
-     * @param livingEntity the entity that placed the block
-     * @param itemStack    ItemStack object used to place the block
+     * @param pos      the x,y,z position
+     * @param placer the entity that placed the block
+     * @param stack    ItemStack object used to place the block
      */
     @Override
-    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase livingEntity, ItemStack itemStack)
-    {
-        super.onBlockPlacedBy(world, x, y, z, livingEntity, itemStack);
-        int facing = MathHelper.floor_double(livingEntity.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
-        world.setBlockMetadataWithNotify(x, y, z, facing, 2);
-    }
-
-    /**
-     * Disable normal block rendering
-     *
-     * @return false
-     */
-    @Override
-    public boolean renderAsNormalBlock()
-    {
-        return false;
+    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+        super.onBlockPlacedBy(world, pos, state, placer, stack);
+        int facing = MathHelper.fastFloor(placer.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
+        //world.setBlockMetadataWithNotify(x, y, z, facing, 2);
     }
 }

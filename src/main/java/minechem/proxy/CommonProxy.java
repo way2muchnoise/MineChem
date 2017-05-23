@@ -1,9 +1,9 @@
 package minechem.proxy;
 
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import minechem.handler.EventHandler;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
@@ -15,7 +15,7 @@ public class CommonProxy
 
     public EntityPlayer findEntityPlayerByName(String name)
     {
-        return MinecraftServer.getServer().getConfigurationManager().func_152612_a(name);
+        return FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerByUsername(name);
     }
 
     public World getClientWorld()
@@ -25,12 +25,12 @@ public class CommonProxy
 
     public EntityPlayer getPlayer(MessageContext context)
     {
-        return context.getServerHandler().playerEntity;
+        return context.getServerHandler().player;
     }
 
     public World getWorld(MessageContext context)
     {
-        return context.getServerHandler().playerEntity.worldObj;
+        return context.getServerHandler().player.world;
     }
 
     public void registerRenderers()

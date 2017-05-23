@@ -1,6 +1,5 @@
 package minechem.apparatus.prefab.tileEntity;
 
-import minechem.apparatus.prefab.peripheral.TilePeripheralBase;
 import minechem.apparatus.prefab.tileEntity.storageTypes.BasicFluidTank;
 import minechem.apparatus.prefab.tileEntity.storageTypes.BasicInventory;
 import net.minecraft.entity.player.EntityPlayer;
@@ -8,17 +7,19 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTankInfo;
-import net.minecraftforge.fluids.IFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidTankProperties;
+
+import javax.annotation.Nullable;
 
 /**
  * Defines basic properties for TileEntities
  */
-public abstract class BasicFluidInventoryTileEntity extends TilePeripheralBase implements IInventory, IFluidHandler
+public abstract class BasicFluidInventoryTileEntity extends BaseTileEntity implements IInventory, IFluidHandler
 {
     private BasicFluidTank fluidInventory;
     private BasicInventory inventory;
@@ -28,23 +29,6 @@ public abstract class BasicFluidInventoryTileEntity extends TilePeripheralBase i
         super(name);
         inventory = new BasicInventory(inventorySize);
         fluidInventory = new BasicFluidTank(fluidInventorySize);
-    }
-
-    @Override
-    public boolean canDrain(ForgeDirection from, Fluid fluid)
-    {
-        return fluidInventory.canDrain(from, fluid);
-    }
-
-    @Override
-    public boolean canFill(ForgeDirection from, Fluid fluid)
-    {
-        return fluidInventory.canFill(from, fluid);
-    }
-
-    @Override
-    public void closeInventory()
-    {
     }
 
     /**
@@ -60,33 +44,39 @@ public abstract class BasicFluidInventoryTileEntity extends TilePeripheralBase i
         return inventory.decrStackSize(slot, amount);
     }
 
+
     @Override
-    public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain)
+    public FluidStack drain(FluidStack resource, boolean doDrain)
     {
-        return fluidInventory.drain(from, resource, doDrain);
+        return fluidInventory.drain(resource, doDrain);
     }
 
     @Override
-    public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain)
+    public FluidStack drain(int maxDrain, boolean doDrain)
     {
-        return fluidInventory.drain(from, maxDrain, doDrain);
+        return fluidInventory.drain(maxDrain, doDrain);
     }
 
     @Override
-    public int fill(ForgeDirection from, FluidStack resource, boolean doFill)
+    public int fill(FluidStack resource, boolean doFill)
     {
-        return fluidInventory.fill(from, resource, doFill);
+        return fluidInventory.fill(resource, doFill);
+    }
+
+    @Override
+    public String getName() {
+        return inventory.getName();
     }
 
     /**
      * Get the inventory name
      *
-     * @return String the unlocalized inventory name
+     * @return the inventory name
      */
+    @Nullable
     @Override
-    public String getInventoryName()
-    {
-        return inventory.getInventoryName();
+    public ITextComponent getDisplayName() {
+        return new TextComponentTranslation(inventory.getName());
     }
 
     /**
@@ -123,22 +113,9 @@ public abstract class BasicFluidInventoryTileEntity extends TilePeripheralBase i
         return inventory.getStackInSlot(slot);
     }
 
-    /**
-     * Get the stack in a given slot on GUI close
-     *
-     * @param slot the slot to get from
-     * @return ItemStack the stack from the slot
-     */
     @Override
-    public ItemStack getStackInSlotOnClosing(int slot)
-    {
-        return inventory.getStackInSlot(slot);
-    }
-
-    @Override
-    public FluidTankInfo[] getTankInfo(ForgeDirection from)
-    {
-        return fluidInventory.getTankInfo(from);
+    public IFluidTankProperties[] getTankProperties() {
+        return fluidInventory.getTankProperties();
     }
 
     /**
@@ -147,9 +124,9 @@ public abstract class BasicFluidInventoryTileEntity extends TilePeripheralBase i
      * @return false
      */
     @Override
-    public boolean hasCustomInventoryName()
+    public boolean hasCustomName()
     {
-        return inventory.hasCustomInventoryName();
+        return inventory.hasCustomName();
     }
 
     /**
@@ -172,18 +149,13 @@ public abstract class BasicFluidInventoryTileEntity extends TilePeripheralBase i
      * @return boolean based on distance and tileEntity status
      */
     @Override
-    public boolean isUseableByPlayer(EntityPlayer entityPlayer)
+    public boolean isUsableByPlayer(EntityPlayer entityPlayer)
     {
-        return inventory.isUseableByPlayer(entityPlayer, xCoord, yCoord, zCoord);
+        return inventory.isUsableByPlayer(entityPlayer, pos);
     }
 
     @Override
     public void markDirty()
-    {
-    }
-
-    @Override
-    public void openInventory()
     {
     }
 
@@ -197,11 +169,11 @@ public abstract class BasicFluidInventoryTileEntity extends TilePeripheralBase i
     {
         super.readFromNBT(nbttagcompound);
 
-        NBTTagList nbttaglist = nbttagcompound.getTagList(inventory.getInventoryName(), Constants.NBT.TAG_COMPOUND);
+        NBTTagList nbttaglist = nbttagcompound.getTagList(inventory.getName(), Constants.NBT.TAG_COMPOUND);
 
         for (int i = 0; i < inventory.getInventory().length; i++)
         {
-            inventory.setInventorySlotContents(i, ItemStack.loadItemStackFromNBT(nbttaglist.getCompoundTagAt(i)));
+            inventory.setInventorySlotContents(i, new ItemStack(nbttaglist.getCompoundTagAt(i)));
         }
 
     }
@@ -218,16 +190,13 @@ public abstract class BasicFluidInventoryTileEntity extends TilePeripheralBase i
         inventory.setInventorySlotContents(slot, stack);
     }
 
-    @Override
-    public abstract void updateEntity();
-
     /**
      * Save data to NBT
      *
      * @param nbttagcompound
      */
     @Override
-    public void writeToNBT(NBTTagCompound nbttagcompound)
+    public NBTTagCompound writeToNBT(NBTTagCompound nbttagcompound)
     {
         super.writeToNBT(nbttagcompound);
         NBTTagList nbttaglist = new NBTTagList();
@@ -244,6 +213,7 @@ public abstract class BasicFluidInventoryTileEntity extends TilePeripheralBase i
                 nbttaglist.appendTag(new NBTTagCompound());
             }
         }
-        nbttagcompound.setTag(inventory.getInventoryName(), nbttaglist);
+        nbttagcompound.setTag(inventory.getName(), nbttaglist);
+        return nbttagcompound;
     }
 }

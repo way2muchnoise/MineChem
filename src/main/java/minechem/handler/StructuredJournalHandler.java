@@ -4,7 +4,10 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
-import cpw.mods.fml.common.registry.GameRegistry;
+import net.afterlifelochie.fontbox.api.formatting.layout.AlignmentMode;
+import net.afterlifelochie.fontbox.api.formatting.layout.FloatMode;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -24,8 +27,6 @@ import minechem.item.journal.pages.elements.IJournalElement;
 import minechem.item.journal.pages.elements.JournalImage;
 import minechem.item.journal.pages.elements.JournalText;
 import minechem.registry.JournalRegistry;
-import net.afterlifelochie.fontbox.document.property.AlignmentMode;
-import net.afterlifelochie.fontbox.document.property.FloatMode;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -201,7 +202,7 @@ public class StructuredJournalHandler
                 NBTTagCompound tagCompound;
                 try
                 {
-                    tagCompound = object.has("nbt") ? (NBTTagCompound) JsonToNBT.func_150315_a(object.get("nbt").getAsString()) : null;
+                    tagCompound = object.has("nbt") ? (NBTTagCompound) JsonToNBT.getTagFromJson(object.get("nbt").getAsString()) : null;
                 } catch (Exception e)
                 {
                     tagCompound = null;
@@ -218,13 +219,10 @@ public class StructuredJournalHandler
                     {
                         return null;
                     }
-                    Item item = GameRegistry.findItem(split[0], split[1]);
+                    Item item = GameRegistry.findRegistry(Item.class).getValue(new ResourceLocation(split[0], split[1]));
                     if (item != null)
                     {
                         stack = new ItemStack(item, 1, damage);
-                    } else
-                    {
-                        stack = GameRegistry.findItemStack(split[0], split[1], 1);
                     }
                 } else if (object.has("block"))
                 {
@@ -238,7 +236,7 @@ public class StructuredJournalHandler
                     {
                         return null;
                     }
-                    Block block = GameRegistry.findBlock(split[0], split[1]);
+                    Block block = GameRegistry.findRegistry(Block.class).getValue(new ResourceLocation(split[0], split[1]));
                     if (block != null)
                     {
                         stack = new ItemStack(block, 1, damage % 16);

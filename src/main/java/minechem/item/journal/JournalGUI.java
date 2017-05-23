@@ -8,14 +8,14 @@ import minechem.Config;
 import minechem.helper.LogHelper;
 import minechem.proxy.client.render.RenderHelper;
 import minechem.registry.JournalRegistry;
-import net.afterlifelochie.fontbox.Fontbox;
+import net.afterlifelochie.fontbox.api.exception.LayoutException;
+import net.afterlifelochie.fontbox.api.formatting.PageProperties;
+import net.afterlifelochie.fontbox.api.formatting.layout.Layout;
+import net.afterlifelochie.fontbox.api.formatting.style.TextFormat;
 import net.afterlifelochie.fontbox.document.Document;
 import net.afterlifelochie.fontbox.document.Element;
-import net.afterlifelochie.fontbox.document.formatting.TextFormat;
 import net.afterlifelochie.fontbox.layout.DocumentProcessor;
-import net.afterlifelochie.fontbox.layout.LayoutException;
 import net.afterlifelochie.fontbox.layout.PageWriter;
-import net.afterlifelochie.fontbox.layout.components.PageProperties;
 import net.afterlifelochie.fontbox.render.BookGUI;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -68,26 +68,23 @@ public class JournalGUI extends BookGUI
             }
 
             /* Set up page formatting */
-            TextFormat defaultFormat = new TextFormat(Fontbox.fromName("Note this"));
-            TextFormat headingFormat = new TextFormat(Fontbox.fromName("Ampersand"));
+            TextFormat defaultFormat = new TextFormat(Compendium.Fontbox.getManager().fromName("Note this"));
+            TextFormat headingFormat = new TextFormat(Compendium.Fontbox.getManager().fromName("Ampersand"));
             
             PageProperties properties = new PageProperties(221, 380, defaultFormat);
             properties.headingFormat(headingFormat);
-            properties.bothMargin(2).lineheightSize(4).spaceSize(4).densitiy(0.33f);
+            properties.bothMargin(2).lineHeightSize(4).spaceSize(4).densitiy(0.33f);
 
             /* Write elements => page stream */
-            PageWriter writer = new PageWriter(properties);
-            DocumentProcessor.generatePages(Compendium.Fontbox.tracer(), document, writer);
+            PageWriter writer = new PageWriter(properties, Compendium.Fontbox.getManager());
+            DocumentProcessor.generatePages(Compendium.Fontbox.getManager().tracer(), document, writer);
             writer.close();
 
             /* Update system pages */
             changePages(writer.pages(), writer.index());
-        } catch (LayoutException layout)
+        } catch (LayoutException | IOException layout)
         {
             LogHelper.exception(layout, Level.ERROR);
-        } catch (IOException ioex)
-        {
-            LogHelper.exception(ioex, Level.ERROR);
         }
     }
 

@@ -1,7 +1,10 @@
 package minechem.item.journal;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -34,9 +37,8 @@ public class JournalItem extends BasicItem
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
-    {
+    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+        ItemStack stack = player.getHeldItem(hand);
         if (player.isSneaking())
         {
             if (!Config.playerPrivateKnowledge)
@@ -51,7 +53,7 @@ public class JournalItem extends BasicItem
             }
         }
         AchievementHelper.giveAchievement(player, this.getUnlocalizedName(), world.isRemote);
-        return stack;
+        return new ActionResult<>(EnumActionResult.PASS, stack);
     }
 
     /**
@@ -69,7 +71,7 @@ public class JournalItem extends BasicItem
             return;
         }
 
-        NBTTagCompound tagCompound = itemStack.stackTagCompound;
+        NBTTagCompound tagCompound = itemStack.getTagCompound();
         Set<String> playerKnowledge = ResearchRegistry.getInstance().getResearchFor(player);
         if (playerKnowledge == null)
         {
@@ -104,7 +106,7 @@ public class JournalItem extends BasicItem
                 authors.add(authorsTag.getStringTagAt(i));
             }
         }
-        authors.add(player.getDisplayName());
+        authors.add(player.getDisplayNameString());
         NBTTagList authorsTag = new NBTTagList();
         for (String author : authors)
         {
@@ -122,9 +124,9 @@ public class JournalItem extends BasicItem
      */
     public String[] getAuthors(ItemStack itemStack)
     {
-        if (itemStack.stackTagCompound != null && itemStack.stackTagCompound.hasKey("authors"))
+        if (itemStack.getTagCompound() != null && itemStack.getTagCompound().hasKey("authors"))
         {
-            NBTTagList authorsTag = itemStack.stackTagCompound.getTagList("authors", 8);
+            NBTTagList authorsTag = itemStack.getTagCompound().getTagList("authors", 8);
             String[] authors = new String[authorsTag.tagCount()];
             for (int i = 0; i < authorsTag.tagCount(); i++)
             {
@@ -143,9 +145,9 @@ public class JournalItem extends BasicItem
      */
     public String[] getKnowledgeKeys(ItemStack itemStack)
     {
-        if (itemStack.stackTagCompound != null && itemStack.stackTagCompound.hasKey("research"))
+        if (itemStack.getTagCompound() != null && itemStack.getTagCompound().hasKey("research"))
         {
-            NBTTagList authorsTag = itemStack.stackTagCompound.getTagList("research", 8);
+            NBTTagList authorsTag = itemStack.getTagCompound().getTagList("research", 8);
             String[] knowledgeKeys = new String[authorsTag.tagCount()];
             for (int i = 0; i < authorsTag.tagCount(); i++)
             {

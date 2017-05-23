@@ -20,8 +20,7 @@ public class ElectrolysisTileEntityRenderer extends BasicTileEntityRenderer
     }
 
     @Override
-    public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float scale)
-    {
+    public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float partialTicks, int destroyStage) {
         if (tileEntity instanceof ElectrolysisTileEntity)
         {
             GL11.glPushMatrix();

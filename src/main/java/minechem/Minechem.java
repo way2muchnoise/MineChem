@@ -1,17 +1,16 @@
 package minechem;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.ModMetadata;
-import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.event.FMLServerStartedEvent;
-import cpw.mods.fml.common.event.FMLServerStoppingEvent;
-import cpw.mods.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.Mod.Instance;
+import net.minecraftforge.fml.common.ModMetadata;
+import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
+import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 import minechem.handler.AchievementHandler;
 import minechem.handler.ElementHandler;
 import minechem.handler.GuiHandler;
@@ -20,22 +19,16 @@ import minechem.handler.MessageHandler;
 import minechem.handler.MoleculeHandler;
 import minechem.helper.LogHelper;
 import minechem.proxy.CommonProxy;
-import minechem.registry.AugmentRegistry;
 import minechem.registry.BlockRegistry;
 import minechem.registry.CreativeTabRegistry;
 import minechem.registry.ItemRegistry;
 import minechem.registry.JournalRegistry;
 import minechem.registry.RecipeRegistry;
+import net.minecraftforge.fml.common.Mod;
 
-@Mod(modid = Compendium.Naming.id, name = Compendium.Naming.name, version = Compendium.Version.full, useMetadata = false, guiFactory = "minechem.proxy.client.gui.GuiFactory", acceptedMinecraftVersions = "[1.7.10,)", dependencies = "required-after:Forge@[10.13.2.1291,)")
+@Mod(modid = Compendium.Naming.id, name = Compendium.Naming.name, version = Compendium.Version.full, useMetadata = false, guiFactory = "minechem.proxy.client.gui.GuiFactory", acceptedMinecraftVersions = "[1.11.2,)", dependencies = "required-after:Forge@[13.20.0.2282,)")
 public class Minechem
 {
-//    compile already
-//    i would like to go to bed
-//    compile failed: see log
-
-    public static boolean isCoFHAAPILoaded;
-
     // Instancing
     @Instance(value = Compendium.Naming.id)
     public static Minechem INSTANCE;
@@ -52,19 +45,6 @@ public class Minechem
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
-        // Register instance.
-        INSTANCE = this;
-
-        try
-        {
-            // Shouldn't we be using Loader.isModLoaded here?
-            Class.forName("cofh.api.energy.IEnergyHandler");
-            isCoFHAAPILoaded = true;
-        } catch (Exception e)
-        {
-            isCoFHAAPILoaded = false;
-        }
-
         // Load configuration.
         LogHelper.debug("Loading configuration...");
         Config.init();
@@ -89,9 +69,6 @@ public class Minechem
 
         LogHelper.debug("Registering Blocks...");
         BlockRegistry.init();
-
-        LogHelper.debug("Registering Augments...");
-        AugmentRegistry.init();
 
         LogHelper.debug("Registering CreativeTabs...");
         CreativeTabRegistry.init();

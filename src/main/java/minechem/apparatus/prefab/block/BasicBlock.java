@@ -3,8 +3,8 @@ package minechem.apparatus.prefab.block;
 import minechem.Compendium;
 import minechem.registry.CreativeTabRegistry;
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
 
 /*
  * Extendable class for simple non-container blocks
@@ -27,31 +27,16 @@ public abstract class BasicBlock extends Block
      */
     public BasicBlock(String blockName)
     {
-        this(blockName, Material.grass, Block.soundTypeGrass);
+        this(blockName, Material.GRASS, SoundType.GROUND);
     }
 
-    public BasicBlock(String blockName, Material material)
-    {
-        this(blockName, material, material == Material.cloth ? Block.soundTypeCloth : material == Material.wood ? Block.soundTypeWood : material == Material.glass ? Block.soundTypeGlass : material == Material.iron ? Block.soundTypeMetal : Block.soundTypeGrass);
-    }
 
     public BasicBlock(String blockName, Material material, SoundType soundType)
     {
         super(material);
-        setBlockName(blockName);
-        setStepSound(soundType);
+        this.setRegistryName(blockName);
+        this.setSoundType(soundType);
         setCreativeTab(CreativeTabRegistry.TAB_PRIMARY);
-        textureName = Compendium.Naming.id + ":" + blockName + "Icon";
-    }
-
-    /**
-     * Register the block icon from the texture name
-     *
-     * @param iconRegister
-     */
-    @Override
-    public void registerBlockIcons(IIconRegister iconRegister)
-    {
-        this.blockIcon = iconRegister.registerIcon(textureName);
+        //textureName = Compendium.Naming.id + ":" + blockName + "Icon";
     }
 }

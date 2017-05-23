@@ -4,9 +4,15 @@ import net.minecraft.tileentity.TileEntity;
 
 public abstract class BaseTileEntity extends TileEntity
 {
+    protected String name;
+
+    public BaseTileEntity(String name) {
+        this.name = name;
+    }
+
     @Override
     public int getBlockMetadata()
     {
-        return worldObj != null ? super.getBlockMetadata() : 0;
+        return world != null ? super.getBlockMetadata() : 0;
     }
 }

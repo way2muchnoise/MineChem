@@ -12,14 +12,9 @@ public class CentrifugeTileEntity extends BasicInventoryTileEntity
     }
 
     @Override
-    public String getInventoryName()
+    public String getName()
     {
         return Compendium.Naming.centrifuge;
-    }
-
-    @Override
-    public void updateEntity()
-    {
     }
 
 }

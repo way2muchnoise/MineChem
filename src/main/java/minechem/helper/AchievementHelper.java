@@ -77,6 +77,6 @@ public class AchievementHelper
      */
     public static void giveAchievement(EntityPlayer player, Achievement achievement)
     {
-        player.triggerAchievement(achievement);
+        player.addStat(achievement);
     }
 }

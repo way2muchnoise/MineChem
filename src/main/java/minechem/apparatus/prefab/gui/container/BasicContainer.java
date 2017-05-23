@@ -13,6 +13,10 @@ public abstract class BasicContainer extends Container
 {
     private InventoryPlayer inventoryPlayer;
 
+    public EntityPlayer getPlayer() {
+        return inventoryPlayer.player;
+    }
+
     /**
      * Add the player's inventory slots to the GUI
      *
@@ -65,25 +69,25 @@ public abstract class BasicContainer extends Container
         Slot slot = (Slot) inventorySlots.get(slotNumber);
         ItemStack stack = slot.getStack();
 
-        if (stack != null && slot.getHasStack())
+        if (!stack.isEmpty())
         {
-            if (slotNumber < player.inventory.mainInventory.length)
+            if (slotNumber < player.inventory.mainInventory.size())
             {
-                if (!mergeItemStack(stack, player.inventory.mainInventory.length, inventorySlots.size(), true))
+                if (!mergeItemStack(stack, player.inventory.mainInventory.size(), inventorySlots.size(), true))
                 {
                     return null;
                 }
             } else
             {
-                if (!mergeItemStack(stack, 0, player.inventory.mainInventory.length, true))
+                if (!mergeItemStack(stack, 0, player.inventory.mainInventory.size(), true))
                 {
                     return null;
                 }
             }
 
-            if (stack.stackSize == 0)
+            if (stack.isEmpty())
             {
-                slot.putStack((ItemStack) null);
+                slot.putStack(ItemStack.EMPTY);
             } else
             {
                 slot.onSlotChanged();

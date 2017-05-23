@@ -1,11 +1,12 @@
 package minechem;
 
-import cpw.mods.fml.common.ModMetadata;
+import net.afterlifelochie.fontbox.api.FontboxManager;
+import net.afterlifelochie.fontbox.api.tracer.ITracer;
+import net.minecraftforge.fml.common.ModMetadata;
 import java.util.Arrays;
 
 import minechem.helper.LogHelper;
 import minechem.helper.StringHelper;
-import net.afterlifelochie.fontbox.api.ITracer;
 import net.minecraft.util.ResourceLocation;
 
 /*
@@ -188,9 +189,14 @@ public class Compendium
 
     public static final class Fontbox
     {
-        public static ITracer tracer()
-        {
-            return new Tracer();
+        private static FontboxManager manager;
+
+        public static FontboxManager getManager() {
+            if (manager == null) {
+                manager = new FontboxManager();
+                manager.setTracer(new Tracer());
+            }
+            return manager;
         }
 
         public static final class Tracer implements ITracer

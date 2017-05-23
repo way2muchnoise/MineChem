@@ -1,8 +1,8 @@
 package minechem.handler.message;
 
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import java.util.UUID;
 import minechem.item.journal.JournalItem;
@@ -51,9 +51,9 @@ public class JournalMessage extends BaseTEMessage implements IMessageHandler<Jou
         EntityPlayer player = getServerPlayer(ctx);
         if (player.getUniqueID().equals(UUID.fromString(message.uuid)))
         {
-            if (player.getHeldItem().getItem() instanceof JournalItem)
+            if (player.getActiveItemStack().getItem() instanceof JournalItem)
             {
-                ItemStack journalStack = player.getHeldItem();
+                ItemStack journalStack = player.getActiveItemStack();
                 JournalItem journalItem = (JournalItem) journalStack.getItem();
                 journalItem.writeKnowledge(journalStack, player, false);
             }

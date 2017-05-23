@@ -5,7 +5,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.util.IIcon;
+import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
@@ -77,27 +81,6 @@ public class RenderHelper extends net.minecraft.client.renderer.RenderHelper
     }
 
     /**
-     * Draws a {@link net.minecraft.util.IIcon} on given x, y, z
-     *
-     * @param x    xPos
-     * @param y    yPos
-     * @param z    zPos
-     * @param w    icon width
-     * @param h    icon height
-     * @param icon the {@link net.minecraft.util.IIcon}
-     */
-    public static void drawTexturedRectUV(float x, float y, float z, int w, int h, IIcon icon)
-    {
-        Tessellator tessellator = Tessellator.instance;
-        tessellator.startDrawingQuads();
-        tessellator.addVertexWithUV(x, y + h, z, icon.getMinU(), icon.getMaxV());
-        tessellator.addVertexWithUV(x + w, y + h, z, icon.getMaxU(), icon.getMaxV());
-        tessellator.addVertexWithUV(x + w, y, z, icon.getMaxU(), icon.getMinV());
-        tessellator.addVertexWithUV(x, y, z, icon.getMinU(), icon.getMinV());
-        tessellator.draw();
-    }
-
-    /**
      * Draw a {@link net.minecraft.util.ResourceLocation} on given coords
      *
      * @param x        xPos
@@ -113,12 +96,13 @@ public class RenderHelper extends net.minecraft.client.renderer.RenderHelper
     {
         Minecraft.getMinecraft().getTextureManager().bindTexture(resource);
         float textScale = 0.00390625F;
-        Tessellator tessellator = Tessellator.instance;
-        tessellator.startDrawingQuads();
-        tessellator.addVertexWithUV(x, y + h, z, u * textScale, (v + h) * textScale);
-        tessellator.addVertexWithUV(x + w, y + h, z, (u + w) * textScale, (v + h) * textScale);
-        tessellator.addVertexWithUV(x + w, y, z, (u + w) * textScale, y * textScale);
-        tessellator.addVertexWithUV(x, y, z, u * textScale, v * textScale);
+        Tessellator tessellator = Tessellator.getInstance();
+        VertexBuffer vertexBuffer = tessellator.getBuffer();
+        vertexBuffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+        vertexBuffer.pos(x, y + h, z).tex(u * textScale, (v + h) * textScale).endVertex();
+        vertexBuffer.pos(x + w, y + h, z).tex((u + w) * textScale, (v + h) * textScale).endVertex();
+        vertexBuffer.pos(x + w, y, z).tex((u + w) * textScale, y * textScale).endVertex();
+        vertexBuffer.pos(x, y, z).tex(u * textScale, v * textScale).endVertex();
         tessellator.draw();
     }
 
@@ -142,12 +126,13 @@ public class RenderHelper extends net.minecraft.client.renderer.RenderHelper
         float drawW = w * scale;
         float xScale = 1.0F / w;
         float yScale = 1.0F / h;
-        Tessellator tessellator = Tessellator.instance;
-        tessellator.startDrawingQuads();
-        tessellator.addVertexWithUV(x, y + drawH, z, u * xScale, (v + h) * yScale);
-        tessellator.addVertexWithUV(x + drawW, y + drawH, z, (u + w) * xScale, (v + h) * yScale);
-        tessellator.addVertexWithUV(x + drawW, y, z, (u + w) * xScale, v * yScale);
-        tessellator.addVertexWithUV(x, y, z, u * xScale, v * yScale);
+        Tessellator tessellator = Tessellator.getInstance();
+        VertexBuffer vertexBuffer = tessellator.getBuffer();
+        vertexBuffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+        vertexBuffer.pos(x, y + drawH, z).tex(u * xScale, (v + h) * yScale).endVertex();
+        vertexBuffer.pos(x + drawW, y + drawH, z).tex((u + w) * xScale, (v + h) * yScale).endVertex();
+        vertexBuffer.pos(x + drawW, y, z).tex((u + w) * xScale, v * yScale).endVertex();
+        vertexBuffer.pos(x, y, z).tex(u * xScale, v * yScale).endVertex();
         tessellator.draw();
     }
 
@@ -170,40 +155,14 @@ public class RenderHelper extends net.minecraft.client.renderer.RenderHelper
         Minecraft.getMinecraft().getTextureManager().bindTexture(resource);
         float xScale = 1.0F / w;
         float yScale = 1.0F / h;
-        Tessellator tessellator = Tessellator.instance;
-        tessellator.startDrawingQuads();
-        tessellator.addVertexWithUV(x, y + drawH, z, u * xScale, (v + h) * yScale);
-        tessellator.addVertexWithUV(x + drawW, y + drawH, z, (u + w) * xScale, (v + h) * yScale);
-        tessellator.addVertexWithUV(x + drawW, y, z, (u + w) * xScale, v * yScale);
-        tessellator.addVertexWithUV(x, y, z, u * xScale, v * yScale);
+        Tessellator tessellator = Tessellator.getInstance();
+        VertexBuffer vertexBuffer = tessellator.getBuffer();
+        vertexBuffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+        vertexBuffer.pos(x, y + drawH, z).tex(u * xScale, (v + h) * yScale).endVertex();
+        vertexBuffer.pos(x + drawW, y + drawH, z).tex((u + w) * xScale, (v + h) * yScale).endVertex();
+        vertexBuffer.pos(x + drawW, y, z).tex((u + w) * xScale, v * yScale).endVertex();
+        vertexBuffer.pos(x, y, z).tex(u * xScale, v * yScale).endVertex();
         tessellator.draw();
-    }
-
-    /**
-     * Draw a texture in 2D using {@link net.minecraft.client.renderer.ItemRenderer#renderItemIn2D(net.minecraft.client.renderer.Tessellator, float, float, float, float, int, int, float)}
-     *
-     * @param texture the {@link net.minecraft.util.IIcon}
-     */
-    public static void drawTextureIn2D(IIcon texture)
-    {
-        Tessellator tessellator = Tessellator.instance;
-        ItemRenderer.renderItemIn2D(tessellator, texture.getMaxU(), texture.getMinV(), texture.getMinU(), texture.getMaxV(), texture.getIconWidth(), texture.getIconHeight(), 0.0625F);
-    }
-
-    /**
-     * Draws a texture in 3D using {@link net.minecraft.client.renderer.ItemRenderer#renderItemIn2D(net.minecraft.client.renderer.Tessellator, float, float, float, float, int, int, float)}
-     *
-     * @param texture the {@link net.minecraft.util.IIcon}
-     */
-    public static void drawTextureIn3D(IIcon texture)
-    {
-        Tessellator tessellator = Tessellator.instance;
-        float scale = 0.7F;
-        GL11.glPushMatrix();
-        GL11.glScalef(scale, scale, scale);
-        GL11.glTranslatef(-scale / 2, -scale / 2, 0.0F);
-        ItemRenderer.renderItemIn2D(tessellator, texture.getMaxU(), texture.getMinV(), texture.getMinU(), texture.getMaxV(), texture.getIconWidth(), texture.getIconHeight(), .0625F);
-        GL11.glPopMatrix();
     }
 
     /**
@@ -219,7 +178,7 @@ public class RenderHelper extends net.minecraft.client.renderer.RenderHelper
     public static void setScissor(int guiWidth, int guiHeight, float x, float y, int w, int h)
     {
         Minecraft mc = Minecraft.getMinecraft();
-        ScaledResolution scaledRes = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
+        ScaledResolution scaledRes = new ScaledResolution(mc);
         int scale = scaledRes.getScaleFactor();
         x *= scale;
         y *= scale;

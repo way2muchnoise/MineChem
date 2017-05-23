@@ -1,12 +1,14 @@
 package minechem.registry;
 
-import java.util.List;
 import minechem.handler.StructuredJournalHandler;
 import minechem.item.journal.pages.IJournalPage;
 import minechem.item.journal.pages.SectionPage;
-import net.afterlifelochie.fontbox.document.CompilerHint;
-import net.afterlifelochie.fontbox.document.Element;
+import net.afterlifelochie.fontbox.api.formatting.layout.CompilerHint;
+import net.afterlifelochie.fontbox.api.layout.IElement;
+import net.afterlifelochie.fontbox.document.CompilerHintElement;
 import net.minecraft.entity.player.EntityPlayer;
+
+import java.util.List;
 
 public class JournalRegistry
 {
@@ -38,30 +40,30 @@ public class JournalRegistry
         return journal.getPage(key) != null;
     }
 
-    public static List<Element> getJournalFor(EntityPlayer player)
+    public static List<IElement> getJournalFor(EntityPlayer player)
     {
-        List<Element> result = getIndexPageFor(player);
-        result.add(new CompilerHint(CompilerHint.HintType.PAGEBREAK));
+        List<IElement> result = getIndexPageFor(player);
+        result.add(new CompilerHintElement(CompilerHint.PAGE_BREAK));
         result.addAll(journal.getElements(player));
         result.remove(result.size() - 1);
         return result;
     }
 
-    public static List<Element> getJournalFor(String[] keys)
+    public static List<IElement> getJournalFor(String[] keys)
     {
-        List<Element> result = getIndexPageFor(keys);
-        result.add(new CompilerHint(CompilerHint.HintType.PAGEBREAK));
+        List<IElement> result = getIndexPageFor(keys);
+        result.add(new CompilerHintElement(CompilerHint.PAGE_BREAK));
         result.addAll(journal.getElements(keys));
         result.remove(result.size() - 1);
         return result;
     }
 
-    public static List<Element> getIndexPageFor(EntityPlayer player)
+    public static List<IElement> getIndexPageFor(EntityPlayer player)
     {
         return journal.getIndexPage(player, 0);
     }
 
-    public static List<Element> getIndexPageFor(String[] keys)
+    public static List<IElement> getIndexPageFor(String[] keys)
     {
         return journal.getIndexPage(keys, 0);
     }

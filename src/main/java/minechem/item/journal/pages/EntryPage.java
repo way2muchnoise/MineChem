@@ -5,7 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 import minechem.item.journal.pages.elements.IJournalElement;
 import minechem.item.journal.pages.elements.JournalHeader;
-import net.afterlifelochie.fontbox.document.CompilerHint;
+import net.afterlifelochie.fontbox.api.formatting.layout.CompilerHint;
+import net.afterlifelochie.fontbox.api.layout.IElement;
+import net.afterlifelochie.fontbox.document.CompilerHintElement;
 import net.afterlifelochie.fontbox.document.Element;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -15,7 +17,7 @@ public class EntryPage extends JournalPage
 
     public EntryPage(String page, String chapter, IJournalElement... elements)
     {
-        this(page, chapter, new ArrayList<IJournalElement>(Arrays.asList(elements)));
+        this(page, chapter, new ArrayList<>(Arrays.asList(elements)));
     }
 
     public EntryPage(String page, String chapter, List<IJournalElement> elements)
@@ -29,28 +31,28 @@ public class EntryPage extends JournalPage
     }
 
     @Override
-    public List<Element> getElements(EntityPlayer player)
+    public List<IElement> getElements(EntityPlayer player)
     {
-        List<Element> result = new ArrayList<Element>();
+        List<IElement> result = new ArrayList<>();
         if (isUnlocked(player))
         {
             for (IJournalElement element : elements)
             {
-                Element e = element.getElement(player);
+                IElement e = element.getElement(player);
                 if (e != null)
                 {
                     result.add(e);
                 }
             }
-            result.add(new CompilerHint(CompilerHint.HintType.PAGEBREAK));
+            result.add(new CompilerHintElement(CompilerHint.PAGE_BREAK));
         }
         return result;
     }
 
     @Override
-    public List<Element> getElements(String[] keys)
+    public List<IElement> getElements(String[] keys)
     {
-        List<Element> result = new ArrayList<Element>();
+        List<IElement> result = new ArrayList<>();
         if (isUnlocked(keys))
         {
             for (IJournalElement element : elements)
@@ -61,7 +63,7 @@ public class EntryPage extends JournalPage
                     result.add(e);
                 }
             }
-            result.add(new CompilerHint(CompilerHint.HintType.PAGEBREAK));
+            result.add(new CompilerHintElement(CompilerHint.PAGE_BREAK));
         }
         return result;
     }

@@ -1,6 +1,5 @@
 package minechem.apparatus.prefab.tileEntity;
 
-import minechem.apparatus.prefab.peripheral.TilePeripheralBase;
 import minechem.apparatus.prefab.tileEntity.storageTypes.BasicInventory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -12,7 +11,7 @@ import net.minecraftforge.common.util.Constants;
 /**
  * Defines basic properties for TileEntities
  */
-public abstract class BasicInventoryTileEntity extends TilePeripheralBase implements IInventory
+public abstract class BasicInventoryTileEntity extends BaseTileEntity implements IInventory
 {
     private BasicInventory inventory;
 
@@ -20,11 +19,6 @@ public abstract class BasicInventoryTileEntity extends TilePeripheralBase implem
     {
         super(name);
         inventory = new BasicInventory(inventorySize);
-    }
-
-    @Override
-    public void closeInventory()
-    {
     }
 
     /**
@@ -46,9 +40,8 @@ public abstract class BasicInventoryTileEntity extends TilePeripheralBase implem
      * @return String the unlocalized inventory name
      */
     @Override
-    public String getInventoryName()
-    {
-        return inventory.getInventoryName();
+    public String getName() {
+        return inventory.getName();
     }
 
     /**
@@ -86,26 +79,13 @@ public abstract class BasicInventoryTileEntity extends TilePeripheralBase implem
     }
 
     /**
-     * Get the stack in a given slot on GUI close
-     *
-     * @param slot the slot to get from
-     * @return ItemStack the stack from the slot
-     */
-    @Override
-    public ItemStack getStackInSlotOnClosing(int slot)
-    {
-        return inventory.getStackInSlot(slot);
-    }
-
-    /**
      * Check if the inventory has a custom name
      *
      * @return false
      */
     @Override
-    public boolean hasCustomInventoryName()
-    {
-        return inventory.hasCustomInventoryName();
+    public boolean hasCustomName() {
+        return inventory.hasCustomName();
     }
 
     /**
@@ -128,9 +108,9 @@ public abstract class BasicInventoryTileEntity extends TilePeripheralBase implem
      * @return boolean based on distance and tileEntity status
      */
     @Override
-    public boolean isUseableByPlayer(EntityPlayer entityPlayer)
+    public boolean isUsableByPlayer(EntityPlayer entityPlayer)
     {
-        return inventory.isUseableByPlayer(entityPlayer, xCoord, yCoord, zCoord);
+        return inventory.isUsableByPlayer(entityPlayer, pos);
     }
 
     @Override
@@ -139,8 +119,44 @@ public abstract class BasicInventoryTileEntity extends TilePeripheralBase implem
     }
 
     @Override
-    public void openInventory()
-    {
+    public void openInventory(EntityPlayer player) {
+        inventory.closeInventory(player);
+    }
+
+    @Override
+    public void closeInventory(EntityPlayer player) {
+        inventory.closeInventory(player);
+    }
+
+
+    @Override
+    public boolean isEmpty() {
+        return inventory.isEmpty();
+    }
+
+    @Override
+    public ItemStack removeStackFromSlot(int index) {
+        return inventory.removeStackFromSlot(index);
+    }
+
+    @Override
+    public int getField(int id) {
+        return inventory.getField(id);
+    }
+
+    @Override
+    public void setField(int id, int value) {
+        inventory.setField(id, value);
+    }
+
+    @Override
+    public int getFieldCount() {
+        return inventory.getFieldCount();
+    }
+
+    @Override
+    public void clear() {
+        inventory.clear();
     }
 
     /**
@@ -153,11 +169,11 @@ public abstract class BasicInventoryTileEntity extends TilePeripheralBase implem
     {
         super.readFromNBT(nbttagcompound);
 
-        NBTTagList nbttaglist = nbttagcompound.getTagList(inventory.getInventoryName(), Constants.NBT.TAG_COMPOUND);
+        NBTTagList nbttaglist = nbttagcompound.getTagList(inventory.getName(), Constants.NBT.TAG_COMPOUND);
 
         for (int i = 0; i < inventory.getInventory().length; i++)
         {
-            inventory.setInventorySlotContents(i, ItemStack.loadItemStackFromNBT(nbttaglist.getCompoundTagAt(i)));
+            inventory.setInventorySlotContents(i, new ItemStack(nbttaglist.getCompoundTagAt(i)));
         }
 
     }
@@ -174,16 +190,13 @@ public abstract class BasicInventoryTileEntity extends TilePeripheralBase implem
         inventory.setInventorySlotContents(slot, stack);
     }
 
-    @Override
-    public abstract void updateEntity();
-
     /**
      * Save data to NBT
      *
      * @param nbttagcompound
      */
     @Override
-    public void writeToNBT(NBTTagCompound nbttagcompound)
+    public NBTTagCompound writeToNBT(NBTTagCompound nbttagcompound)
     {
         super.writeToNBT(nbttagcompound);
         NBTTagList nbttaglist = new NBTTagList();
@@ -200,6 +213,7 @@ public abstract class BasicInventoryTileEntity extends TilePeripheralBase implem
                 nbttaglist.appendTag(new NBTTagCompound());
             }
         }
-        nbttagcompound.setTag(inventory.getInventoryName(), nbttaglist);
+        nbttagcompound.setTag(inventory.getName(), nbttaglist);
+        return nbttagcompound;
     }
 }

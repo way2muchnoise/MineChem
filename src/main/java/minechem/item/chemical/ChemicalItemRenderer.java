@@ -1,5 +1,5 @@
 package minechem.item.chemical;
-
+/*
 import java.util.LinkedList;
 import java.util.List;
 import minechem.chemical.ChemicalBase;
@@ -12,7 +12,6 @@ import minechem.proxy.client.render.TextLayer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.IItemRenderer;
 import org.lwjgl.opengl.GL11;
 
 public class ChemicalItemRenderer implements IItemRenderer
@@ -154,3 +153,4 @@ public class ChemicalItemRenderer implements IItemRenderer
         GL11.glPopMatrix();
     }
 }
+*/

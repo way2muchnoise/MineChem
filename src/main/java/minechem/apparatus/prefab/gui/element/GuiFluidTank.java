@@ -6,7 +6,6 @@ import minechem.helper.ColourHelper;
 import minechem.helper.LocalizationHelper;
 import minechem.Compendium;
 import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.util.IIcon;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidTank;
 import org.lwjgl.input.Mouse;
@@ -79,7 +78,7 @@ public class GuiFluidTank extends GuiElement
 
         if (fluidStack != null && fluidStack.amount > 0)
         {
-            bindTexture(TextureMap.locationBlocksTexture);
+            bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 
             IIcon fluidIcon = fluidStack.getFluid().getStillIcon();
             // Top left corner

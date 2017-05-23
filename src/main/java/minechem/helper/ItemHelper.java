@@ -3,10 +3,15 @@ package minechem.helper;
 import java.util.Random;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class ItemHelper
 {
+    public static void throwItemStack(World world, ItemStack itemStack, BlockPos pos) {
+        throwItemStack(world, itemStack, pos.getX(), pos.getY(), pos.getZ());
+    }
+
     public static void throwItemStack(World world, ItemStack itemStack, double x, double y, double z)
     {
         if (itemStack != null)
@@ -23,7 +28,7 @@ public class ItemHelper
             entityitem.motionY = (float) random.nextGaussian() * motionMultiplier + 0.2F;
             entityitem.motionZ = (float) random.nextGaussian() * motionMultiplier;
 
-            world.spawnEntityInWorld(entityitem);
+            world.spawnEntity(entityitem);
         }
     }
 }
