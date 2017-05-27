@@ -26,7 +26,7 @@ import minechem.registry.JournalRegistry;
 import minechem.registry.RecipeRegistry;
 import net.minecraftforge.fml.common.Mod;
 
-@Mod(modid = Compendium.Naming.id, name = Compendium.Naming.name, version = Compendium.Version.full, useMetadata = false, guiFactory = "minechem.proxy.client.gui.GuiFactory", acceptedMinecraftVersions = "[1.11.2,)", dependencies = "required-after:Forge@[13.20.0.2282,)")
+@Mod(modid = Compendium.Naming.id, name = Compendium.Naming.name, version = Compendium.Version.full, useMetadata = false, guiFactory = "minechem.proxy.client.gui.GuiFactory", acceptedMinecraftVersions = "[1.11.2,)", dependencies = "required-after:forge@[13.20.0.2282,)")
 public class Minechem
 {
     // Instancing

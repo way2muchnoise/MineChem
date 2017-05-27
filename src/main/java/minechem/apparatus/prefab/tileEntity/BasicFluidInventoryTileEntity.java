@@ -159,6 +159,47 @@ public abstract class BasicFluidInventoryTileEntity extends BaseTileEntity imple
     {
     }
 
+
+    @Override
+    public boolean isEmpty() {
+        return inventory.isEmpty();
+    }
+
+    @Override
+    public ItemStack removeStackFromSlot(int index) {
+        return inventory.removeStackFromSlot(index);
+    }
+
+    @Override
+    public void openInventory(EntityPlayer player) {
+        inventory.openInventory(player);
+    }
+
+    @Override
+    public void closeInventory(EntityPlayer player) {
+        inventory.closeInventory(player);
+    }
+
+    @Override
+    public int getField(int id) {
+        return inventory.getField(id);
+    }
+
+    @Override
+    public void setField(int id, int value) {
+        inventory.setField(id, value);
+    }
+
+    @Override
+    public int getFieldCount() {
+        return inventory.getFieldCount();
+    }
+
+    @Override
+    public void clear() {
+        inventory.clear();
+    }
+
     /**
      * Read saved values from NBT
      *

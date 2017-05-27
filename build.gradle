@@ -63,7 +63,7 @@ minecraft {
 
     replace "@VERSION@", project.version
 
-    replaceIn "reference/Reference.java"
+    replaceIn "Compendium.java"
     replaceIn "package-info.java"
 }
 

@@ -28,7 +28,7 @@ import org.apache.logging.log4j.Level;
 public class ClientProxy extends CommonProxy
 {
     @GLFontBuilder
-    public IGLFontBuilder fontBuilder;
+    public static IGLFontBuilder fontBuilder;
 
     @Override
     public World getClientWorld()

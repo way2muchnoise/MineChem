@@ -4,12 +4,12 @@ import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
 /**
  * Base class for GuiElements Holds methods that can be useful when making GuiElements
@@ -106,9 +106,9 @@ public abstract class GuiElement extends Gui
     {
         if (!tooltip.isEmpty())
         {
-            GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-            GL11.glDisable(GL11.GL_LIGHTING);
-            GL11.glDisable(GL11.GL_DEPTH_TEST);
+            GlStateManager.disableRescaleNormal();
+            GlStateManager.disableLighting();
+            GlStateManager.disableDepth();
             int k = 0;
 
             for (String line : tooltip)
@@ -158,9 +158,9 @@ public abstract class GuiElement extends Gui
             }
 
             this.zLevel = 0.0F;
-            GL11.glEnable(GL11.GL_LIGHTING);
-            GL11.glEnable(GL11.GL_DEPTH_TEST);
-            GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+            GlStateManager.enableLighting();
+            GlStateManager.enableDepth();
+            GlStateManager.enableRescaleNormal();
         }
     }
 }

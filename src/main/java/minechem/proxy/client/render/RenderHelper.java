@@ -3,6 +3,7 @@ package minechem.proxy.client.render;
 import minechem.helper.ColourHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
@@ -19,21 +20,21 @@ import org.lwjgl.opengl.GL11;
 public class RenderHelper extends net.minecraft.client.renderer.RenderHelper
 {
     /**
-     * Executes GL11.glColor4f() for given int colour
+     * Executes GlStateManager.color() for given int colour
      *
      * @param colour in int form
      */
     public static void setOpenGLColour(int colour)
     {
-        GL11.glColor4f(ColourHelper.getRed(colour), ColourHelper.getGreen(colour), ColourHelper.getBlue(colour), ColourHelper.getAlpha(colour));
+        GlStateManager.color(ColourHelper.getRed(colour), ColourHelper.getGreen(colour), ColourHelper.getBlue(colour), ColourHelper.getAlpha(colour));
     }
 
     /**
-     * Executes GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F)
+     * Executes GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F)
      */
     public static void resetOpenGLColour()
     {
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
     /**
@@ -43,41 +44,49 @@ public class RenderHelper extends net.minecraft.client.renderer.RenderHelper
      */
     public static void setGreyscaleOpenGLColour(float greyscale)
     {
-        GL11.glColor4f(greyscale, greyscale, greyscale, 1.0F);
+        GlStateManager.color(greyscale, greyscale, greyscale, 1.0F);
     }
 
     /**
-     * Enables GL11.GL_BLEND
-     */
-    public static void enableBlend()
-    {
-        GL11.glEnable(GL11.GL_BLEND);
-    }
-
-    /**
-     * Disables GL11.GL_BLEND
-     */
-    public static void disableBlend()
-    {
-        GL11.glDisable(GL11.GL_BLEND);
-    }
-
-    /**
-     * Executes GL11.glColor4f(1.0F, 1.0F, 1.0F, opacity) Used in combination with blend
+     * Executes GlStateManager.color1.0F, 1.0F, 1.0F, opacity) Used in combination with blend
      *
      * @param opacity the opacity in float form where 1.0F is opaque and 0.0F is transparent
      */
     public static void setOpacity(float opacity)
     {
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, opacity);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, opacity);
     }
 
     /**
-     * Executes GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F) back to full opaque
+     * Executes GlStateManager.color1.0F, 1.0F, 1.0F, 1.0F) back to full opaque
      */
     public static void resetOpacity()
     {
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+    }
+
+    /**
+     * Draw with the current {@link net.minecraft.util.ResourceLocation} on given coords
+     *
+     * @param x        xPos
+     * @param y        yPos
+     * @param z        zPos
+     * @param u        uPos on the {@link net.minecraft.util.ResourceLocation}
+     * @param v        vPos on the {@link net.minecraft.util.ResourceLocation}
+     * @param w        width
+     * @param h        height
+     */
+    public static void drawTexturedRectUV(float x, float y, float z, float u, float v, float w, float h)
+    {
+        float textScale = 0.00390625F;
+        Tessellator tessellator = Tessellator.getInstance();
+        VertexBuffer vertexBuffer = tessellator.getBuffer();
+        vertexBuffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+        vertexBuffer.pos(x, y + h, z).tex(u * textScale, (v + h) * textScale).endVertex();
+        vertexBuffer.pos(x + w, y + h, z).tex((u + w) * textScale, (v + h) * textScale).endVertex();
+        vertexBuffer.pos(x + w, y, z).tex((u + w) * textScale, y * textScale).endVertex();
+        vertexBuffer.pos(x, y, z).tex(u * textScale, v * textScale).endVertex();
+        tessellator.draw();
     }
 
     /**

@@ -16,9 +16,7 @@ public class ElementAchievementPage extends AchievementPage implements ICustomBa
 
     @Override
     public void drawBackground(int left, int top, int width, int height, float z, float scale) {
-        RenderHelper.setScissor(254, 200, 0, 0, 250, 200);
-        RenderHelper.drawTexturedRectUV(-10 - left, 50 - top, z, 0, 0, 640, 480, 640, 480, Compendium.Resource.GUI.achievements);
-        RenderHelper.stopScissor();
+        RenderHelper.drawTexturedRectUV(0, 0, z, 0, 0, 640, 480, width, height, Compendium.Resource.GUI.achievements);
     }
 
     @Override

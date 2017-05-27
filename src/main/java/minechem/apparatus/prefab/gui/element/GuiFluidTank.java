@@ -5,11 +5,12 @@ import java.util.List;
 import minechem.helper.ColourHelper;
 import minechem.helper.LocalizationHelper;
 import minechem.Compendium;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidTank;
 import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
 
 /**
  * A tank to display in a GUI
@@ -64,13 +65,13 @@ public class GuiFluidTank extends GuiElement
     @Override
     public void draw(int guiLeft, int guiTop)
     {
-        GL11.glDisable(GL11.GL_LIGHTING);
-        GL11.glColor3f(ColourHelper.getRed(colour), ColourHelper.getGreen(colour), ColourHelper.getBlue(colour));
+        GlStateManager.disableLighting();
+        GlStateManager.color(ColourHelper.getRed(colour), ColourHelper.getGreen(colour), ColourHelper.getBlue(colour));
 
         bindTexture(Compendium.Resource.GUI.Element.fluidTank);
         drawTexturedModalRect(guiLeft + posX, guiTop + posY, 0, 0, 18, 39, width, height);
 
-        GL11.glColor3f(1.0F, 1.0F, 1.0F);
+        GlStateManager.color(1.0F, 1.0F, 1.0F);
 
         int iconHeightRemainder = (height - 4) % 16;
         int iconWidthRemainder = (width - 2) % 16;
@@ -80,25 +81,25 @@ public class GuiFluidTank extends GuiElement
         {
             bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 
-            IIcon fluidIcon = fluidStack.getFluid().getStillIcon();
+            ResourceLocation fluidIcon = fluidStack.getFluid().getStill(fluidStack);
             // Top left corner
-            drawTexturedModelRectFromIcon(guiLeft + posX + 1, guiTop + posY + 2, fluidIcon, iconWidthRemainder, iconHeightRemainder);
+            //drawTexturedModelRectFromIcon(guiLeft + posX + 1, guiTop + posY + 2, fluidIcon, iconWidthRemainder, iconHeightRemainder);
             for (int i = 0; i <= (width - 4) / 16; i++)
             {
                 // Top right only draw when more then 1 pass is needed
                 if (i > 0)
                 {
-                    drawTexturedModelRectFromIcon(guiLeft + posX + 1 + (i - 1) * 16 + iconWidthRemainder, guiTop + posY + 2, fluidIcon, 16, iconHeightRemainder);
+                    //drawTexturedModelRectFromIcon(guiLeft + posX + 1 + (i - 1) * 16 + iconWidthRemainder, guiTop + posY + 2, fluidIcon, 16, iconHeightRemainder);
                 }
                 for (int ii = 0; ii < (height - 6) / 16; ii++)
                 {
                     // Bottom right only draw when more then 1 pass is needed
                     if (i > 0)
                     {
-                        drawTexturedModelRectFromIcon(guiLeft + posX + 1 + (i - 1) * 16 + iconWidthRemainder, guiTop + posY + 2 + ii * 16 + iconHeightRemainder, fluidIcon, 16, 16);
+                        //drawTexturedModelRectFromIcon(guiLeft + posX + 1 + (i - 1) * 16 + iconWidthRemainder, guiTop + posY + 2 + ii * 16 + iconHeightRemainder, fluidIcon, 16, 16);
                     }
                     // Bottom left
-                    drawTexturedModelRectFromIcon(guiLeft + posX + 1, guiTop + posY + 2 + ii * 16 + iconHeightRemainder, fluidIcon, iconWidthRemainder, 16);
+                    //drawTexturedModelRectFromIcon(guiLeft + posX + 1, guiTop + posY + 2 + ii * 16 + iconHeightRemainder, fluidIcon, iconWidthRemainder, 16);
                 }
             }
 
@@ -111,7 +112,7 @@ public class GuiFluidTank extends GuiElement
 
         drawTooltip(Mouse.getX() - guiLeft, Mouse.getY() - guiTop);
 
-        GL11.glEnable(GL11.GL_LIGHTING);
+        GlStateManager.enableLighting();
     }
 
     public void drawTooltip(int mouseX, int mouseY)
