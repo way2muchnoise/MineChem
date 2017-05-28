@@ -1,5 +1,6 @@
 package minechem.item.prefab;
 
+import minechem.Compendium;
 import minechem.registry.CreativeTabRegistry;
 import net.minecraft.item.Item;
 
@@ -17,6 +18,6 @@ public abstract class BasicItem extends Item
     {
         setCreativeTab(CreativeTabRegistry.TAB_PRIMARY);
         setUnlocalizedName(itemName);
-        //setTextureName(itemName + "Icon");
+        setRegistryName(Compendium.Naming.id, itemName);
     }
 }

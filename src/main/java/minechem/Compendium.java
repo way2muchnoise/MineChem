@@ -96,9 +96,10 @@ public class Compendium
         public static final String id = "minechem";
         public static final String name = "Minechem";
         public static final String fontBox = "fontbox";
-        public static final String opticalMicroscope = "opticalMicroscope";
+        public static final String chemicals = "chemicals";
+        public static final String opticalMicroscope = "optical_microscope";
         public static final String electrolysis = "electrolysis";
-        public static final String electricCrucible = "electricCrucible";
+        public static final String electricCrucible = "electric_crucible";
         public static final String centrifuge = "centrifuge";
         public static final String journal = "journal";
         public static final String light = "light";

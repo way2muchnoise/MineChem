@@ -11,7 +11,9 @@ import minechem.apparatus.tier1.opticalMicroscope.OpticalMicroscopeTileEntity;
 import minechem.apparatus.tier1.opticalMicroscope.OpticalMicroscopeTileEntityRenderer;
 import minechem.handler.ResourceReloadListener;
 import minechem.helper.LogHelper;
+import minechem.item.chemical.ChemicalItemColour;
 import minechem.proxy.CommonProxy;
+import minechem.registry.ItemRegistry;
 import net.afterlifelochie.fontbox.api.exception.FontException;
 import net.afterlifelochie.fontbox.api.font.GLFontBuilder;
 import net.afterlifelochie.fontbox.api.font.IGLFontBuilder;
@@ -39,27 +41,19 @@ public class ClientProxy extends CommonProxy
     @Override
     public void registerRenderers()
     {
+        ItemRegistry.initColors();
+
         OpticalMicroscopeTileEntityRenderer opticalMicroscopeRenderer = new OpticalMicroscopeTileEntityRenderer();
         ClientRegistry.bindTileEntitySpecialRenderer(OpticalMicroscopeTileEntity.class, opticalMicroscopeRenderer);
-        // MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(BlockRegistry.opticalMicroscope),
-        //    new BasicItemRenderer(opticalMicroscopeRenderer, new OpticalMicroscopeTileEntity()));
 
         ElectrolysisTileEntityRenderer electrolysisRenderer = new ElectrolysisTileEntityRenderer();
         ClientRegistry.bindTileEntitySpecialRenderer(ElectrolysisTileEntity.class, electrolysisRenderer);
-        // MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(BlockRegistry.electrolysisBlock),
-        //    new BasicItemRenderer(electrolysisRenderer, new ElectrolysisTileEntity()));
 
         ElectricCrucibleTileEntityRenderer electricCrucibleRenderer = new ElectricCrucibleTileEntityRenderer();
         ClientRegistry.bindTileEntitySpecialRenderer(ElectricCrucibleTileEntity.class, electricCrucibleRenderer);
-        // MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(BlockRegistry.electricCrucibleBlock),
-        //    new BasicItemRenderer(electricCrucibleRenderer, new ElectricCrucibleTileEntity()));
 
         CentrifugeTileEntityRenderer centrifugeRenderer = new CentrifugeTileEntityRenderer();
         ClientRegistry.bindTileEntitySpecialRenderer(CentrifugeTileEntity.class, centrifugeRenderer);
-        // MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(BlockRegistry.centrifugeBlock),
-        //    new BasicItemRenderer(centrifugeRenderer, new CentrifugeTileEntity()));
-
-        //MinecraftForgeClient.registerItemRenderer(ItemRegistry.chemicalItem, new ChemicalItemRenderer());
     }
 
     @Override

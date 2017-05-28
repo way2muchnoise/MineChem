@@ -34,9 +34,9 @@ public class ChemicalProcessRegistry
 
     private ChemicalProcessRegistry()
     {
-        itemProcessMap = new ItemStackMap<Map<ChemicalProcessType, Set<ChemicalProcess>>>();
-        processNames = new TreeMap<String, ChemicalProcessType>();
-        processTypes = new HashMap<ChemicalProcessType, String>();
+        itemProcessMap = new ItemStackMap<>();
+        processNames = new TreeMap<>();
+        processTypes = new HashMap<>();
     }
 
     /**
@@ -112,12 +112,12 @@ public class ChemicalProcessRegistry
         Map<ChemicalProcessType, Set<ChemicalProcess>> chemicalTypes = itemProcessMap.get(itemStack);
         if (chemicalTypes == null)
         {
-            chemicalTypes = new HashMap<ChemicalProcessType, Set<ChemicalProcess>>();
+            chemicalTypes = new HashMap<>();
         }
         Set<ChemicalProcess> processes = chemicalTypes.get(process.getType());
         if (processes == null)
         {
-            processes = new HashSet<ChemicalProcess>();
+            processes = new HashSet<>();
         }
         processes.add(process);
         chemicalTypes.put(process.getType(), processes);
@@ -144,7 +144,7 @@ public class ChemicalProcessRegistry
         {
             return ChemicalProcess.empty;
         }
-        List<ChemicalBase> output = new ArrayList<ChemicalBase>();
+        List<ChemicalBase> output = new ArrayList<>();
         for (ChemicalProcess process : processes)
         {
             output.addAll(Arrays.asList(process.getOutput(processType, level)));

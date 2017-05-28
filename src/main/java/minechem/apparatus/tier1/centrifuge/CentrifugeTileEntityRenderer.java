@@ -3,7 +3,7 @@ package minechem.apparatus.tier1.centrifuge;
 import minechem.Compendium;
 import minechem.apparatus.prefab.renderer.BasicTileEntityRenderer;
 
-public class CentrifugeTileEntityRenderer extends BasicTileEntityRenderer
+public class CentrifugeTileEntityRenderer extends BasicTileEntityRenderer<CentrifugeTileEntity>
 {
     public CentrifugeTileEntityRenderer()
     {

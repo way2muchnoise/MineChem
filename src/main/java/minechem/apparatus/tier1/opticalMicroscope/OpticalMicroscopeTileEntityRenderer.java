@@ -3,7 +3,7 @@ package minechem.apparatus.tier1.opticalMicroscope;
 import minechem.apparatus.prefab.renderer.BasicTileEntityRenderer;
 import minechem.Compendium;
 
-public class OpticalMicroscopeTileEntityRenderer extends BasicTileEntityRenderer
+public class OpticalMicroscopeTileEntityRenderer extends BasicTileEntityRenderer<OpticalMicroscopeTileEntity>
 {
 
     public OpticalMicroscopeTileEntityRenderer()

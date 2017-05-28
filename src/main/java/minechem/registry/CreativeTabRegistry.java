@@ -10,8 +10,8 @@ import net.minecraft.item.ItemStack;
 
 public class CreativeTabRegistry
 {
-    public static CreativeTab TAB_PRIMARY = new CreativeTab(Compendium.Naming.name);
-    public static CreativeTab TAB_CHEMICALS = new CreativeTab(Compendium.Naming.name + " Chemicals");
+    public static CreativeTab TAB_PRIMARY = new CreativeTab(Compendium.Naming.id);
+    public static CreativeTab TAB_CHEMICALS = new CreativeTab(Compendium.Naming.chemicals);
 
     /**
      * Must be inited after the Blocks and Items If you want to used modded Items or Blocks

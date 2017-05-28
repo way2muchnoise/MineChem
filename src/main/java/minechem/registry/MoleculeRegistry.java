@@ -23,8 +23,8 @@ public class MoleculeRegistry
 
     private MoleculeRegistry()
     {
-        this.formulaMoleculeMap = new TreeMap<String, Molecule>();
-        this.nameMoleculeMap = new TreeMap<String, Molecule>();
+        this.formulaMoleculeMap = new TreeMap<>();
+        this.nameMoleculeMap = new TreeMap<>();
     }
 
     /**
@@ -36,7 +36,6 @@ public class MoleculeRegistry
     {
         formulaMoleculeMap.put(molecule.getFormula(), molecule);
         nameMoleculeMap.put(molecule.fullName.toLowerCase(), molecule);
-        // @TODO: make this debug only later
         molecule.log();
     }
 

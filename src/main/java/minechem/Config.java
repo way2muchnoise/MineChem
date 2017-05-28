@@ -16,7 +16,7 @@ public class Config
     public static Configuration config;
 
     // turns on extra logging printouts
-    public static boolean debugMode = true;
+    public static boolean debugMode = false;
 
     // turns on to show Patreon tab in GUI
     public static boolean enablePatreon = true;

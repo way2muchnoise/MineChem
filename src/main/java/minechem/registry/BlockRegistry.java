@@ -1,5 +1,12 @@
 package minechem.registry;
 
+import minechem.apparatus.prefab.block.BasicBlock;
+import minechem.apparatus.prefab.block.BasicBlockContainer;
+import minechem.item.prefab.BasicItemBlock;
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import minechem.Compendium;
 import minechem.apparatus.tier1.centrifuge.CentrifugeBlock;
@@ -10,6 +17,7 @@ import minechem.apparatus.tier1.electrolysis.ElectrolysisBlock;
 import minechem.apparatus.tier1.electrolysis.ElectrolysisTileEntity;
 import minechem.apparatus.tier1.opticalMicroscope.OpticalMicroscopeBlock;
 import minechem.apparatus.tier1.opticalMicroscope.OpticalMicroscopeTileEntity;
+import net.minecraftforge.fml.relauncher.Side;
 
 public class BlockRegistry
 {
@@ -18,22 +26,36 @@ public class BlockRegistry
     public static ElectricCrucibleBlock electricCrucibleBlock;
     public static CentrifugeBlock centrifugeBlock;
 
-    public static void init()
+    public static void init(Side side)
     {
         opticalMicroscope = new OpticalMicroscopeBlock();
-        //GameRegistry.registerBlock(opticalMicroscope, opticalMicroscope.getUnlocalizedName());
-        GameRegistry.registerTileEntity(OpticalMicroscopeTileEntity.class, Compendium.Naming.opticalMicroscope + "TileEntity");
+        register(opticalMicroscope);
+        register(OpticalMicroscopeTileEntity.class, Compendium.Naming.opticalMicroscope);
 
         electricCrucibleBlock = new ElectricCrucibleBlock();
-        //GameRegistry.registerBlock(electricCrucibleBlock, electricCrucibleBlock.getUnlocalizedName());
-        GameRegistry.registerTileEntity(ElectricCrucibleTileEntity.class, Compendium.Naming.electricCrucible + "TileEntity");
+        register(electricCrucibleBlock);
+        register(ElectricCrucibleTileEntity.class, Compendium.Naming.electricCrucible);
 
         centrifugeBlock = new CentrifugeBlock();
-        //GameRegistry.registerBlock(centrifugeBlock, centrifugeBlock.getUnlocalizedName());
-        GameRegistry.registerTileEntity(CentrifugeTileEntity.class, Compendium.Naming.centrifuge + "TileEntity");
+        register(centrifugeBlock);
+        register(CentrifugeTileEntity.class, Compendium.Naming.centrifuge);
 
         electrolysisBlock = new ElectrolysisBlock();
-        //GameRegistry.registerBlock(electrolysisBlock, electrolysisBlock.getUnlocalizedName());
-        GameRegistry.registerTileEntity(ElectrolysisTileEntity.class, Compendium.Naming.electrolysis + "TileEntity");
+        register(electrolysisBlock);
+        register(ElectrolysisTileEntity.class, Compendium.Naming.electrolysis);
+    }
+
+    private static void register(BasicBlock block) {
+        GameRegistry.<Block>register(block);
+        GameRegistry.<Item>register(new ItemBlock(block));
+    }
+
+    private static void register(BasicBlockContainer block) {
+        GameRegistry.<Block>register(block);
+        GameRegistry.<Item>register(new BasicItemBlock(block));
+    }
+
+    private static void register(Class<? extends TileEntity> clazz, String name) {
+        GameRegistry.registerTileEntity(clazz, Compendium.Naming.id + ":" + name);
     }
 }

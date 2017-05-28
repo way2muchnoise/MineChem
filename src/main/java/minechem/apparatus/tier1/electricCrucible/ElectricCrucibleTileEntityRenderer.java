@@ -3,7 +3,7 @@ package minechem.apparatus.tier1.electricCrucible;
 import minechem.Compendium;
 import minechem.apparatus.prefab.renderer.BasicTileEntityRenderer;
 
-public class ElectricCrucibleTileEntityRenderer extends BasicTileEntityRenderer
+public class ElectricCrucibleTileEntityRenderer extends BasicTileEntityRenderer<ElectricCrucibleTileEntity>
 {
 
     public ElectricCrucibleTileEntityRenderer()

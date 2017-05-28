@@ -20,9 +20,20 @@ public class Element extends ChemicalBase implements Comparable<Element>
     };
     private static final String SUB_SHELL_STRING = "spdfg"; //Super Powered Dog Fights God
 
-    public static enum Type
+    public enum Type
     {
-        alkaliMetal, alkalineEarth, transitionMetal, basicMetal, semiMetal, nonMetal, halogen, nobleGas, lanthanide, actinide
+        alkaliMetal("#F63FFF"), alkalineEarth("#A84DFF"), transitionMetal("#3DD4FF"),
+        basicMetal("#FFBA50"), semiMetal("#0AFF76"), nonMetal("#329EFF"), halogen("#FFCB08"),
+        nobleGas("#FFD148"), lanthanide("#C2FF00"), actinide("#FF0D0B");
+
+        private int colour;
+        Type(String hexColour) {
+            colour = ColourHelper.RGB(hexColour);
+        }
+
+        public int getColour() {
+            return colour;
+        }
     }
 
     public final int atomicNumber;
@@ -141,40 +152,7 @@ public class Element extends ChemicalBase implements Comparable<Element>
 
     private int setColour()
     {
-        int tone = 0;
-        switch (this.type)
-        {
-            case alkaliMetal:
-                tone = ColourHelper.RGB("#F63FFF");
-                break;
-            case alkalineEarth:
-                tone = ColourHelper.RGB("#A84DFF");
-                break;
-            case transitionMetal:
-                tone = ColourHelper.RGB("#3DD4FF");
-                break;
-            case basicMetal:
-                tone = ColourHelper.RGB("#FFBA50");
-                break;
-            case semiMetal:
-                tone = ColourHelper.RGB("#0AFF76");
-                break;
-            case nonMetal:
-                tone = ColourHelper.RGB("#329EFF");
-                break;
-            case halogen:
-                tone = ColourHelper.RGB("#FFCB08");
-                break;
-            case nobleGas:
-                tone = ColourHelper.RGB("#FFD148");
-                break;
-            case lanthanide:
-                tone = ColourHelper.RGB("#C2FF00");
-                break;
-            case actinide:
-                tone = ColourHelper.RGB("#FF0D0B");
-                break;
-        }
+        int tone = type.getColour();
         return ColourHelper.tone(tone, atomicNumber / 10F);
     }
 }

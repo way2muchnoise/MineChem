@@ -28,9 +28,9 @@ public class ElementRegistry
 
     private ElementRegistry()
     {
-        atomicElementMap = new TreeMap<Integer, Element>();
-        abbrElementMap = new TreeMap<String, Element>();
-        nameElementMap = new TreeMap<String, Element>();
+        atomicElementMap = new TreeMap<>();
+        abbrElementMap = new TreeMap<>();
+        nameElementMap = new TreeMap<>();
     }
 
     /**
@@ -43,7 +43,6 @@ public class ElementRegistry
         atomicElementMap.put(element.atomicNumber, element);
         abbrElementMap.put(element.shortName, element);
         nameElementMap.put(element.fullName.toLowerCase(), element);
-        // @TODO: make this debug only later
         element.log();
     }
 

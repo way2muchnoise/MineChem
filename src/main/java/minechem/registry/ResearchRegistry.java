@@ -23,7 +23,7 @@ public class ResearchRegistry
 
     public ResearchRegistry()
     {
-        playerResearchMap = new TreeMap<UUID, Set<String>>();
+        playerResearchMap = new TreeMap<>();
     }
 
     /**
@@ -41,7 +41,7 @@ public class ResearchRegistry
         Set<String> pages = playerResearchMap.get(playerUUID);
         if (pages == null)
         {
-            pages = new LinkedHashSet<String>();
+            pages = new LinkedHashSet<>();
         }
         pages.add(pageName);
         playerResearchMap.put(playerUUID, pages);

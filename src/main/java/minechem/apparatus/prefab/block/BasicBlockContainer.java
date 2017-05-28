@@ -56,7 +56,7 @@ public abstract class BasicBlockContainer extends BlockContainer
     public BasicBlockContainer(String blockName, Material material, SoundType sound)
     {
         super(material);
-        this.setRegistryName(blockName);
+        this.setRegistryName(Compendium.Naming.id, blockName);
         this.setSoundType(sound);
         this.setCreativeTab(CreativeTabRegistry.TAB_PRIMARY);
     }

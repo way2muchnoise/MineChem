@@ -5,7 +5,7 @@ import minechem.apparatus.prefab.renderer.BasicTileEntityRenderer;
 import net.minecraft.tileentity.TileEntity;
 import org.lwjgl.opengl.GL11;
 
-public class ElectrolysisTileEntityRenderer extends BasicTileEntityRenderer
+public class ElectrolysisTileEntityRenderer extends BasicTileEntityRenderer<ElectrolysisTileEntity>
 {
     ElectrolysisModel model;
 
@@ -20,23 +20,20 @@ public class ElectrolysisTileEntityRenderer extends BasicTileEntityRenderer
     }
 
     @Override
-    public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float partialTicks, int destroyStage) {
-        if (tileEntity instanceof ElectrolysisTileEntity)
-        {
-            GL11.glPushMatrix();
-            GL11.glTranslated(x + xOffset, y + yOffset, z + zOffset);
-            GL11.glRotatef(180f, 0f, 0f, 1f);
-            GL11.glRotatef((tileEntity.getBlockMetadata() * 90.0F), 0.0F, 1.0F, 0.0F);
-            GL11.glEnable(GL11.GL_BLEND);
-            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-            GL11.glScaled(xScale, yScale, zScale);
-            bindTexture(texture);
-            model.setLeftTube(((ElectrolysisTileEntity) tileEntity).getLeftTube() != null);
-            model.setRightTube(((ElectrolysisTileEntity) tileEntity).getRightTube() != null);
-            model.render(rotation);
-            GL11.glDisable(GL11.GL_BLEND);
-            GL11.glPopMatrix();
-        }
+    public void renderTileEntityAt(ElectrolysisTileEntity tileEntity, double x, double y, double z, float partialTicks, int destroyStage) {
+        GL11.glPushMatrix();
+        GL11.glTranslated(x + xOffset, y + yOffset, z + zOffset);
+        GL11.glRotatef(180f, 0f, 0f, 1f);
+        GL11.glRotatef((tileEntity.getBlockMetadata() * 90.0F), 0.0F, 1.0F, 0.0F);
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glScaled(xScale, yScale, zScale);
+        bindTexture(texture);
+        model.setLeftTube(tileEntity.getLeftTube() != null);
+        model.setRightTube(tileEntity.getRightTube() != null);
+        model.render(rotation);
+        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glPopMatrix();
     }
 
 }

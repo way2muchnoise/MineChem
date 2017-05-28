@@ -34,8 +34,8 @@ public class AchievementRegistry
 
     private AchievementRegistry()
     {
-        elementsAchievementMap = new TreeMap<Element, Achievement>();
-        minechemAchievementMap = new TreeMap<String, Achievement>();
+        elementsAchievementMap = new TreeMap<>();
+        minechemAchievementMap = new TreeMap<>();
     }
 
     /**

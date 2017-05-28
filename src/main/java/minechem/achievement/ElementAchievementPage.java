@@ -1,13 +1,16 @@
 package minechem.achievement;
 
 import betterachievements.api.components.page.ICustomBackground;
+import betterachievements.api.components.page.ICustomPosition;
 import betterachievements.api.components.page.ICustomScale;
 import minechem.Compendium;
 import minechem.proxy.client.render.RenderHelper;
+import minechem.registry.AchievementRegistry;
+import minechem.registry.ElementRegistry;
 import net.minecraft.stats.Achievement;
 import net.minecraftforge.common.AchievementPage;
 
-public class ElementAchievementPage extends AchievementPage implements ICustomBackground, ICustomScale
+public class ElementAchievementPage extends AchievementPage implements ICustomBackground, ICustomScale, ICustomPosition
 {
     public ElementAchievementPage(String name, Achievement... achievements)
     {
@@ -37,5 +40,10 @@ public class ElementAchievementPage extends AchievementPage implements ICustomBa
     @Override
     public float getMinScale() {
         return 1.0F;
+    }
+
+    @Override
+    public Achievement setPositionOnLoad() {
+        return AchievementRegistry.getInstance().getAchievement(ElementRegistry.getInstance().getElement(1));
     }
 }

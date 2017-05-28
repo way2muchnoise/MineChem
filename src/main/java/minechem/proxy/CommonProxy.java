@@ -10,9 +10,6 @@ import net.minecraftforge.common.MinecraftForge;
 
 public class CommonProxy
 {
-    public static int RENDER_ID;
-    public static int ISBRH_ID;
-
     public EntityPlayer findEntityPlayerByName(String name)
     {
         return FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerByUsername(name);

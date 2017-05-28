@@ -12,14 +12,14 @@ import net.minecraft.nbt.NBTTagCompound;
  */
 public abstract class ChemicalBase
 {
-    public static enum Form
+    public enum Form
     {
         solid, liquid, gas, plasma
     }
 
     public final Form form;// @TODO: this should become a temperature so that the state can be defined on that maybe?
     public final String fullName;
-    public int colour;
+    protected int colour;
 
     public ChemicalBase(String fullName, String form, int colour)
     {

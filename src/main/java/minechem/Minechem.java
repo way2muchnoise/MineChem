@@ -1,5 +1,6 @@
 package minechem;
 
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -48,7 +49,7 @@ public class Minechem
         // Load configuration.
         LogHelper.debug("Loading configuration...");
         Config.init();
-        FMLCommonHandler.instance().bus().register(new Config());
+        MinecraftForge.EVENT_BUS.register(new Config());
 
         LogHelper.debug("Registering Packets...");
         MessageHandler.init();
@@ -65,10 +66,10 @@ public class Minechem
 
         // Register items and blocks.
         LogHelper.debug("Registering Items...");
-        ItemRegistry.init();
+        ItemRegistry.init(event.getSide());
 
         LogHelper.debug("Registering Blocks...");
-        BlockRegistry.init();
+        BlockRegistry.init(event.getSide());
 
         LogHelper.debug("Registering CreativeTabs...");
         CreativeTabRegistry.init();
