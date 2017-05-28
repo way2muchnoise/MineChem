@@ -2,11 +2,11 @@ package minechem.registry;
 
 import minechem.apparatus.prefab.block.BasicBlock;
 import minechem.apparatus.prefab.block.BasicBlockContainer;
-import minechem.item.prefab.BasicItemBlock;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import minechem.Compendium;
 import minechem.apparatus.tier1.centrifuge.CentrifugeBlock;
@@ -18,6 +18,7 @@ import minechem.apparatus.tier1.electrolysis.ElectrolysisTileEntity;
 import minechem.apparatus.tier1.opticalMicroscope.OpticalMicroscopeBlock;
 import minechem.apparatus.tier1.opticalMicroscope.OpticalMicroscopeTileEntity;
 import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockRegistry
 {
@@ -43,19 +44,37 @@ public class BlockRegistry
         electrolysisBlock = new ElectrolysisBlock();
         register(electrolysisBlock);
         register(ElectrolysisTileEntity.class, Compendium.Naming.electrolysis);
+
+        if (side == Side.CLIENT) {
+            // TODO: doesn't work, dunno what to do
+            initModels();
+        }
+    }
+
+    @SideOnly(Side.CLIENT)
+    public static void initModels() {
+        registerItemBlockRenderer(OpticalMicroscopeTileEntity.class, opticalMicroscope);
+        registerItemBlockRenderer(ElectricCrucibleTileEntity.class, electricCrucibleBlock);
+        registerItemBlockRenderer(CentrifugeTileEntity.class, centrifugeBlock);
+        registerItemBlockRenderer(ElectrolysisTileEntity.class, electrolysisBlock);
     }
 
     private static void register(BasicBlock block) {
-        GameRegistry.<Block>register(block);
-        GameRegistry.<Item>register(new ItemBlock(block));
+        GameRegistry.register(block);
+        GameRegistry.register(new ItemBlock(block).setRegistryName(block.getRegistryName()));
     }
 
     private static void register(BasicBlockContainer block) {
-        GameRegistry.<Block>register(block);
-        GameRegistry.<Item>register(new BasicItemBlock(block));
+        GameRegistry.register(block);
+        GameRegistry.register(new ItemBlock(block).setRegistryName(block.getRegistryName()));
     }
 
     private static void register(Class<? extends TileEntity> clazz, String name) {
         GameRegistry.registerTileEntity(clazz, Compendium.Naming.id + ":" + name);
+    }
+
+    private static void registerItemBlockRenderer(Class<? extends TileEntity> clazz, Block block) {
+        Item item = Item.getItemFromBlock(block);
+        ForgeHooksClient.registerTESRItemStack(item, 0, clazz);
     }
 }
