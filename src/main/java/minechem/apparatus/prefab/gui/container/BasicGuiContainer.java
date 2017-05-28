@@ -1,5 +1,6 @@
 package minechem.apparatus.prefab.gui.container;
 
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraftforge.fml.client.FMLClientHandler;
 
@@ -11,7 +12,7 @@ import net.minecraft.world.World;
 /**
  * Basic GUI container class for extending
  */
-public class BasicGuiContainer extends GuiInventory
+public abstract class BasicGuiContainer extends GuiContainer
 {
     protected ResourceLocation texture;
     protected String name;
@@ -19,7 +20,7 @@ public class BasicGuiContainer extends GuiInventory
 
     public BasicGuiContainer(BasicContainer container)
     {
-        super(container.getPlayer());
+        super(container);
         this.container = container;
     }
 

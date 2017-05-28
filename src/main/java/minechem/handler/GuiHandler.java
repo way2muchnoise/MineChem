@@ -11,6 +11,8 @@ import net.minecraft.world.World;
 
 public class GuiHandler implements IGuiHandler
 {
+    public static final int MICROSCOPE = 0;
+
     /**
      * Get the GUI container object for the server
      *
@@ -28,10 +30,9 @@ public class GuiHandler implements IGuiHandler
         TileEntity tileEntity = world.getTileEntity(new BlockPos(x, y, z));
         if (tileEntity != null)
         {
-            // use instanceof to return the correct GUI object
-            if (tileEntity instanceof OpticalMicroscopeTileEntity)
-            {
-                return new OpticalMicroscopeGUI(player.inventory, (OpticalMicroscopeTileEntity) tileEntity);
+            switch (ID) {
+                case MICROSCOPE:
+                    return new OpticalMicroscopeGUI(player.inventory, (OpticalMicroscopeTileEntity) tileEntity);
             }
         }
         return null;
@@ -54,10 +55,9 @@ public class GuiHandler implements IGuiHandler
         TileEntity tileEntity = world.getTileEntity(new BlockPos(x, y, z));
         if (tileEntity != null)
         {
-            // use instanceof to return the correct container object
-            if (tileEntity instanceof OpticalMicroscopeTileEntity)
-            {
-                return new OpticalMicroscopeContainer(player.inventory, (OpticalMicroscopeTileEntity) tileEntity);
+            switch (ID) {
+                case MICROSCOPE:
+                    return new OpticalMicroscopeContainer(player.inventory, (OpticalMicroscopeTileEntity) tileEntity);
             }
         }
         return null;

@@ -11,7 +11,6 @@ import minechem.apparatus.tier1.opticalMicroscope.OpticalMicroscopeTileEntity;
 import minechem.apparatus.tier1.opticalMicroscope.OpticalMicroscopeTileEntityRenderer;
 import minechem.handler.ResourceReloadListener;
 import minechem.helper.LogHelper;
-import minechem.item.chemical.ChemicalItemColour;
 import minechem.proxy.CommonProxy;
 import minechem.registry.ItemRegistry;
 import net.afterlifelochie.fontbox.api.exception.FontException;

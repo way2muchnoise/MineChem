@@ -18,8 +18,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 /**
@@ -27,6 +29,7 @@ import net.minecraft.world.World;
  */
 public abstract class BasicBlockContainer extends BlockContainer
 {
+    private AxisAlignedBB boudningBox;
 
     /**
      * Unnamed blocks are given a default name
@@ -56,9 +59,19 @@ public abstract class BasicBlockContainer extends BlockContainer
     public BasicBlockContainer(String blockName, Material material, SoundType sound)
     {
         super(material);
-        this.setRegistryName(Compendium.Naming.id, blockName);
-        this.setSoundType(sound);
-        this.setCreativeTab(CreativeTabRegistry.TAB_PRIMARY);
+        setRegistryName(Compendium.Naming.id, blockName);
+        setSoundType(sound);
+        setUnlocalizedName(blockName);
+        setCreativeTab(CreativeTabRegistry.TAB_PRIMARY);
+    }
+
+    public void setBlockBounds(double x1, double y1, double z1, double x2, double y2, double z2) {
+        this.boudningBox = new AxisAlignedBB(x1, y1, z1, x2, y2, z2);
+    }
+
+    @Override
+    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+        return this.boudningBox;
     }
 
     /**

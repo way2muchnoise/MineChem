@@ -2,6 +2,7 @@ package minechem.apparatus.prefab.gui.container;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -66,7 +67,7 @@ public abstract class BasicContainer extends Container
     @Override
     public ItemStack transferStackInSlot(EntityPlayer player, int slotNumber)
     {
-        Slot slot = (Slot) inventorySlots.get(slotNumber);
+        Slot slot = inventorySlots.get(slotNumber);
         ItemStack stack = slot.getStack();
 
         if (!stack.isEmpty())

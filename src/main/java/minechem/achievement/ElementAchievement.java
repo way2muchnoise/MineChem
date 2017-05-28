@@ -20,6 +20,7 @@ import net.minecraft.stats.Achievement;
 public class ElementAchievement extends Achievement implements ICustomBackgroundColour, ICustomIconRenderer, ICustomTitle
 {
     private final static String achievementPrefix = "achievement.";
+    private final static String discoverTitle = "minechem.discover";
     private final static String defaultElementTitle = "achievement.minechem.element";
     private final static String defaultElementDescription = "achievement.minechem.element.desc";
     private final static Achievement nullAchievement = null;
@@ -29,7 +30,7 @@ public class ElementAchievement extends Achievement implements ICustomBackground
 
     public ElementAchievement(Element element, int row, int column)
     {
-        super(achievementPrefix + element.shortName, element.shortName, column, row, element.getItemStack(), nullAchievement);
+        super(achievementPrefix + element.shortName, discoverTitle, column, row, element.getItemStack(), nullAchievement);
         this.element = element;
         this.initIndependentStat();
     }
@@ -38,7 +39,7 @@ public class ElementAchievement extends Achievement implements ICustomBackground
     @Override
     public String getDescription()
     {
-        return String.format(LocalizationHelper.getLocalString(defaultElementDescription), element.fullName);
+        return LocalizationHelper.getFormattedString(defaultElementDescription, element.fullName);
     }
 
     /**
@@ -49,21 +50,12 @@ public class ElementAchievement extends Achievement implements ICustomBackground
     @Override
     public int recolourBackground(float greyScale)
     {
-        if (greyScale != 1.0F)
-        {
-            return ColourHelper.blend(getColour(element), ColourHelper.RGB(greyScale, greyScale, greyScale));
-        }
-        return getColour(element);
-    }
-
-    private int getColour(Element element)
-    {
-        return element.type.getColour();
+        return ColourHelper.blend(element.type.getColour(), ColourHelper.RGB(greyScale, greyScale, greyScale));
     }
 
     @Override
     public String getTitle() {
-        return I18n.translateToLocalFormatted(defaultElementTitle, element.shortName);
+        return LocalizationHelper.getFormattedString(defaultElementTitle, element.shortName);
     }
 
     @Override
@@ -76,7 +68,7 @@ public class ElementAchievement extends Achievement implements ICustomBackground
         {
             smallFont = new Font(Minecraft.getMinecraft().fontRenderer).setFontSize(8);
         }
-        regularFont.print(element.shortName, x + 10 - (element.shortName.length() - 1) * 5, y + 8, Compendium.Color.TrueColor.white, true);
-        smallFont.print(element.atomicNumber, x, y, Compendium.Color.TrueColor.white, true);
+        regularFont.print(element.shortName, x + 10 - (element.shortName.length() - 1) * 4, y + 10, Compendium.Color.TrueColor.white, true);
+        smallFont.print(element.atomicNumber, x + 1, y + 1, Compendium.Color.TrueColor.white, true);
     }
 }

@@ -5,7 +5,6 @@ import minechem.helper.Jenkins;
 import minechem.item.prefab.BasicItem;
 import minechem.registry.CreativeTabRegistry;
 import minechem.registry.ItemRegistry;
-import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;

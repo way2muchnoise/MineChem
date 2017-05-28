@@ -34,8 +34,9 @@ public abstract class BasicBlock extends Block
     public BasicBlock(String blockName, Material material, SoundType soundType)
     {
         super(material);
-        this.setRegistryName(Compendium.Naming.id, blockName);
-        this.setSoundType(soundType);
+        setRegistryName(Compendium.Naming.id, blockName);
+        setSoundType(soundType);
+        setUnlocalizedName(blockName);
         setCreativeTab(CreativeTabRegistry.TAB_PRIMARY);
     }
 }

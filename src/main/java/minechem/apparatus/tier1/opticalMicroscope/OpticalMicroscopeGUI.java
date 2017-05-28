@@ -11,17 +11,13 @@ import minechem.helper.ResearchHelper;
 import minechem.item.chemical.ChemicalItem;
 import minechem.proxy.client.render.RenderHelper;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-/**
- *
- *
- */
 public class OpticalMicroscopeGUI extends BasicGuiContainer
 {
-
     private ItemStack prevStack;
     protected OpticalMicroscopeTileEntity opticalMicroscope;
     protected static final int eyePieceX = 13;
@@ -29,6 +25,7 @@ public class OpticalMicroscopeGUI extends BasicGuiContainer
     protected static final int eyePieceW = 54;
     protected static final int eyePieceH = 54;
     private MicroscopeRenderItem renderItem;
+    private int mouseX, mouseY;
 
     public OpticalMicroscopeGUI(InventoryPlayer inventoryPlayer, OpticalMicroscopeTileEntity opticalMicroscope)
     {
@@ -36,25 +33,22 @@ public class OpticalMicroscopeGUI extends BasicGuiContainer
         this.opticalMicroscope = opticalMicroscope;
         texture = Compendium.Resource.GUI.opticalMicroscope;
         name = LocalizationHelper.getLocalString("tile.opticalMicroscope.name");
-        renderItem = new MicroscopeRenderItem();
+        renderItem = new MicroscopeRenderItem(this);
     }
 
     public boolean isMouseInMicroscope()
     {
-        return false;
-        //return mouseX >= eyePieceX && mouseX <= eyePieceX + eyePieceW && mouseY >= eyePieceY && mouseY <= eyePieceY + eyePieceH;
+        return mouseX >= eyePieceX && mouseX <= eyePieceX + eyePieceW && mouseY >= eyePieceY && mouseY <= eyePieceY + eyePieceH;
     }
 
     private void drawMicroscopeOverlay()
     {
         RenderHelper.resetOpenGLColour();
         Minecraft.getMinecraft().renderEngine.bindTexture(texture);
-        float z = this.zLevel;
-        this.zLevel = 600.0F;
-        drawTexturedModalRect(eyePieceX, eyePieceY, 176, 0, eyePieceH, eyePieceW);
-        this.zLevel -= 10.0F;
+        GlStateManager.disableBlend();
         drawTexturedModalRect(eyePieceX, eyePieceY, 176, eyePieceH, eyePieceH, eyePieceW);
-        this.zLevel = z;
+        GlStateManager.enableBlend();
+        drawTexturedModalRect(eyePieceX, eyePieceY, 176, 0, eyePieceH, eyePieceW);
     }
 
     private void drawInfo()
@@ -66,13 +60,13 @@ public class OpticalMicroscopeGUI extends BasicGuiContainer
             if (itemStack.getItem() instanceof ChemicalItem)
             {
                 ChemicalBase chemicalBase = ChemicalBase.readFromNBT(itemStack.getTagCompound());
-                fontRenderer.drawString(chemicalBase.fullName, eyePieceX + eyePieceH + 5, eyePieceY, 0);
-                fontRenderer.drawString("Formula:", eyePieceX + eyePieceH + 5, eyePieceY + 10, 0);
-                fontRenderer.drawString(chemicalBase.getFormula(), eyePieceX + eyePieceH + 5, eyePieceY + 20, 0);
+                fontRenderer.drawString(chemicalBase.fullName, eyePieceX + eyePieceH + 3, eyePieceY, 0);
+                fontRenderer.drawString("Formula:", eyePieceX + eyePieceH + 3, eyePieceY + 10, 0);
+                fontRenderer.drawString(chemicalBase.getFormula(), eyePieceX + eyePieceH + 3, eyePieceY + 20, 0);
 
                 if (!chemicalBase.isElement())
                 {
-                    RenderHelper.drawScaledTexturedRectUV(eyePieceX + eyePieceW + 50, eyePieceY + 5, 0, 0, 0, 200, 200, 0.3F, ((Molecule) chemicalBase).getStructureResource());
+                    RenderHelper.drawScaledTexturedRectUV(eyePieceX + eyePieceW + 40, eyePieceY - 5, 0, 0, 0, 200, 200, 0.4F, ((Molecule) chemicalBase).getStructureResource());
                 }
 
                 if (prevStack != itemStack)
@@ -89,11 +83,19 @@ public class OpticalMicroscopeGUI extends BasicGuiContainer
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(int i, int i1)
+    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
     {
-        super.drawGuiContainerForegroundLayer(i, i1);
+        super.drawGuiContainerForegroundLayer(mouseX, mouseY);
+        this.mouseX = mouseX - guiLeft;
+        this.mouseY = mouseY - guiTop;
         drawMicroscopeOverlay();
         drawInfo();
+    }
+
+    @Override
+    protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
+        Minecraft.getMinecraft().renderEngine.bindTexture(texture);
+        drawTexturedModalRect(guiLeft, guiTop, 0, 0,176, 166);
     }
 
     @Override
