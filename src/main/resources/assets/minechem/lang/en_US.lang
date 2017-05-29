@@ -36,12 +36,12 @@ tab.patreon.tooltip=Supporting Minechem
 
 achievement.minechem.item.journal=Start learning
 achievement.minechem.item.journal.desc=The journal is your gate to all the Minechem knowledge
-achievement.minechem.tile.optical_microscope=Looking at Things
-achievement.minechem.tile.optical_microscope.desc=Use the Microscope for the first time
-achievement.minechem.tile.electrolysis=Electrolysing things
-achievement.minechem.tile.electrolysis.desc=Use the Electrolysis Machine for the first time
-achievement.minechem.tile.electric_crucible=Melting things
-achievement.minechem.tile.electric_crucible.desc=Use the Electric Crucible for the first time
+achievement.minechem.apparatus.optical_microscope=Looking at Things
+achievement.minechem.apparatus.optical_microscope.desc=Use the Microscope for the first time
+achievement.minechem.apparatus.electrolysis=Electrolysing things
+achievement.minechem.apparatus.electrolysis.desc=Use the Electrolysis Machine for the first time
+achievement.minechem.apparatus.electric_crucible=Melting things
+achievement.minechem.apparatus.electric_crucible.desc=Use the Electric Crucible for the first time
 
 achievement.minechem.discover=Discover new element
 achievement.minechem.element=Discovered %s

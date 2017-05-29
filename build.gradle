@@ -34,8 +34,8 @@ repositories {
 }
 
 dependencies {
-    deobfCompile "betterachievements:BetterAchievements-${version_minecraft}:${version_ba}"
     deobfCompile "fontbox:fontbox-${version_minecraft}:${version_fontbox}"
+    deobfCompile "betterachievements:BetterAchievements-${version_minecraft}:${version_ba}"
     deobfCompile "mezz.jei:jei_${version_minecraft}:${version_jei}:api"
     runtime "mezz.jei:jei_${version_minecraft}:${version_jei}"
     compile fileTree(dir: 'lib', include: '*.jar')

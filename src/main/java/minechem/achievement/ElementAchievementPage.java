@@ -9,7 +9,13 @@ import minechem.registry.AchievementRegistry;
 import minechem.registry.ElementRegistry;
 import net.minecraft.stats.Achievement;
 import net.minecraftforge.common.AchievementPage;
+import net.minecraftforge.fml.common.Optional;
 
+@Optional.InterfaceList({
+    @Optional.Interface(iface = "betterachievements.api.components.page.ICustomBackground", modid = "betterachievements"),
+    @Optional.Interface(iface = "betterachievements.api.components.page.ICustomScale", modid = "betterachievements"),
+    @Optional.Interface(iface = "betterachievements.api.components.page.ICustomPosition", modid = "betterachievements"),
+})
 public class ElementAchievementPage extends AchievementPage implements ICustomBackground, ICustomScale, ICustomPosition
 {
     public ElementAchievementPage(String name, Achievement... achievements)

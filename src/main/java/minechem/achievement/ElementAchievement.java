@@ -3,20 +3,25 @@ package minechem.achievement;
 import betterachievements.api.components.achievement.ICustomBackgroundColour;
 import betterachievements.api.components.achievement.ICustomIconRenderer;
 import betterachievements.api.components.achievement.ICustomTitle;
-import net.minecraft.client.Minecraft;
-import net.minecraft.util.text.translation.I18n;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import minechem.Compendium;
 import minechem.chemical.Element;
 import minechem.helper.ColourHelper;
 import minechem.helper.LocalizationHelper;
 import minechem.proxy.client.font.Font;
+import net.minecraft.client.Minecraft;
 import net.minecraft.stats.Achievement;
+import net.minecraftforge.fml.common.Optional;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * {@link net.minecraft.stats.Achievement} wrapper for {@link minechem.chemical.Element}s
  */
+@Optional.InterfaceList({
+    @Optional.Interface(iface = "betterachievements.api.components.achievement.ICustomBackgroundColour", modid = "betterachievements"),
+    @Optional.Interface(iface = "betterachievements.api.components.achievement.ICustomIconRenderer", modid = "betterachievements"),
+    @Optional.Interface(iface = "betterachievements.api.components.achievement.ICustomTitle", modid = "betterachievements"),
+    })
 public class ElementAchievement extends Achievement implements ICustomBackgroundColour, ICustomIconRenderer, ICustomTitle
 {
     private final static String achievementPrefix = "achievement.";

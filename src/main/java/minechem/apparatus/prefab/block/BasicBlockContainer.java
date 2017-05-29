@@ -2,6 +2,7 @@ package minechem.apparatus.prefab.block;
 
 import java.util.ArrayList;
 import minechem.Compendium;
+import minechem.helper.AchievementHelper;
 import minechem.helper.ItemHelper;
 import minechem.helper.ResearchHelper;
 import minechem.registry.CreativeTabRegistry;
@@ -186,7 +187,9 @@ public abstract class BasicBlockContainer extends BlockContainer
      */
     public void acquireResearch(EntityPlayer player, World world)
     {
-        ResearchHelper.addResearch(player, getResearchKey(), world.isRemote);
+        String researchKey = getResearchKey();
+        ResearchHelper.addResearch(player, researchKey, world.isRemote);
+        AchievementHelper.giveAchievement(player, researchKey, world.isRemote);
     }
 
     /**

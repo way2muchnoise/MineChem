@@ -27,9 +27,9 @@ public class AchievementHandler
     private static void initMinechem()
     {
         Achievement journal = AchievementRegistry.getInstance().addAchievement(ItemRegistry.journal.getUnlocalizedName(), 0, 0, ItemRegistry.journal);
-        Achievement microscope = AchievementRegistry.getInstance().addAchievement(BlockRegistry.opticalMicroscope.getUnlocalizedName(), 1, 3, BlockRegistry.opticalMicroscope, journal);
-        Achievement electrolysis = AchievementRegistry.getInstance().addAchievement(BlockRegistry.electrolysisBlock.getUnlocalizedName(), 3, 3, BlockRegistry.electrolysisBlock, microscope);
-        Achievement crucible = AchievementRegistry.getInstance().addAchievement(BlockRegistry.electricCrucibleBlock.getUnlocalizedName(), -2, 3, BlockRegistry.electricCrucibleBlock, microscope);
+        Achievement microscope = AchievementRegistry.getInstance().addAchievement(BlockRegistry.opticalMicroscope.getResearchKey(), 1, 3, BlockRegistry.opticalMicroscope, journal);
+        Achievement electrolysis = AchievementRegistry.getInstance().addAchievement(BlockRegistry.electrolysisBlock.getResearchKey(), 3, 3, BlockRegistry.electrolysisBlock, microscope);
+        Achievement crucible = AchievementRegistry.getInstance().addAchievement(BlockRegistry.electricCrucibleBlock.getResearchKey(), -2, 3, BlockRegistry.electricCrucibleBlock, microscope);
         AchievementRegistry.getInstance().registerMinechemAchievements();
     }
 }
