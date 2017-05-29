@@ -2,8 +2,7 @@ package minechem.apparatus.tier1.electrolysis;
 
 import minechem.Compendium;
 import minechem.apparatus.prefab.renderer.BasicTileEntityRenderer;
-import net.minecraft.tileentity.TileEntity;
-import org.lwjgl.opengl.GL11;
+import net.minecraft.client.renderer.GlStateManager;
 
 public class ElectrolysisTileEntityRenderer extends BasicTileEntityRenderer<ElectrolysisTileEntity>
 {
@@ -21,19 +20,20 @@ public class ElectrolysisTileEntityRenderer extends BasicTileEntityRenderer<Elec
 
     @Override
     public void renderTileEntityAt(ElectrolysisTileEntity tileEntity, double x, double y, double z, float partialTicks, int destroyStage) {
-        GL11.glPushMatrix();
-        GL11.glTranslated(x + xOffset, y + yOffset, z + zOffset);
-        GL11.glRotatef(180f, 0f, 0f, 1f);
-        GL11.glRotatef((tileEntity.getBlockMetadata() * 90.0F), 0.0F, 1.0F, 0.0F);
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GL11.glScaled(xScale, yScale, zScale);
+        float rotation = (tileEntity == null ? 0: tileEntity.getBlockMetadata()) * 90.0F;
+        GlStateManager.pushMatrix();
+        GlStateManager.translate(x + xOffset, y + yOffset, z + zOffset);
+        GlStateManager.rotate(180f, 0f, 0f, 1f);
+        GlStateManager.rotate(rotation, 0.0F, 1.0F, 0.0F);
+        GlStateManager.enableBlend();
+        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+        GlStateManager.scale(xScale, yScale, zScale);
         bindTexture(texture);
-        model.setLeftTube(tileEntity.getLeftTube() != null);
-        model.setRightTube(tileEntity.getRightTube() != null);
-        model.render(rotation);
-        GL11.glDisable(GL11.GL_BLEND);
-        GL11.glPopMatrix();
+        model.setLeftTube(tileEntity != null && tileEntity.getLeftTube() != null);
+        model.setRightTube(tileEntity != null && tileEntity.getRightTube() != null);
+        model.render(this.rotation);
+        GlStateManager.disableBlend();
+        GlStateManager.popMatrix();
     }
 
 }

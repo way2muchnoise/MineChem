@@ -21,6 +21,12 @@ import java.util.List;
 
 public class ChemicalItem extends BasicItem
 {
+    private static final String dustSuffix = "_dust";
+    private static final String liquidSuffix = "_liquid";
+    private static final String gasSuffix = "_gas";
+    private static final String plasmaSuffix = "_plasma";
+    private static final String moleculeSuffix = "_molecule";
+
     public ChemicalItem()
     {
         super("chemical");
@@ -29,24 +35,30 @@ public class ChemicalItem extends BasicItem
 
     @SideOnly(Side.CLIENT)
     public void initModels() {
-        ModelResourceLocation dust = new ModelResourceLocation(getRegistryName() + "_dust", "inventory");
-        ModelResourceLocation liquid = new ModelResourceLocation(getRegistryName() + "_liquid", "inventory");
-        ModelResourceLocation gas = new ModelResourceLocation(getRegistryName() + "_gas", "inventory");
-        ModelResourceLocation plasma = new ModelResourceLocation(getRegistryName() + "_plasma", "inventory");
+        ModelResourceLocation dust = new ModelResourceLocation(getRegistryName() + dustSuffix, "inventory");
+        ModelResourceLocation liquid = new ModelResourceLocation(getRegistryName() + liquidSuffix, "inventory");
+        ModelResourceLocation gas = new ModelResourceLocation(getRegistryName() + gasSuffix, "inventory");
+        ModelResourceLocation plasma = new ModelResourceLocation(getRegistryName() + plasmaSuffix, "inventory");
 
-        ModelBakery.registerItemVariants(this, dust, liquid, gas, plasma);
+        ModelResourceLocation dust_molecule = new ModelResourceLocation(getRegistryName() + dustSuffix + moleculeSuffix, "inventory");
+        ModelResourceLocation liquid_molecule = new ModelResourceLocation(getRegistryName() + liquidSuffix + moleculeSuffix, "inventory");
+        ModelResourceLocation gas_molecule = new ModelResourceLocation(getRegistryName() + gasSuffix + moleculeSuffix, "inventory");
+        ModelResourceLocation plasma_molecule = new ModelResourceLocation(getRegistryName() + plasmaSuffix + moleculeSuffix, "inventory");
+
+        ModelBakery.registerItemVariants(this, dust, liquid, gas, plasma, dust_molecule, liquid_molecule, gas_molecule, plasma_molecule);
 
         ModelLoader.setCustomMeshDefinition(this, stack -> {
             ChemicalBase chemical = getChemicalBase(stack);
+            boolean isElement = chemical.isElement();
             switch (chemical.form) {
                 case solid:
-                    return dust;
+                    return isElement ? dust : dust_molecule;
                 case liquid:
-                    return liquid;
+                    return isElement ? liquid : liquid_molecule;
                 case gas:
-                    return gas;
+                    return isElement ? gas : gas_molecule;
                 case plasma:
-                    return plasma;
+                    return isElement ? plasma : plasma_molecule;
                 default:
                     return null;
             }

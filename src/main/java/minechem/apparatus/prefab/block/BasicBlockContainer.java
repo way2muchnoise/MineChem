@@ -2,7 +2,6 @@ package minechem.apparatus.prefab.block;
 
 import java.util.ArrayList;
 import minechem.Compendium;
-import minechem.Minechem;
 import minechem.helper.ItemHelper;
 import minechem.helper.ResearchHelper;
 import minechem.registry.CreativeTabRegistry;
@@ -167,12 +166,16 @@ public abstract class BasicBlockContainer extends BlockContainer
             acquireResearch(player, world);
             if (!world.isRemote)
             {
-                player.openGui(Minechem.INSTANCE, 0, world, pos.getX(), pos.getY(), pos.getZ());
+                openGui(player, world, pos.getX(), pos.getY(), pos.getZ());
             }
             return true;
         }
 
         return false;
+    }
+
+    public void openGui(EntityPlayer player, World world, int posX, int posY, int posZ) {
+
     }
 
     /**

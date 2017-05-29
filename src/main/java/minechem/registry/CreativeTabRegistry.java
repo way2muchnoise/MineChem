@@ -18,8 +18,8 @@ public class CreativeTabRegistry
      */
     public static void init()
     {
-        TAB_PRIMARY.setIcon(BlockRegistry.opticalMicroscope);
-        TAB_CHEMICALS.setIcon(BlockRegistry.electrolysisBlock);
+        TAB_PRIMARY.setIcon(ItemRegistry.journal);
+        TAB_CHEMICALS.setIcon(BlockRegistry.opticalMicroscope);
     }
 
     /**

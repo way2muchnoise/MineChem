@@ -31,6 +31,7 @@ public class ItemRegistry
     @SideOnly(Side.CLIENT)
     public static void initModels() {
         chemicalItem.initModels();
+        journal.initModel();
     }
 
     @SideOnly(Side.CLIENT)

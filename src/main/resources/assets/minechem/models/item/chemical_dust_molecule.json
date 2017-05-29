@@ -1,0 +1,6 @@
+{
+  "parent": "minechem:item/chemical_dust",
+  "textures": {
+    "layer2" : "minechem:items/chemical_icon_molecule"
+  }
+}

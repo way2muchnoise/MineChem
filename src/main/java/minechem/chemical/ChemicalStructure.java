@@ -16,12 +16,12 @@ public class ChemicalStructure
 
     public ChemicalStructure()
     {
-        this.internalStructure = new LinkedList<ChemicalBaseSet>();
+        this.internalStructure = new LinkedList<>();
     }
 
     public ChemicalStructure(ChemicalBaseSet... chemicalBaseSets)
     {
-        this.internalStructure = new LinkedList<ChemicalBaseSet>();
+        this.internalStructure = new LinkedList<>();
         addAll(chemicalBaseSets);
     }
 

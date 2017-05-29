@@ -42,15 +42,16 @@ public abstract class BasicTileEntityRenderer<T extends BaseTileEntity> extends 
 
     @Override
     public void renderTileEntityAt(BaseTileEntity tileEntity, double x, double y, double z, float partialTicks, int destroyStage) {
+        float rotation = (tileEntity == null ? 0: tileEntity.getBlockMetadata()) * 90.0F;
         GlStateManager.pushMatrix();
         GlStateManager.translate(x + xOffset, y + yOffset, z + zOffset);
         GlStateManager.rotate(180f, 0f, 0f, 1f);
-        GlStateManager.rotate((tileEntity.getBlockMetadata() * 90.0F), 0.0F, 1.0F, 0.0F);
+        GlStateManager.rotate(rotation, 0.0F, 1.0F, 0.0F);
         GlStateManager.enableBlend();
         GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
         GlStateManager.scale(xScale, yScale, zScale);
         bindTexture(texture);
-        model.render(rotation);
+        model.render(this.rotation);
         GlStateManager.disableBlend();
         GlStateManager.popMatrix();
     }

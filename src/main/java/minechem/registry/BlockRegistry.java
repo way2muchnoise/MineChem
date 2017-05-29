@@ -2,6 +2,7 @@ package minechem.registry;
 
 import minechem.apparatus.prefab.block.BasicBlock;
 import minechem.apparatus.prefab.block.BasicBlockContainer;
+import minechem.item.prefab.BasicItemBlock;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -20,6 +21,9 @@ import minechem.apparatus.tier1.opticalMicroscope.OpticalMicroscopeTileEntity;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class BlockRegistry
 {
     public static OpticalMicroscopeBlock opticalMicroscope;
@@ -27,8 +31,12 @@ public class BlockRegistry
     public static ElectricCrucibleBlock electricCrucibleBlock;
     public static CentrifugeBlock centrifugeBlock;
 
+    private static List<BasicItemBlock> itemBlocks;
+
     public static void init(Side side)
     {
+        itemBlocks = new LinkedList<>();
+
         opticalMicroscope = new OpticalMicroscopeBlock();
         register(opticalMicroscope);
         register(OpticalMicroscopeTileEntity.class, Compendium.Naming.opticalMicroscope);
@@ -57,16 +65,26 @@ public class BlockRegistry
         registerItemBlockRenderer(ElectricCrucibleTileEntity.class, electricCrucibleBlock);
         registerItemBlockRenderer(CentrifugeTileEntity.class, centrifugeBlock);
         registerItemBlockRenderer(ElectrolysisTileEntity.class, electrolysisBlock);
+
+        for (BasicItemBlock itemBlock : itemBlocks) {
+            itemBlock.initModel();
+        }
+
+        itemBlocks = null;
     }
 
     private static void register(BasicBlock block) {
         GameRegistry.register(block);
-        GameRegistry.register(new ItemBlock(block).setRegistryName(block.getRegistryName()));
+        BasicItemBlock itemBlock = new BasicItemBlock(block);
+        GameRegistry.register(itemBlock);
+        itemBlocks.add(itemBlock);
     }
 
     private static void register(BasicBlockContainer block) {
         GameRegistry.register(block);
-        GameRegistry.register(new ItemBlock(block).setRegistryName(block.getRegistryName()));
+        BasicItemBlock itemBlock = new BasicItemBlock(block);
+        GameRegistry.register(itemBlock);
+        itemBlocks.add(itemBlock);
     }
 
     private static void register(Class<? extends TileEntity> clazz, String name) {

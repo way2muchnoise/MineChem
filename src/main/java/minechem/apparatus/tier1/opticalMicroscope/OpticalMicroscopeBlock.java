@@ -10,10 +10,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class OpticalMicroscopeBlock extends BasicBlockContainer
@@ -31,12 +27,8 @@ public class OpticalMicroscopeBlock extends BasicBlockContainer
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        if (!world.isRemote) {
-            player.openGui(Minechem.INSTANCE, GuiHandler.MICROSCOPE, world, pos.getX(), pos.getY(), pos.getZ());
-        }
-
-        return true;
+    public void openGui(EntityPlayer player, World world, int posX, int posY, int posZ) {
+        player.openGui(Minechem.INSTANCE, GuiHandler.MICROSCOPE, world, posX, posY, posZ);
     }
 
     @Override

@@ -6,6 +6,6 @@ import net.minecraft.item.ItemStack;
 public class ChemicalItemColour implements IItemColor {
     @Override
     public int getColorFromItemstack(ItemStack stack, int tintIndex) {
-        return tintIndex == 0 ? -1 : ChemicalItem.getChemicalBase(stack).getColour();
+        return tintIndex == 1 ? ChemicalItem.getChemicalBase(stack).getColour() : -1;
     }
 }

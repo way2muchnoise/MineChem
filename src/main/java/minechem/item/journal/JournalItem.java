@@ -1,14 +1,5 @@
 package minechem.item.journal;
 
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-
 import minechem.Config;
 import minechem.handler.MessageHandler;
 import minechem.handler.message.JournalMessage;
@@ -18,12 +9,23 @@ import minechem.helper.LocalizationHelper;
 import minechem.item.prefab.BasicItem;
 import minechem.registry.ResearchRegistry;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -34,6 +36,11 @@ public class JournalItem extends BasicItem
     {
         super("journal");
         setMaxStackSize(1);
+    }
+
+    @SideOnly(Side.CLIENT)
+    public void initModel() {
+        ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(getRegistryName(), "inventory"));
     }
 
     @Override

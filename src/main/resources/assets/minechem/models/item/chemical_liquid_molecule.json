@@ -1,0 +1,6 @@
+{
+  "parent": "minechem:item/chemical_liquid",
+  "textures": {
+    "layer2" : "minechem:items/chemical_icon_molecule"
+  }
+}
