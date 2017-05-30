@@ -4,10 +4,8 @@ import minechem.Compendium;
 import minechem.apparatus.prefab.renderer.BasicTileEntityRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 
-public class ElectrolysisTileEntityRenderer extends BasicTileEntityRenderer<ElectrolysisTileEntity>
+public class ElectrolysisTileEntityRenderer extends BasicTileEntityRenderer<ElectrolysisTileEntity, ElectrolysisModel>
 {
-    ElectrolysisModel model;
-
     public ElectrolysisTileEntityRenderer()
     {
         super(0.4F, 0.0625F);
@@ -18,22 +16,11 @@ public class ElectrolysisTileEntityRenderer extends BasicTileEntityRenderer<Elec
         texture = Compendium.Resource.Model.electrolysis;
     }
 
-    @Override
-    public void renderTileEntityAt(ElectrolysisTileEntity tileEntity, double x, double y, double z, float partialTicks, int destroyStage) {
-        float rotation = (tileEntity == null ? 0: tileEntity.getBlockMetadata()) * 90.0F;
-        GlStateManager.pushMatrix();
-        GlStateManager.translate(x + xOffset, y + yOffset, z + zOffset);
-        GlStateManager.rotate(180f, 0f, 0f, 1f);
-        GlStateManager.rotate(rotation, 0.0F, 1.0F, 0.0F);
-        GlStateManager.enableBlend();
-        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-        GlStateManager.scale(xScale, yScale, zScale);
-        bindTexture(texture);
-        model.setLeftTube(tileEntity != null && tileEntity.getLeftTube() != null);
-        model.setRightTube(tileEntity != null && tileEntity.getRightTube() != null);
-        model.render(this.rotation);
-        GlStateManager.disableBlend();
-        GlStateManager.popMatrix();
+    public void applyChangesToModel(ElectrolysisTileEntity tileEntity) {
+        if (tileEntity != null) {
+            model.setLeftTube(tileEntity.hasLeftTube());
+            model.setRightTube(tileEntity.hasRightTube());
+        }
     }
 
 }

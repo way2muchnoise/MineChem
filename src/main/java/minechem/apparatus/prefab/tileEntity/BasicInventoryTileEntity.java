@@ -110,12 +110,13 @@ public abstract class BasicInventoryTileEntity extends BaseTileEntity implements
     @Override
     public boolean isUsableByPlayer(EntityPlayer entityPlayer)
     {
-        return inventory.isUsableByPlayer(entityPlayer, pos);
+        return inventory.isUsableByPlayer(entityPlayer);
     }
 
     @Override
     public void markDirty()
     {
+        super.markDirty();
     }
 
     @Override
@@ -168,14 +169,7 @@ public abstract class BasicInventoryTileEntity extends BaseTileEntity implements
     public void readFromNBT(NBTTagCompound nbttagcompound)
     {
         super.readFromNBT(nbttagcompound);
-
-        NBTTagList nbttaglist = nbttagcompound.getTagList(inventory.getName(), Constants.NBT.TAG_COMPOUND);
-
-        for (int i = 0; i < inventory.getInventory().length; i++)
-        {
-            inventory.setInventorySlotContents(i, new ItemStack(nbttaglist.getCompoundTagAt(i)));
-        }
-
+        inventory.readFromNBT(nbttagcompound);
     }
 
     /**
@@ -199,21 +193,7 @@ public abstract class BasicInventoryTileEntity extends BaseTileEntity implements
     public NBTTagCompound writeToNBT(NBTTagCompound nbttagcompound)
     {
         super.writeToNBT(nbttagcompound);
-        NBTTagList nbttaglist = new NBTTagList();
-
-        for (ItemStack stack : inventory.getInventory())
-        {
-            if (stack != null)
-            {
-                NBTTagCompound nbttagcompound1 = new NBTTagCompound();
-                stack.writeToNBT(nbttagcompound1);
-                nbttaglist.appendTag(nbttagcompound1);
-            } else
-            {
-                nbttaglist.appendTag(new NBTTagCompound());
-            }
-        }
-        nbttagcompound.setTag(inventory.getName(), nbttaglist);
+        inventory.writeToNBT(nbttagcompound);
         return nbttagcompound;
     }
 }

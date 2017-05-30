@@ -69,7 +69,7 @@ public class ElectrolysisBlock extends BasicBlockContainer
         {
             ElectrolysisTileEntity electrolysis = (ElectrolysisTileEntity) activatedTileEntity;
             acquireResearch(player, world);
-            if (player.getHeldItem(hand) != null)
+            if (!player.getHeldItem(hand).isEmpty())
             {
                 ItemStack clickedItemStack = player.getHeldItem(hand);
                 if (clickedItemStack.getItem() instanceof ChemicalItem)
@@ -78,7 +78,7 @@ public class ElectrolysisBlock extends BasicBlockContainer
                     if (chemicalBase != null)
                     {
                         byte slot = electrolysis.addItem(clickedItemStack);
-                        if (slot == 0 || slot == 1)
+                        if (slot != 1)
                         {
                             electrolysis.fillWithChemicalBase(chemicalBase, slot);
                             player.inventory.decrStackSize(player.inventory.currentItem, 1);
@@ -89,17 +89,17 @@ public class ElectrolysisBlock extends BasicBlockContainer
             } else
             {
                 ChemicalItem chemItem = null;
-                if (electrolysis.getRightTube() != null)
+                if (electrolysis.hasRightTube())
                 {
-                    chemItem = electrolysis.removeItem(1);
-                } else if (electrolysis.getLeftTube() != null)
+                    chemItem = electrolysis.removeItem(ElectrolysisTileEntity.RIGHT_SIDE);
+                } else if (electrolysis.hasLeftTube())
                 {
-                    chemItem = electrolysis.removeItem(0);
+                    chemItem = electrolysis.removeItem(ElectrolysisTileEntity.LEFT_SIDE);
                 }
 
                 if (chemItem != null)
                 {
-                    if (player.getHeldItem(hand) != null && player.getHeldItem(hand).getItem() != null)
+                    if (!player.getHeldItem(hand).isEmpty())
                     {
                         if (player.getHeldItem(hand).getItem() instanceof ChemicalItem)
                         {

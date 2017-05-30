@@ -2,16 +2,15 @@ package minechem.apparatus.prefab.renderer;
 
 import minechem.apparatus.prefab.model.BasicModel;
 import minechem.apparatus.prefab.tileEntity.BaseTileEntity;
-import minechem.apparatus.prefab.tileEntity.BasicInventoryTileEntity;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
-public abstract class BasicTileEntityRenderer<T extends BaseTileEntity> extends TileEntitySpecialRenderer<T>
+public abstract class BasicTileEntityRenderer<T extends BaseTileEntity, M extends BasicModel> extends TileEntitySpecialRenderer<T>
 {
-    protected BasicModel model;
+    protected M model;
     protected float rotation;
     protected ResourceLocation texture;
 
@@ -41,19 +40,26 @@ public abstract class BasicTileEntityRenderer<T extends BaseTileEntity> extends 
     }
 
     @Override
-    public void renderTileEntityAt(BaseTileEntity tileEntity, double x, double y, double z, float partialTicks, int destroyStage) {
+    public void renderTileEntityAt(T tileEntity, double x, double y, double z, float partialTicks, int destroyStage) {
         float rotation = (tileEntity == null ? 0: tileEntity.getBlockMetadata()) * 90.0F;
         GlStateManager.pushMatrix();
+        RenderHelper.disableStandardItemLighting();
+        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GlStateManager.enableBlend();
+        GlStateManager.disableCull();
         GlStateManager.translate(x + xOffset, y + yOffset, z + zOffset);
         GlStateManager.rotate(180f, 0f, 0f, 1f);
         GlStateManager.rotate(rotation, 0.0F, 1.0F, 0.0F);
-        GlStateManager.enableBlend();
-        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
         GlStateManager.scale(xScale, yScale, zScale);
         bindTexture(texture);
+        applyChangesToModel(tileEntity);
         model.render(this.rotation);
-        GlStateManager.disableBlend();
+        RenderHelper.enableStandardItemLighting();
         GlStateManager.popMatrix();
+    }
+
+    public void applyChangesToModel(T tileEntity) {
+
     }
 
     public final void setOffset(double xOffset, double yOffset, double zOffset)

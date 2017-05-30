@@ -9,8 +9,8 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class ElectrolysisTileEntity extends BasicFluidInventoryTileEntity
 {
-    private byte LEFTSIDE = 0;
-    private byte RIGHTSIDE = 1;
+    public static final byte LEFT_SIDE = 0;
+    public static final byte RIGHT_SIDE = 1;
     private boolean leftTube;
     private boolean rightTube;
 
@@ -49,12 +49,11 @@ public class ElectrolysisTileEntity extends BasicFluidInventoryTileEntity
      */
     public void fillWithChemicalBase(ChemicalBase chemicalBase, byte side)
     {
-
-        if (side == LEFTSIDE)
+        if (side == LEFT_SIDE)
         {
             leftTube = true;
         }
-        if (side == RIGHTSIDE)
+        if (side == RIGHT_SIDE)
         {
             rightTube = true;
         }
@@ -68,9 +67,8 @@ public class ElectrolysisTileEntity extends BasicFluidInventoryTileEntity
      */
     public ChemicalItem removeItem(int side)
     {
-        if (side == LEFTSIDE)
+        if (side == LEFT_SIDE)
         {
-
             if (this.getStackInSlot(1) != null)
             {
                 ChemicalItem chemical = (ChemicalItem) getStackInSlot(1).getItem();
@@ -79,7 +77,7 @@ public class ElectrolysisTileEntity extends BasicFluidInventoryTileEntity
                 return chemical;
             }
         }
-        if (side == RIGHTSIDE)
+        if (side == RIGHT_SIDE)
         {
             if (this.getStackInSlot(0) != null)
             {
@@ -92,9 +90,13 @@ public class ElectrolysisTileEntity extends BasicFluidInventoryTileEntity
         return null;
     }
 
+    public boolean hasLeftTube() {
+        return leftTube;
+    }
+
     public ChemicalItem getLeftTube()
     {
-        ItemStack itemStack = decrStackSize(LEFTSIDE, 1);
+        ItemStack itemStack = decrStackSize(LEFT_SIDE, 1);
         if (itemStack != null)
         {
             if (itemStack.getItem() instanceof ChemicalItem)
@@ -105,9 +107,13 @@ public class ElectrolysisTileEntity extends BasicFluidInventoryTileEntity
         return null;
     }
 
+    public boolean hasRightTube() {
+        return rightTube;
+    }
+
     public ChemicalItem getRightTube()
     {
-        ItemStack itemStack = decrStackSize(RIGHTSIDE, 1);
+        ItemStack itemStack = decrStackSize(RIGHT_SIDE, 1);
         if (itemStack != null)
         {
             if (itemStack.getItem() instanceof ChemicalItem)

@@ -109,7 +109,7 @@ public abstract class BasicBlockContainer extends BlockContainer
                         for (int i = 0; i < inventory.getSizeInventory(); i++)
                         {
                             ItemStack stack = inventory.getStackInSlot(i);
-                            if (stack != null)
+                            if (stack != null && !stack.isEmpty())
                             {
                                 droppedStacks.add(stack);
                             }

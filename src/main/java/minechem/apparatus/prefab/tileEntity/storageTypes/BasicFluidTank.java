@@ -1,5 +1,6 @@
 package minechem.apparatus.prefab.tileEntity.storageTypes;
 
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -86,5 +87,13 @@ public class BasicFluidTank implements IFluidHandler
     public IFluidTankProperties[] getTankProperties()
     {
         return tank.getTankProperties();
+    }
+
+    public void writeToNBT(NBTTagCompound nbttagcompound) {
+        tank.writeToNBT(nbttagcompound);
+    }
+
+    public void readFromNBT(NBTTagCompound nbttagcompound) {
+        tank.readFromNBT(nbttagcompound);
     }
 }
