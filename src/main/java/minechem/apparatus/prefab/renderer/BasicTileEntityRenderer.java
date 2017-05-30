@@ -2,6 +2,7 @@ package minechem.apparatus.prefab.renderer;
 
 import minechem.apparatus.prefab.model.BasicModel;
 import minechem.apparatus.prefab.tileEntity.BaseTileEntity;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -43,17 +44,23 @@ public abstract class BasicTileEntityRenderer<T extends BaseTileEntity, M extend
     public void renderTileEntityAt(T tileEntity, double x, double y, double z, float partialTicks, int destroyStage) {
         float rotation = (tileEntity == null ? 0: tileEntity.getBlockMetadata()) * 90.0F;
         GlStateManager.pushMatrix();
+
         RenderHelper.disableStandardItemLighting();
         GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GlStateManager.enableBlend();
         GlStateManager.disableCull();
+        if (Minecraft.isAmbientOcclusionEnabled()) GlStateManager.shadeModel(GL11.GL_SMOOTH);
+        else GlStateManager.shadeModel(GL11.GL_FLAT);
+
         GlStateManager.translate(x + xOffset, y + yOffset, z + zOffset);
         GlStateManager.rotate(180f, 0f, 0f, 1f);
         GlStateManager.rotate(rotation, 0.0F, 1.0F, 0.0F);
         GlStateManager.scale(xScale, yScale, zScale);
+
         bindTexture(texture);
         applyChangesToModel(tileEntity);
         model.render(this.rotation);
+
         RenderHelper.enableStandardItemLighting();
         GlStateManager.popMatrix();
     }
