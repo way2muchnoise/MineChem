@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Random;
 import javax.imageio.ImageIO;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.texture.TextureManager;
@@ -358,16 +358,16 @@ public class EnhancedFontRenderer implements IResourceManagerReloadListener
         float fontTextureHeight = 7.99F;
         float fontDrawHeight = fontTextureHeight * getFontScale();
         float fontTextureScaling = 128.0F;
-        GL11.glBegin(GL11.GL_TRIANGLE_STRIP);
-        GL11.glTexCoord2f(textureXPos / fontTextureScaling, textureYPos / fontTextureScaling);
-        GL11.glVertex3f(this.posX + italicsScaleFactor, this.posY, this.zLevel);
-        GL11.glTexCoord2f(textureXPos / fontTextureScaling, (textureYPos + fontTextureHeight) / fontTextureScaling);
-        GL11.glVertex3f(this.posX - italicsScaleFactor, this.posY + fontDrawHeight, this.zLevel);
-        GL11.glTexCoord2f((textureXPos + fontTextureWidth) / fontTextureScaling, textureYPos / fontTextureScaling);
-        GL11.glVertex3f(this.posX + fontDrawWidth + italicsScaleFactor, this.posY, this.zLevel);
-        GL11.glTexCoord2f((textureXPos + fontTextureWidth) / fontTextureScaling, (textureYPos + fontTextureHeight) / fontTextureScaling);
-        GL11.glVertex3f(this.posX + fontDrawWidth - italicsScaleFactor, this.posY + fontDrawHeight, this.zLevel);
-        GL11.glEnd();
+        GlStateManager.glBegin(GL11.GL_TRIANGLE_STRIP);
+        GlStateManager.glTexCoord2f(textureXPos / fontTextureScaling, textureYPos / fontTextureScaling);
+        GlStateManager.glVertex3f(this.posX + italicsScaleFactor, this.posY, this.zLevel);
+        GlStateManager.glTexCoord2f(textureXPos / fontTextureScaling, (textureYPos + fontTextureHeight) / fontTextureScaling);
+        GlStateManager.glVertex3f(this.posX - italicsScaleFactor, this.posY + fontDrawHeight, this.zLevel);
+        GlStateManager.glTexCoord2f((textureXPos + fontTextureWidth) / fontTextureScaling, textureYPos / fontTextureScaling);
+        GlStateManager.glVertex3f(this.posX + fontDrawWidth + italicsScaleFactor, this.posY, this.zLevel);
+        GlStateManager.glTexCoord2f((textureXPos + fontTextureWidth) / fontTextureScaling, (textureYPos + fontTextureHeight) / fontTextureScaling);
+        GlStateManager.glVertex3f(this.posX + fontDrawWidth - italicsScaleFactor, this.posY + fontDrawHeight, this.zLevel);
+        GlStateManager.glEnd();
         return (float) this.charWidth[charId] * getFontScale();
     }
 
@@ -414,16 +414,16 @@ public class EnhancedFontRenderer implements IResourceManagerReloadListener
             float fontTextureScaling = 256.0F;
             float fontTextureHeight = 15.98F;
             float fontDrawHeight = fontTextureHeight / unicodeChatScale * getFontScale();
-            GL11.glBegin(GL11.GL_TRIANGLE_STRIP);
-            GL11.glTexCoord2f(texturePosX / fontTextureScaling, texturePosY / fontTextureScaling);
-            GL11.glVertex3f(this.posX + italicsScaleFactor, this.posY, this.zLevel);
-            GL11.glTexCoord2f(texturePosX / fontTextureScaling, (texturePosY + fontTextureHeight) / fontTextureScaling);
-            GL11.glVertex3f(this.posX - italicsScaleFactor, this.posY + fontDrawHeight, this.zLevel);
-            GL11.glTexCoord2f((texturePosX + fontTextureWidth) / fontTextureScaling, texturePosY / fontTextureScaling);
-            GL11.glVertex3f(this.posX + fontDrawWidth + italicsScaleFactor, this.posY, this.zLevel);
-            GL11.glTexCoord2f((texturePosX + fontTextureWidth) / fontTextureScaling, (texturePosY + fontTextureHeight) / fontTextureScaling);
-            GL11.glVertex3f(this.posX + fontDrawWidth - italicsScaleFactor, this.posY + fontDrawHeight, this.zLevel);
-            GL11.glEnd();
+            GlStateManager.glBegin(GL11.GL_TRIANGLE_STRIP);
+            GlStateManager.glTexCoord2f(texturePosX / fontTextureScaling, texturePosY / fontTextureScaling);
+            GlStateManager.glVertex3f(this.posX + italicsScaleFactor, this.posY, this.zLevel);
+            GlStateManager.glTexCoord2f(texturePosX / fontTextureScaling, (texturePosY + fontTextureHeight) / fontTextureScaling);
+            GlStateManager.glVertex3f(this.posX - italicsScaleFactor, this.posY + fontDrawHeight, this.zLevel);
+            GlStateManager.glTexCoord2f((texturePosX + fontTextureWidth) / fontTextureScaling, texturePosY / fontTextureScaling);
+            GlStateManager.glVertex3f(this.posX + fontDrawWidth + italicsScaleFactor, this.posY, this.zLevel);
+            GlStateManager.glTexCoord2f((texturePosX + fontTextureWidth) / fontTextureScaling, (texturePosY + fontTextureHeight) / fontTextureScaling);
+            GlStateManager.glVertex3f(this.posX + fontDrawWidth - italicsScaleFactor, this.posY + fontDrawHeight, this.zLevel);
+            GlStateManager.glEnd();
             return ((f1 - f) / unicodeChatScale + 1.0F) * getFontScale();
         }
     }
@@ -449,7 +449,7 @@ public class EnhancedFontRenderer implements IResourceManagerReloadListener
      */
     public int drawString(String string, int x, int y, int color, boolean dropShadow)
     {
-        GL11.glEnable(GL11.GL_ALPHA_TEST);
+        GlStateManager.enableAlpha();
         this.resetStyles();
         int l;
 
@@ -461,7 +461,6 @@ public class EnhancedFontRenderer implements IResourceManagerReloadListener
         {
             l = this.renderString(string, x, y, color, false);
         }
-
         return l;
     }
 
@@ -524,7 +523,7 @@ public class EnhancedFontRenderer implements IResourceManagerReloadListener
 
                     k = this.colorCode[j];
                     this.textColor = k;
-                    GL11.glColor4f((float) (k >> 16) / 255.0F, (float) (k >> 8 & 255) / 255.0F, (float) (k & 255) / 255.0F, this.alpha);
+                    GlStateManager.color((float) (k >> 16) / 255.0F, (float) (k >> 8 & 255) / 255.0F, (float) (k & 255) / 255.0F, this.alpha);
                 } else if (j == 16)
                 {
                     this.randomStyle = true;
@@ -543,7 +542,7 @@ public class EnhancedFontRenderer implements IResourceManagerReloadListener
                 } else if (j == 21)
                 {
                     this.resetStyles();
-                    GL11.glColor4f(this.red, this.blue, this.green, this.alpha);
+                    GlStateManager.color(this.red, this.blue, this.green, this.alpha);
                 }
 
                 ++i;
@@ -607,21 +606,21 @@ public class EnhancedFontRenderer implements IResourceManagerReloadListener
                 {
                     tessellator = Tessellator.getInstance();
                     VertexBuffer vertexBuffer = tessellator.getBuffer();
-                    GL11.glDisable(GL11.GL_TEXTURE_2D);
+                    GlStateManager.disableTexture2D();
                     vertexBuffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
                     vertexBuffer.pos((double) this.posX, (double) (this.posY + (float) (this.FONT_HEIGHT / 2)), 0.0D).endVertex();
                     vertexBuffer.pos((double) (this.posX + f), (double) (this.posY + (float) (this.FONT_HEIGHT / 2)), 0.0D).endVertex();
                     vertexBuffer.pos((double) (this.posX + f), (double) (this.posY + (float) (this.FONT_HEIGHT / 2) - 1.0F), 0.0D).endVertex();
                     vertexBuffer.pos((double) this.posX, (double) (this.posY + (float) (this.FONT_HEIGHT / 2) - 1.0F), 0.0D).endVertex();
                     tessellator.draw();
-                    GL11.glEnable(GL11.GL_TEXTURE_2D);
+                    GlStateManager.enableTexture2D();
                 }
 
                 if (this.underlineStyle)
                 {
                     tessellator = Tessellator.getInstance();
                     VertexBuffer vertexBuffer = tessellator.getBuffer();
-                    GL11.glDisable(GL11.GL_TEXTURE_2D);
+                    GlStateManager.disableTexture2D();
                     vertexBuffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
                     int l = this.underlineStyle ? -1 : 0;
                     vertexBuffer.pos((double) (this.posX + (float) l), (double) (this.posY + (float) this.FONT_HEIGHT), 0.0D).endVertex();
@@ -629,7 +628,7 @@ public class EnhancedFontRenderer implements IResourceManagerReloadListener
                     vertexBuffer.pos((double) (this.posX + f), (double) (this.posY + (float) this.FONT_HEIGHT - 1.0F), 0.0D).endVertex();
                     vertexBuffer.pos((double) (this.posX + (float) l), (double) (this.posY + (float) this.FONT_HEIGHT - 1.0F), 0.0D).endVertex();
                     tessellator.draw();
-                    GL11.glEnable(GL11.GL_TEXTURE_2D);
+                    GlStateManager.enableTexture2D();
                 }
 
                 this.posX += (float) ((int) f);
@@ -680,7 +679,7 @@ public class EnhancedFontRenderer implements IResourceManagerReloadListener
             this.blue = (float) (color >> 8 & 255) / 255.0F;
             this.green = (float) (color & 255) / 255.0F;
             this.alpha = (float) (color >> 24 & 255) / 255.0F;
-            GL11.glColor4f(this.red, this.blue, this.green, this.alpha);
+            GlStateManager.color(this.red, this.blue, this.green, this.alpha);
             this.posX = (float) x;
             this.posY = (float) y;
             this.renderStringAtPos(string, p_78258_5_);
