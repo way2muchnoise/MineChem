@@ -45,10 +45,16 @@ public class OpticalMicroscopeGUI extends BasicGuiContainer
     {
         RenderHelper.resetOpenGLColour();
         Minecraft.getMinecraft().renderEngine.bindTexture(texture);
+        float z = this.zLevel;
+        this.zLevel = 300.0F;
         GlStateManager.disableBlend();
         drawTexturedModalRect(eyePieceX, eyePieceY, 176, eyePieceH, eyePieceH, eyePieceW);
         GlStateManager.enableBlend();
+        renderItem.renderItemAndEffectIntoGUI(opticalMicroscope.getStackInSlot(0), mouseX, mouseY, this.zLevel);
+        renderItem.renderItemAndEffectIntoGUI(getContainer().getInventoryPlayer().getItemStack(), mouseX, mouseY, this.zLevel);
+        Minecraft.getMinecraft().renderEngine.bindTexture(texture);
         drawTexturedModalRect(eyePieceX, eyePieceY, 176, 0, eyePieceH, eyePieceW);
+        this.zLevel = z;
     }
 
     private void drawInfo()
@@ -96,13 +102,5 @@ public class OpticalMicroscopeGUI extends BasicGuiContainer
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
         Minecraft.getMinecraft().renderEngine.bindTexture(texture);
         drawTexturedModalRect(guiLeft, guiTop, 0, 0,176, 166);
-    }
-
-    @Override
-    public void drawScreen(int x, int y, float z)
-    {
-        super.drawScreen(x, y, z);
-        renderItem.renderItemAndEffectIntoGUI(opticalMicroscope.getStackInSlot(0), x, y);
-        renderItem.renderItemAndEffectIntoGUI(getContainer().getInventoryPlayer().getItemStack(), x, y);
     }
 }

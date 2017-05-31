@@ -41,8 +41,6 @@ public class Minechem
     @SidedProxy(clientSide = "minechem.proxy.client.ClientProxy", serverSide = "minechem.proxy.CommonProxy")
     public static CommonProxy proxy;
 
-    public static ElementHandler elementHandler;
-
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {

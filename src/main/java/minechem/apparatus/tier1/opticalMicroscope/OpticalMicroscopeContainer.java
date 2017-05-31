@@ -15,6 +15,11 @@ public class OpticalMicroscopeContainer extends BasicContainer
     public OpticalMicroscopeContainer(InventoryPlayer inventoryPlayer, OpticalMicroscopeTileEntity opticalMicroscope)
     {
         bindPlayerInventory(inventoryPlayer);
-        addSlotToContainer(new Slot(opticalMicroscope, 0, 32, 32));
+        addSlotToContainer(new Slot(opticalMicroscope, 0, 32, 32) {
+            @Override
+            public int getSlotStackLimit() {
+                return 1;
+            }
+        });
     }
 }
