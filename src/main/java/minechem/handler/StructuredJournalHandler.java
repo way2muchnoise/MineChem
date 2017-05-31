@@ -81,7 +81,7 @@ public class StructuredJournalHandler
         IJournalPage result;
         if (object.has("section"))
         {
-            result = new SectionPage(name, chapter, new ArrayList<IJournalPage>());
+            result = new SectionPage(name, chapter, new ArrayList<>());
             for (IJournalPage page : getPagesFromJsonObject((chapter.isEmpty() ? "" : chapter + ".") + name, object.getAsJsonObject("section")))
             {
                 result.addSubPage(page);
@@ -96,7 +96,7 @@ public class StructuredJournalHandler
 
     public static List<IJournalPage> getPagesFromJsonObject(String chapter, JsonObject object)
     {
-        List<IJournalPage> pages = new ArrayList<IJournalPage>();
+        List<IJournalPage> pages = new ArrayList<>();
         for (Map.Entry<String, JsonElement> pageEntry : object.entrySet())
         {
             if (pageEntry.getValue().isJsonNull())
@@ -115,7 +115,7 @@ public class StructuredJournalHandler
 
     public static List<IJournalElement> getElementsFromJsonObject(String page, JsonObject object)
     {
-        List<IJournalElement> pages = new ArrayList<IJournalElement>();
+        List<IJournalElement> pages = new ArrayList<>();
         Set<Map.Entry<String, JsonElement>> entrySet = object.entrySet();
         if (entrySet.size() == 0)
         {
@@ -202,7 +202,7 @@ public class StructuredJournalHandler
                 NBTTagCompound tagCompound;
                 try
                 {
-                    tagCompound = object.has("nbt") ? (NBTTagCompound) JsonToNBT.getTagFromJson(object.get("nbt").getAsString()) : null;
+                    tagCompound = object.has("nbt") ? JsonToNBT.getTagFromJson(object.get("nbt").getAsString()) : null;
                 } catch (Exception e)
                 {
                     tagCompound = null;

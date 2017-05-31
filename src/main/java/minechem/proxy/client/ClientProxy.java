@@ -9,7 +9,6 @@ import minechem.apparatus.tier1.electrolysis.ElectrolysisTileEntity;
 import minechem.apparatus.tier1.electrolysis.ElectrolysisTileEntityRenderer;
 import minechem.apparatus.tier1.opticalMicroscope.OpticalMicroscopeTileEntity;
 import minechem.apparatus.tier1.opticalMicroscope.OpticalMicroscopeTileEntityRenderer;
-import minechem.handler.ResourceReloadListener;
 import minechem.helper.LogHelper;
 import minechem.proxy.CommonProxy;
 import minechem.registry.ItemRegistry;
@@ -53,14 +52,6 @@ public class ClientProxy extends CommonProxy
 
         CentrifugeTileEntityRenderer centrifugeRenderer = new CentrifugeTileEntityRenderer();
         ClientRegistry.bindTileEntitySpecialRenderer(CentrifugeTileEntity.class, centrifugeRenderer);
-    }
-
-    @Override
-    public void registerResourcesListener()
-    {
-        LogHelper.debug("Registering Resource Reload Listener...");
-        ((IReloadableResourceManager) Minecraft.getMinecraft().getResourceManager())
-            .registerReloadListener(new ResourceReloadListener());
     }
 
     /**

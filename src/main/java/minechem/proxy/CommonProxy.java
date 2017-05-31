@@ -45,11 +45,6 @@ public class CommonProxy
         return DimensionManager.getCurrentSaveRootDirectory().getAbsolutePath();
     }
 
-    public void registerResourcesListener()
-    {
-        // NOOP
-    }
-
     public String getCurrentLanguage()
     {
         return "en_US";

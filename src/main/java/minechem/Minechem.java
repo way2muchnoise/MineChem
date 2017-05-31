@@ -1,7 +1,6 @@
 package minechem;
 
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.ModMetadata;
@@ -102,8 +101,6 @@ public class Minechem
     @EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
-        proxy.registerResourcesListener();
-
         LogHelper.info("Minechem has loaded");
     }
 
