@@ -49,69 +49,8 @@ public class ElectrolysisBlock extends BasicBlockContainer
         return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
     }
 
-    /**
-     * Open the GUI on block activation
-     *
-     * @param world  the game world object
-     * @param pos position of the block being hit
-     * @param player the entityplayer object
-     * @param facing   which side was hit
-     * @param hitX   on the side that was hit, the x coordinate
-     * @param hitY   on the side that was hit, the y coordinate
-     * @param hitZ   on the side that was hit, the z coordinate
-     * @return boolean does the block get activated
-     */
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        // @TODO: add "player.capabilities.isCreativeMode" checks before removing/adding items to inventory
-        TileEntity activatedTileEntity = world.getTileEntity(pos);
-        if (activatedTileEntity instanceof ElectrolysisTileEntity)
-        {
-            ElectrolysisTileEntity electrolysis = (ElectrolysisTileEntity) activatedTileEntity;
-            acquireResearch(player, world);
-            if (!player.getHeldItem(hand).isEmpty())
-            {
-                ItemStack clickedItemStack = player.getHeldItem(hand);
-                if (clickedItemStack.getItem() instanceof ChemicalItem)
-                {
-                    ChemicalBase chemicalBase = ChemicalItem.getChemicalBase(clickedItemStack);
-                    if (chemicalBase != null)
-                    {
-                        byte slot = electrolysis.addItem(clickedItemStack);
-                        if (slot != 1)
-                        {
-                            electrolysis.fillWithChemicalBase(chemicalBase, slot);
-                            player.inventory.decrStackSize(player.inventory.currentItem, 1);
-                        }
-
-                    }
-                }
-            } else
-            {
-                ChemicalItem chemItem = null;
-                if (electrolysis.hasRightTube())
-                {
-                    chemItem = electrolysis.removeItem(ElectrolysisTileEntity.RIGHT_SIDE);
-                } else if (electrolysis.hasLeftTube())
-                {
-                    chemItem = electrolysis.removeItem(ElectrolysisTileEntity.LEFT_SIDE);
-                }
-
-                if (chemItem != null)
-                {
-                    if (!player.getHeldItem(hand).isEmpty())
-                    {
-                        if (player.getHeldItem(hand).getItem() instanceof ChemicalItem)
-                        {
-                            // @TODO: attempt to merge held items
-                        }
-                    } else
-                    {
-                        player.inventory.setInventorySlotContents(player.inventory.getFirstEmptyStack(), new ItemStack(chemItem));
-                    }
-                }
-            }
-        }
-        return false;
+    public void openGui(EntityPlayer player, World world, int posX, int posY, int posZ) {
+        super.openGui(player, world, posX, posY, posZ);
     }
 }

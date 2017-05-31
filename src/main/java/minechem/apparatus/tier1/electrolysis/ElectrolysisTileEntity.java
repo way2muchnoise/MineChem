@@ -11,8 +11,6 @@ public class ElectrolysisTileEntity extends BasicFluidInventoryTileEntity
 {
     public static final byte LEFT_SIDE = 0;
     public static final byte RIGHT_SIDE = 1;
-    private boolean leftTube;
-    private boolean rightTube;
 
     public ElectrolysisTileEntity()
     {
@@ -21,16 +19,16 @@ public class ElectrolysisTileEntity extends BasicFluidInventoryTileEntity
 
     public byte addItem(ItemStack chemicalItemStack)
     {
-        if (chemicalItemStack.getItem() != null && chemicalItemStack.getItem() instanceof ChemicalItem)
+        if (!chemicalItemStack.isEmpty()&& chemicalItemStack.getItem() instanceof ChemicalItem)
         {
-            if (this.getStackInSlot(0) == null)
+            if (this.getStackInSlot(LEFT_SIDE) == null)
             {
-                this.setInventorySlotContents(0, chemicalItemStack);
-                return 0;
-            } else if (this.getStackInSlot(1) == null)
+                this.setInventorySlotContents(LEFT_SIDE, chemicalItemStack);
+                return LEFT_SIDE;
+            } else if (this.getStackInSlot(RIGHT_SIDE) == null)
             {
-                this.setInventorySlotContents(1, chemicalItemStack);
-                return 1;
+                this.setInventorySlotContents(RIGHT_SIDE, chemicalItemStack);
+                return RIGHT_SIDE;
             }
         }
         return -1;
@@ -49,13 +47,14 @@ public class ElectrolysisTileEntity extends BasicFluidInventoryTileEntity
      */
     public void fillWithChemicalBase(ChemicalBase chemicalBase, byte side)
     {
+        ItemStack chemicalItemStack = ChemicalItem.getItemStackForChemical(chemicalBase);
         if (side == LEFT_SIDE)
         {
-            leftTube = true;
+            this.setInventorySlotContents(LEFT_SIDE, chemicalItemStack);
         }
         if (side == RIGHT_SIDE)
         {
-            rightTube = true;
+            this.setInventorySlotContents(RIGHT_SIDE, chemicalItemStack);
         }
     }
 
@@ -69,21 +68,19 @@ public class ElectrolysisTileEntity extends BasicFluidInventoryTileEntity
     {
         if (side == LEFT_SIDE)
         {
-            if (this.getStackInSlot(1) != null)
+            if (this.getStackInSlot(LEFT_SIDE) != null && !this.getStackInSlot(LEFT_SIDE).isEmpty())
             {
                 ChemicalItem chemical = (ChemicalItem) getStackInSlot(1).getItem();
-                this.decrStackSize(1, 1);
-                leftTube = false;
+                this.decrStackSize(LEFT_SIDE, 1);
                 return chemical;
             }
         }
         if (side == RIGHT_SIDE)
         {
-            if (this.getStackInSlot(0) != null)
+            if (this.getStackInSlot(RIGHT_SIDE) != null && !this.getStackInSlot(RIGHT_SIDE).isEmpty())
             {
                 ChemicalItem chemical = (ChemicalItem) getStackInSlot(0).getItem();
-                this.decrStackSize(0, 1);
-                rightTube = false;
+                this.decrStackSize(RIGHT_SIDE, 1);
                 return chemical;
             }
         }
@@ -91,7 +88,7 @@ public class ElectrolysisTileEntity extends BasicFluidInventoryTileEntity
     }
 
     public boolean hasLeftTube() {
-        return leftTube;
+        return !getStackInSlot(LEFT_SIDE).isEmpty();
     }
 
     public ChemicalItem getLeftTube()
@@ -108,7 +105,7 @@ public class ElectrolysisTileEntity extends BasicFluidInventoryTileEntity
     }
 
     public boolean hasRightTube() {
-        return rightTube;
+        return !getStackInSlot(RIGHT_SIDE).isEmpty();
     }
 
     public ChemicalItem getRightTube()
