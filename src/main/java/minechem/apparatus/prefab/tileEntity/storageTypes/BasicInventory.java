@@ -1,5 +1,7 @@
 package minechem.apparatus.prefab.tileEntity.storageTypes;
 
+import minechem.apparatus.prefab.tileEntity.BaseTileEntity;
+import minechem.apparatus.prefab.tileEntity.IChangeable;
 import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -11,8 +13,9 @@ import net.minecraftforge.common.util.Constants;
  */
 public class BasicInventory extends InventoryBasic implements INBTWritable {
     private static final String prefix = "minechem:basicinv:";
+    private IChangeable listener = new IChangeable.NoListener();
 
-    public BasicInventory(int inventorySize)
+    public BasicInventory(BaseTileEntity entity, int inventorySize)
     {
         this(inventorySize, "basicInventory");
     }
@@ -20,6 +23,17 @@ public class BasicInventory extends InventoryBasic implements INBTWritable {
     public BasicInventory(int inventorySize, String inventoryName)
     {
         super(inventoryName, true, inventorySize);
+    }
+
+    public BasicInventory setListener(IChangeable changeable) {
+        this.listener = changeable;
+        return this;
+    }
+
+    @Override
+    public void markDirty() {
+        super.markDirty();
+        this.listener.onChange();
     }
 
     @Override

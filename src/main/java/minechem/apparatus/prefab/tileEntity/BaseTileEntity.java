@@ -8,7 +8,7 @@ import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class BaseTileEntity extends TileEntity
+public abstract class BaseTileEntity extends TileEntity implements IChangeable
 {
     protected String name;
     private Map<Capability, Object> caps;
@@ -16,6 +16,11 @@ public abstract class BaseTileEntity extends TileEntity
     public BaseTileEntity(String name) {
         this.name = name;
         caps = new HashMap<>();
+    }
+
+    @Override
+    public void onChange() {
+        markDirty();
     }
 
     public String getName() {

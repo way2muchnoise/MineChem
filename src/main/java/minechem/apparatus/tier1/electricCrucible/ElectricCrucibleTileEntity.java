@@ -17,8 +17,8 @@ public class ElectricCrucibleTileEntity extends BaseTileEntity
     public ElectricCrucibleTileEntity()
     {
         super(Compendium.Naming.electricCrucible);
-        this.inventory = new BasicInventory(2, getName());
-        this.energy = new BasicEnergyStorage(10000);
+        this.inventory = new BasicInventory(2, getName()).setListener(this);
+        this.energy = new BasicEnergyStorage(10000).setListener(this);
         attachCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, new InvWrapper(inventory));
         attachCapability(CapabilityEnergy.ENERGY, this.energy);
     }

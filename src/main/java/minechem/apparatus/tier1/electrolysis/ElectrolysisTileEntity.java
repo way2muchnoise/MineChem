@@ -23,8 +23,8 @@ public class ElectrolysisTileEntity extends BaseTileEntity
     public ElectrolysisTileEntity()
     {
         super(Compendium.Naming.electrolysis);
-        this.inventory = new BasicInventory(2, getName());
-        this.energy = new BasicEnergyStorage(10000);
+        this.inventory = new BasicInventory(2, getName()).setListener(this);
+        this.energy = new BasicEnergyStorage(10000).setListener(this);
         attachCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, new InvWrapper(inventory));
         attachCapability(CapabilityEnergy.ENERGY, this.energy);
     }
@@ -107,11 +107,6 @@ public class ElectrolysisTileEntity extends BaseTileEntity
         return !inventory.getStackInSlot(RIGHT_SIDE).isEmpty();
     }
 
-    /**
-     * Save data to NBT
-     *
-     * @param nbttagcompound
-     */
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbttagcompound)
     {
@@ -121,11 +116,6 @@ public class ElectrolysisTileEntity extends BaseTileEntity
         return nbttagcompound;
     }
 
-    /**
-     * Read saved values from NBT
-     *
-     * @param nbttagcompound
-     */
     @Override
     public void readFromNBT(NBTTagCompound nbttagcompound)
     {
