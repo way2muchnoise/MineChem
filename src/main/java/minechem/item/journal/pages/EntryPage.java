@@ -13,7 +13,7 @@ import net.minecraft.entity.player.EntityPlayer;
 
 public class EntryPage extends JournalPage
 {
-    List<IJournalElement> elements;
+    private List<IJournalElement> elements;
 
     public EntryPage(String page, String chapter, IJournalElement... elements)
     {

@@ -4,6 +4,7 @@ import minechem.helper.LocalizationHelper;
 import net.afterlifelochie.fontbox.api.data.FormattedString;
 import net.afterlifelochie.fontbox.document.Element;
 import net.afterlifelochie.fontbox.document.Heading;
+import net.afterlifelochie.fontbox.document.Link;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class JournalHeader extends JournalElement
@@ -19,22 +20,34 @@ public class JournalHeader extends JournalElement
     @Override
     public Element getElement(EntityPlayer player)
     {
-        return getElement(0);
+        return getHeading();
     }
 
     @Override
     public Element getElement(String[] keys)
     {
-        return getElement(0);
+        return getHeading();
     }
 
-    public Element getElement(int indent)
+    public Element getHeading() {
+        return new Heading(getKey(), getString(0));
+    }
+
+    public Element getLink(int indent) {
+        return new Link(getString(indent), getKey());
+    }
+
+    public Element getHeadingOrLink(int indent) {
+        return indent == 0 ? getHeading() : getLink(indent);
+    }
+
+    private FormattedString getString(int indent)
     {
         String sIndent = "";
         for (int i = 0; i < indent; i++)
         {
             sIndent += "--";
         }
-        return new Heading(getKey(), new FormattedString(sIndent + " " + LocalizationHelper.getLocalString(titleKey)));
+        return new FormattedString(sIndent + " " + LocalizationHelper.getLocalString(titleKey));
     }
 }

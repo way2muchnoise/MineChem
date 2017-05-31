@@ -84,7 +84,7 @@ public class RenderHelper extends net.minecraft.client.renderer.RenderHelper
         vertexBuffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
         vertexBuffer.pos(x, y + h, z).tex(u * textScale, (v + h) * textScale).endVertex();
         vertexBuffer.pos(x + w, y + h, z).tex((u + w) * textScale, (v + h) * textScale).endVertex();
-        vertexBuffer.pos(x + w, y, z).tex((u + w) * textScale, y * textScale).endVertex();
+        vertexBuffer.pos(x + w, y, z).tex((u + w) * textScale, v * textScale).endVertex();
         vertexBuffer.pos(x, y, z).tex(u * textScale, v * textScale).endVertex();
         tessellator.draw();
     }
@@ -110,7 +110,7 @@ public class RenderHelper extends net.minecraft.client.renderer.RenderHelper
         vertexBuffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
         vertexBuffer.pos(x, y + h, z).tex(u * textScale, (v + h) * textScale).endVertex();
         vertexBuffer.pos(x + w, y + h, z).tex((u + w) * textScale, (v + h) * textScale).endVertex();
-        vertexBuffer.pos(x + w, y, z).tex((u + w) * textScale, y * textScale).endVertex();
+        vertexBuffer.pos(x + w, y, z).tex((u + w) * textScale, v * textScale).endVertex();
         vertexBuffer.pos(x, y, z).tex(u * textScale, v * textScale).endVertex();
         tessellator.draw();
     }

@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.GlStateManager;
 public class JournalProperties implements IBookProperties {
 
     private int ptr = -1;
+    private int lastPage = -1;
 
     @Override
     public PageProperties getPageProperties() {
@@ -32,20 +33,29 @@ public class JournalProperties implements IBookProperties {
     }
 
     @Override
-    public void onPageChanged(GuiScreen gui, int whatPtr) {
-
+    public void onPageChanged(GuiScreen gui, int whatPtr, int lastPointer) {
+        ptr = whatPtr;
+        lastPage = lastPointer;
     }
 
     @Override
     public void drawBackground(int width, int height, int mx, int my, float frame, float zLevel) {
-        GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
-        GlStateManager.translate(width / 2 - 128, height / 2 - 94, 0.0f);
         RenderHelper.bindTexture(Compendium.Resource.GUI.journal);
-        drawJournalBackground();
+        RenderHelper.drawTexturedRectUV(0, 0, 0, 0, 0, 256, 188);
         if (ptr != -1)
         {
             drawFoldedPages(ptr);
         }
+    }
+
+    @Override
+    public int getBookHeight() {
+        return 188;
+    }
+
+    @Override
+    public int getBookWidth() {
+        return 256;
     }
 
     @Override
@@ -55,21 +65,15 @@ public class JournalProperties implements IBookProperties {
 
     private void drawFoldedPages(int ptr)
     {
-        //if (ptr > 1)
+        if (ptr > 1)
         {
             // Draw folded page on the left
             RenderHelper.drawTexturedRectUV(5, 163, 2, 0, 188, 21, 21);
         }
-        //if (ptr + 2 < pages.size())
+        if (ptr + 1 < lastPage)
         {
             // Draw folded page on the right
             RenderHelper.drawTexturedRectUV(230, 160, 2, 21, 188, 21, 21);
         }
     }
-
-    private void drawJournalBackground()
-    {
-        RenderHelper.drawTexturedRectUV(0, 0, 0, 0, 0, 256, 188);
-    }
-
 }

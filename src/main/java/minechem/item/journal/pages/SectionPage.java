@@ -13,16 +13,17 @@ import net.afterlifelochie.fontbox.api.layout.IElement;
 import net.afterlifelochie.fontbox.document.CompilerHintElement;
 import net.afterlifelochie.fontbox.document.Element;
 import net.afterlifelochie.fontbox.document.Heading;
+import net.afterlifelochie.fontbox.document.Link;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class SectionPage extends JournalPage
 {
-    private final Map<String, IJournalPage> pages = new LinkedHashMap<String, IJournalPage>();
-    JournalHeader heading;
+    private final Map<String, IJournalPage> pages = new LinkedHashMap<>();
+    private JournalHeader heading;
 
     public SectionPage(String page)
     {
-        this(page, new ArrayList<IJournalPage>());
+        this(page, new ArrayList<>());
     }
 
     public SectionPage(String page, List<IJournalPage> pageList)
@@ -87,7 +88,7 @@ public class SectionPage extends JournalPage
 
     public List<Element> getPageElements(EntityPlayer player)
     {
-        List<Element> result = new ArrayList<Element>();
+        List<Element> result = new ArrayList<>();
         for (IJournalPage page : pages.values())
         {
             if (page.isUnlocked(player))
@@ -183,7 +184,7 @@ public class SectionPage extends JournalPage
     public List<IElement> getIndexPage(String[] keys, int indent)
     {
         List<IElement> result = new ArrayList<>();
-        result.add(heading.getElement(indent));
+        result.add(heading.getHeadingOrLink(indent));
         if (indent > 1)
         {
             return result;
@@ -202,7 +203,7 @@ public class SectionPage extends JournalPage
                     {
                         sIndent += "--";
                     }
-                    result.add(new Heading(page.getPageKey(), new FormattedString(sIndent + " " + page.getPageName())));
+                    result.add(new Link(new FormattedString(sIndent + " " + page.getPageName()), page.getPageKey()));
                 }
             }
         }
@@ -212,7 +213,7 @@ public class SectionPage extends JournalPage
     public List<IElement> getIndexPage(EntityPlayer player, int indent)
     {
         List<IElement> result = new ArrayList<>();
-        result.add(heading.getElement(indent));
+        result.add(heading.getHeadingOrLink(indent));
         if (indent > 1)
         {
             return result;
@@ -231,7 +232,7 @@ public class SectionPage extends JournalPage
                     {
                         sIndent += "--";
                     }
-                    result.add(new Heading(page.getPageKey(), new FormattedString(sIndent + " " + page.getPageName())));
+                    result.add(new Link(new FormattedString(sIndent + " " + page.getPageName()), page.getPageKey()));
                 }
             }
         }
