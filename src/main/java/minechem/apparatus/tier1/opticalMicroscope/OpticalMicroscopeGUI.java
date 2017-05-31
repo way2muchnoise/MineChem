@@ -50,7 +50,7 @@ public class OpticalMicroscopeGUI extends BasicGuiContainer
         GlStateManager.disableBlend();
         drawTexturedModalRect(eyePieceX, eyePieceY, 176, eyePieceH, eyePieceH, eyePieceW);
         GlStateManager.enableBlend();
-        renderItem.renderItemAndEffectIntoGUI(opticalMicroscope.getStackInSlot(0), mouseX, mouseY, this.zLevel);
+        renderItem.renderItemAndEffectIntoGUI(opticalMicroscope.getInventory().getStackInSlot(0), mouseX, mouseY, this.zLevel);
         renderItem.renderItemAndEffectIntoGUI(getContainer().getInventoryPlayer().getItemStack(), mouseX, mouseY, this.zLevel);
         Minecraft.getMinecraft().renderEngine.bindTexture(texture);
         drawTexturedModalRect(eyePieceX, eyePieceY, 176, 0, eyePieceH, eyePieceW);
@@ -59,7 +59,7 @@ public class OpticalMicroscopeGUI extends BasicGuiContainer
 
     private void drawInfo()
     {
-        Slot slot = inventorySlots.getSlotFromInventory(opticalMicroscope, 0);
+        Slot slot = inventorySlots.getSlotFromInventory(opticalMicroscope.getInventory(), 0);
         if (slot.getHasStack())
         {
             ItemStack itemStack = slot.getStack();

@@ -9,7 +9,7 @@ import net.minecraftforge.fluids.capability.IFluidTankProperties;
 /**
  * Implementation of a basic single fluid type tank
  */
-public class BasicFluidTank implements IFluidHandler
+public class BasicFluidTank implements IFluidHandler, INBTWritable
 {
     public FluidTank tank;
 
@@ -89,10 +89,12 @@ public class BasicFluidTank implements IFluidHandler
         return tank.getTankProperties();
     }
 
+    @Override
     public void writeToNBT(NBTTagCompound nbttagcompound) {
         tank.writeToNBT(nbttagcompound);
     }
 
+    @Override
     public void readFromNBT(NBTTagCompound nbttagcompound) {
         tank.readFromNBT(nbttagcompound);
     }

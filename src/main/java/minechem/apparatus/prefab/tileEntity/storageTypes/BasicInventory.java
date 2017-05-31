@@ -9,8 +9,7 @@ import net.minecraftforge.common.util.Constants;
 /**
  * Defines basic properties for TileEntities
  */
-public class BasicInventory extends InventoryBasic
-{
+public class BasicInventory extends InventoryBasic implements INBTWritable {
     private static final String prefix = "minechem:basicinv:";
 
     public BasicInventory(int inventorySize)
@@ -23,6 +22,7 @@ public class BasicInventory extends InventoryBasic
         super(inventoryName, true, inventorySize);
     }
 
+    @Override
     public void writeToNBT(NBTTagCompound tagCompound) {
         NBTTagList nbttaglist = new NBTTagList();
         for (int i = 0; i < getSizeInventory(); i++)
@@ -35,6 +35,7 @@ public class BasicInventory extends InventoryBasic
         tagCompound.setTag(prefix + getName(), nbttaglist);
     }
 
+    @Override
     public void readFromNBT(NBTTagCompound nbttagcompound) {
         NBTTagList nbttaglist = nbttagcompound.getTagList( prefix + getName(), Constants.NBT.TAG_COMPOUND);
         for (int i = 0; i < getSizeInventory(); i++)

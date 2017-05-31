@@ -1,33 +1,45 @@
 package minechem.apparatus.tier1.electrolysis;
 
 import minechem.Compendium;
-import minechem.apparatus.prefab.tileEntity.BasicFluidInventoryTileEntity;
+import minechem.apparatus.prefab.tileEntity.BaseTileEntity;
+import minechem.apparatus.prefab.tileEntity.storageTypes.BasicEnergyStorage;
+import minechem.apparatus.prefab.tileEntity.storageTypes.BasicInventory;
 import minechem.chemical.ChemicalBase;
 import minechem.item.chemical.ChemicalItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.wrapper.InvWrapper;
 
-public class ElectrolysisTileEntity extends BasicFluidInventoryTileEntity
+public class ElectrolysisTileEntity extends BaseTileEntity
 {
     public static final byte LEFT_SIDE = 0;
     public static final byte RIGHT_SIDE = 1;
 
+    private BasicInventory inventory;
+    private BasicEnergyStorage energy;
+
     public ElectrolysisTileEntity()
     {
-        super(Compendium.Naming.electrolysis, 2, 3);
+        super(Compendium.Naming.electrolysis);
+        this.inventory = new BasicInventory(2, getName());
+        this.energy = new BasicEnergyStorage(10000);
+        attachCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, new InvWrapper(inventory));
+        attachCapability(CapabilityEnergy.ENERGY, this.energy);
     }
 
     public byte addItem(ItemStack chemicalItemStack)
     {
         if (!chemicalItemStack.isEmpty()&& chemicalItemStack.getItem() instanceof ChemicalItem)
         {
-            if (this.getStackInSlot(LEFT_SIDE) == null)
+            if (inventory.getStackInSlot(LEFT_SIDE).isEmpty())
             {
-                this.setInventorySlotContents(LEFT_SIDE, chemicalItemStack);
+                inventory.setInventorySlotContents(LEFT_SIDE, chemicalItemStack);
                 return LEFT_SIDE;
-            } else if (this.getStackInSlot(RIGHT_SIDE) == null)
+            } else if (inventory.getStackInSlot(RIGHT_SIDE).isEmpty())
             {
-                this.setInventorySlotContents(RIGHT_SIDE, chemicalItemStack);
+                inventory.setInventorySlotContents(RIGHT_SIDE, chemicalItemStack);
                 return RIGHT_SIDE;
             }
         }
@@ -50,11 +62,11 @@ public class ElectrolysisTileEntity extends BasicFluidInventoryTileEntity
         ItemStack chemicalItemStack = ChemicalItem.getItemStackForChemical(chemicalBase);
         if (side == LEFT_SIDE)
         {
-            this.setInventorySlotContents(LEFT_SIDE, chemicalItemStack);
+            inventory.setInventorySlotContents(LEFT_SIDE, chemicalItemStack);
         }
         if (side == RIGHT_SIDE)
         {
-            this.setInventorySlotContents(RIGHT_SIDE, chemicalItemStack);
+            inventory.setInventorySlotContents(RIGHT_SIDE, chemicalItemStack);
         }
     }
 
@@ -68,19 +80,19 @@ public class ElectrolysisTileEntity extends BasicFluidInventoryTileEntity
     {
         if (side == LEFT_SIDE)
         {
-            if (this.getStackInSlot(LEFT_SIDE) != null && !this.getStackInSlot(LEFT_SIDE).isEmpty())
+            if (!inventory.getStackInSlot(LEFT_SIDE).isEmpty())
             {
-                ChemicalItem chemical = (ChemicalItem) getStackInSlot(1).getItem();
-                this.decrStackSize(LEFT_SIDE, 1);
+                ChemicalItem chemical = (ChemicalItem) inventory.getStackInSlot(1).getItem();
+                inventory.decrStackSize(LEFT_SIDE, 1);
                 return chemical;
             }
         }
         if (side == RIGHT_SIDE)
         {
-            if (this.getStackInSlot(RIGHT_SIDE) != null && !this.getStackInSlot(RIGHT_SIDE).isEmpty())
+            if (!inventory.getStackInSlot(RIGHT_SIDE).isEmpty())
             {
-                ChemicalItem chemical = (ChemicalItem) getStackInSlot(0).getItem();
-                this.decrStackSize(RIGHT_SIDE, 1);
+                ChemicalItem chemical = (ChemicalItem) inventory.getStackInSlot(0).getItem();
+                inventory.decrStackSize(RIGHT_SIDE, 1);
                 return chemical;
             }
         }
@@ -88,37 +100,11 @@ public class ElectrolysisTileEntity extends BasicFluidInventoryTileEntity
     }
 
     public boolean hasLeftTube() {
-        return !getStackInSlot(LEFT_SIDE).isEmpty();
-    }
-
-    public ChemicalItem getLeftTube()
-    {
-        ItemStack itemStack = decrStackSize(LEFT_SIDE, 1);
-        if (itemStack != null)
-        {
-            if (itemStack.getItem() instanceof ChemicalItem)
-            {
-                return (ChemicalItem) itemStack.getItem();
-            }
-        }
-        return null;
+        return !inventory.getStackInSlot(LEFT_SIDE).isEmpty();
     }
 
     public boolean hasRightTube() {
-        return !getStackInSlot(RIGHT_SIDE).isEmpty();
-    }
-
-    public ChemicalItem getRightTube()
-    {
-        ItemStack itemStack = decrStackSize(RIGHT_SIDE, 1);
-        if (itemStack != null)
-        {
-            if (itemStack.getItem() instanceof ChemicalItem)
-            {
-                return (ChemicalItem) itemStack.getItem();
-            }
-        }
-        return null;
+        return !inventory.getStackInSlot(RIGHT_SIDE).isEmpty();
     }
 
     /**
@@ -130,6 +116,8 @@ public class ElectrolysisTileEntity extends BasicFluidInventoryTileEntity
     public NBTTagCompound writeToNBT(NBTTagCompound nbttagcompound)
     {
         super.writeToNBT(nbttagcompound);
+        inventory.writeToNBT(nbttagcompound);
+        energy.writeToNBT(nbttagcompound);
         return nbttagcompound;
     }
 
@@ -142,5 +130,7 @@ public class ElectrolysisTileEntity extends BasicFluidInventoryTileEntity
     public void readFromNBT(NBTTagCompound nbttagcompound)
     {
         super.readFromNBT(nbttagcompound);
+        inventory.readFromNBT(nbttagcompound);
+        energy.readFromNBT(nbttagcompound);
     }
 }

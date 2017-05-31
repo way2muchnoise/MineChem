@@ -27,7 +27,7 @@ public class MicroscopeRenderItem
         GlStateManager.pushMatrix();
         RenderHelper.setScissor(microscopeGui.getXSize(), microscopeGui.getYSize(), OpticalMicroscopeGUI.eyePieceX, OpticalMicroscopeGUI.eyePieceY, OpticalMicroscopeGUI.eyePieceW, OpticalMicroscopeGUI.eyePieceH);
 
-        Slot slot = microscopeGui.inventorySlots.getSlotFromInventory(microscopeGui.opticalMicroscope, 0);
+        Slot slot = microscopeGui.inventorySlots.getSlotFromInventory(microscopeGui.opticalMicroscope.getInventory(), 0);
         if (slot!= null && !slot.getStack().isEmpty())
         {
             GlStateManager.pushMatrix();
