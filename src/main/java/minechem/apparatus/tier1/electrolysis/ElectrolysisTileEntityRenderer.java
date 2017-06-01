@@ -17,10 +17,8 @@ public class ElectrolysisTileEntityRenderer extends BasicTileEntityRenderer<Elec
     }
 
     public void applyChangesToModel(ElectrolysisTileEntity tileEntity) {
-        if (tileEntity != null) {
-            model.setLeftTube(tileEntity.hasLeftTube());
-            model.setRightTube(tileEntity.hasRightTube());
-        }
+        model.setLeftTube(true);
+        model.setRightTube(true);
     }
 
 }

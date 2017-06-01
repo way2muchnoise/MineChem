@@ -7,6 +7,7 @@ import minechem.registry.BlockRegistry;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 
 public class ElectricCrucibleTileEntity extends BaseTileEntity
 {
@@ -19,7 +20,7 @@ public class ElectricCrucibleTileEntity extends BaseTileEntity
         this.inventoryIn = new BasicInventory(1, "insert").setListener(this);
         this.inventoryOut = new BasicInventory(6, "extract").setListener(this);
         this.energy = new BasicEnergyStorage(10000).setListener(this);
-        attachCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, inventoryIn.asCapability());
+        attachCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, new CombinedInvWrapper(inventoryIn.asCapability(), inventoryOut.asCapability()));
         attachCapability(CapabilityEnergy.ENERGY, this.energy);
     }
 

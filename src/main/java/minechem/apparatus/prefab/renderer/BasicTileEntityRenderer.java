@@ -45,10 +45,9 @@ public abstract class BasicTileEntityRenderer<T extends BaseTileEntity, M extend
         float rotation = (tileEntity == null ? 0: tileEntity.getBlockMetadata()) * 90.0F;
         GlStateManager.pushMatrix();
 
-        RenderHelper.disableStandardItemLighting();
-        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GlStateManager.enableRescaleNormal();
         GlStateManager.enableBlend();
-        GlStateManager.disableCull();
+        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         if (Minecraft.isAmbientOcclusionEnabled()) GlStateManager.shadeModel(GL11.GL_SMOOTH);
         else GlStateManager.shadeModel(GL11.GL_FLAT);
 
@@ -61,7 +60,9 @@ public abstract class BasicTileEntityRenderer<T extends BaseTileEntity, M extend
         applyChangesToModel(tileEntity);
         model.render(this.rotation);
 
-        RenderHelper.enableStandardItemLighting();
+        GlStateManager.disableBlend();
+        GlStateManager.disableRescaleNormal();
+
         GlStateManager.popMatrix();
     }
 
