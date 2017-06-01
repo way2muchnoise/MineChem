@@ -10,20 +10,25 @@ import net.minecraftforge.items.CapabilityItemHandler;
 
 public class ElectricCrucibleTileEntity extends BaseTileEntity
 {
-    private BasicInventory inventory;
+    private BasicInventory inventoryIn, inventoryOut;
     private BasicEnergyStorage energy;
 
     public ElectricCrucibleTileEntity()
     {
         super(BlockRegistry.electricCrucibleBlock);
-        this.inventory = new BasicInventory(2, getName()).setListener(this);
+        this.inventoryIn = new BasicInventory(1, "insert").setListener(this);
+        this.inventoryOut = new BasicInventory(6, "extract").setListener(this);
         this.energy = new BasicEnergyStorage(10000).setListener(this);
-        attachCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, inventory.asCapability());
+        attachCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, inventoryIn.asCapability());
         attachCapability(CapabilityEnergy.ENERGY, this.energy);
     }
 
-    public BasicInventory getInventory() {
-        return inventory;
+    public BasicInventory getInventoryIn() {
+        return inventoryIn;
+    }
+
+    public BasicInventory getInventoryOut() {
+        return inventoryOut;
     }
 
     public BasicEnergyStorage getEnergy() {
@@ -33,14 +38,16 @@ public class ElectricCrucibleTileEntity extends BaseTileEntity
     @Override
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
-        inventory.readFromNBT(compound);
+        inventoryIn.readFromNBT(compound);
+        inventoryOut.readFromNBT(compound);
         energy.readFromNBT(compound);
     }
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
-        inventory.writeToNBT(compound);
+        inventoryIn.writeToNBT(compound);
+        inventoryOut.writeToNBT(compound);
         energy.writeToNBT(compound);
         return compound;
     }

@@ -2,6 +2,7 @@ package minechem.apparatus.tier1.electricCrucible;
 
 import minechem.Compendium;
 import minechem.apparatus.prefab.block.BasicBlockContainer;
+import minechem.handler.GuiHandler;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -42,5 +43,10 @@ public class ElectricCrucibleBlock extends BasicBlockContainer
     @Override
     public EnumBlockRenderType getRenderType(IBlockState state) {
         return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
+    }
+
+    @Override
+    public int getGuiId() {
+        return GuiHandler.ELECTRIC_CRUCIBLE;
     }
 }

@@ -47,6 +47,7 @@ public class CentrifugeTileEntity extends BaseTileEntity implements ITickable
     {
         super.writeToNBT(nbttagcompound);
         inventoryIn.writeToNBT(nbttagcompound);
+        inventoryOut.writeToNBT(nbttagcompound);
         energy.writeToNBT(nbttagcompound);
         return nbttagcompound;
     }
@@ -56,6 +57,7 @@ public class CentrifugeTileEntity extends BaseTileEntity implements ITickable
     {
         super.readFromNBT(nbttagcompound);
         inventoryIn.readFromNBT(nbttagcompound);
+        inventoryOut.readFromNBT(nbttagcompound);
         energy.readFromNBT(nbttagcompound);
     }
 }
