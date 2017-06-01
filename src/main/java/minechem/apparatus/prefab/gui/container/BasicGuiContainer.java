@@ -66,9 +66,13 @@ public abstract class BasicGuiContainer extends GuiContainer
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
+        if (texture != null) {
+            bindTexture(texture);
+            drawTexturedModalRect(guiLeft, guiTop, 0, 0,176, 166);
+        }
         for (GuiElement element : elements) {
             GlStateManager.pushMatrix();
-            element.draw(guiLeft, guiTop, mouseX, mouseY);
+            element.drawBackground(guiLeft, guiTop, mouseX, mouseY);
             GlStateManager.popMatrix();
         }
     }
@@ -77,5 +81,10 @@ public abstract class BasicGuiContainer extends GuiContainer
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
         drawString(fontRenderer, LocalizationHelper.getLocalString(name), 5, 5, Compendium.Color.TrueColor.white);
+        for (GuiElement element : elements) {
+            GlStateManager.pushMatrix();
+            element.drawForeground(guiLeft, guiTop, mouseX, mouseY);
+            GlStateManager.popMatrix();
+        }
     }
 }

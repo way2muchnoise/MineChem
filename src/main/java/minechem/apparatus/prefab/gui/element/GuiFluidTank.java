@@ -61,7 +61,7 @@ public class GuiFluidTank extends GuiElement
     }
 
     @Override
-    public void draw(int guiLeft, int guiTop, int mouseX, int mouseY)
+    public void drawBackground(int guiLeft, int guiTop, int mouseX, int mouseY)
     {
         GlStateManager.disableLighting();
         GlStateManager.color(ColourHelper.getRed(colour), ColourHelper.getGreen(colour), ColourHelper.getBlue(colour));
@@ -107,14 +107,19 @@ public class GuiFluidTank extends GuiElement
         bindTexture(Compendium.Resource.GUI.guiElements);
         drawTexturedModalRectScaled(guiLeft + posX + 1, guiTop + posY + 1, 19, 1, 16, 37, width - 2, height - 2);
 
-        drawTooltip(guiLeft, guiTop, mouseX, mouseY);
-
         GlStateManager.enableLighting();
+    }
+
+    @Override
+    public void drawForeground(int guiLeft, int guiTop, int mouseX, int mouseY) {
+        drawTooltip(guiLeft, guiTop, mouseX, mouseY);
     }
 
     public void drawTooltip(int guiLeft, int guiTop, int mouseX, int mouseY)
     {
-        if (!mouseInElement(mouseX - guiLeft, mouseY - guiTop))
+        mouseX -= guiLeft;
+        mouseY -= guiTop;
+        if (!mouseInElement(mouseX, mouseY))
         {
             return;
         }

@@ -24,11 +24,4 @@ public class CentrifugeGUI extends BasicGuiContainer {
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
         // TODO arrow
     }
-
-    @Override
-    protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-        bindTexture(texture);
-        drawTexturedModalRect(guiLeft, guiTop, 0, 0,176, 166);
-        super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
-    }
 }

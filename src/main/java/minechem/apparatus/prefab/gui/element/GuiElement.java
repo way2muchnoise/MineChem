@@ -40,13 +40,24 @@ public abstract class GuiElement extends Gui
     }
 
     /**
-     * Draw the element at the given location
-     *  @param guiLeft the absolute x pos of the parent gui
+     * Draw the element background at the given location
+     *
+     * @param guiLeft the absolute x pos of the parent gui
      * @param guiTop  the absolute y pos of the parent gui
      * @param mouseX
      * @param mouseY
      */
-    public abstract void draw(int guiLeft, int guiTop, int mouseX, int mouseY);
+    public abstract void drawBackground(int guiLeft, int guiTop, int mouseX, int mouseY);
+
+    /**
+     * Draw the element foreground at the given location
+     *
+     * @param guiLeft the absolute x pos of the parent gui
+     * @param guiTop  the absolute y pos of the parent gui
+     * @param mouseX
+     * @param mouseY
+     */
+    public abstract void drawForeground(int guiLeft, int guiTop, int mouseX, int mouseY);
 
     /**
      * Shorthand for binding a Resource

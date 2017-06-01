@@ -6,7 +6,7 @@ language.code=en_US
 
 chemical.unknown=Unknown Chemical
 chemical.formula=Formula
-chemical.state=State
+chemical.form=Form
 chemical.neutrons=Neutrons
 chemical.structure=Structure
 

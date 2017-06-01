@@ -3,6 +3,7 @@ package minechem.apparatus.tier1.electrolysis;
 import minechem.Compendium;
 import minechem.apparatus.prefab.block.BasicBlockContainer;
 import minechem.chemical.ChemicalBase;
+import minechem.handler.GuiHandler;
 import minechem.item.chemical.ChemicalItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -47,5 +48,10 @@ public class ElectrolysisBlock extends BasicBlockContainer
     @Override
     public EnumBlockRenderType getRenderType(IBlockState state) {
         return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
+    }
+
+    @Override
+    public int getGuiId() {
+        return GuiHandler.ELECTROLYSIS;
     }
 }

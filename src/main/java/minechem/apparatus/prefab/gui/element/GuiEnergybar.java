@@ -41,7 +41,7 @@ public class GuiEnergybar extends GuiElement {
 
 
     @Override
-    public void draw(int guiLeft, int guiTop, int mouseX, int mouseY) {
+    public void drawBackground(int guiLeft, int guiTop, int mouseX, int mouseY) {
         GlStateManager.color(ColourHelper.getRed(colour), ColourHelper.getGreen(colour), ColourHelper.getBlue(colour));
 
         bindTexture(Compendium.Resource.GUI.guiElements);
@@ -53,13 +53,18 @@ public class GuiEnergybar extends GuiElement {
             float height = 1.0F * this.height / energyStorage.getEnergyStored() * energyStorage.getEnergyStored();
             drawTexturedModalRectScaled(guiLeft + posX, guiTop + posY + this.height - height, 0, 0,18, 39, width, MathHelper.ceil(height));
         }
+    }
 
+    @Override
+    public void drawForeground(int guiLeft, int guiTop, int mouseX, int mouseY) {
         drawTooltip(guiLeft, guiTop, mouseX, mouseY);
     }
 
     public void drawTooltip(int guiLeft, int guiTop, int mouseX, int mouseY)
     {
-        if (!mouseInElement(mouseX - guiLeft, mouseY - guiTop))
+        mouseX -= guiLeft;
+        mouseY -= guiTop;
+        if (!mouseInElement(mouseX, mouseY))
         {
             return;
         }

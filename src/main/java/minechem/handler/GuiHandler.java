@@ -6,6 +6,9 @@ import minechem.apparatus.tier1.centrifuge.CentrifugeTileEntity;
 import minechem.apparatus.tier1.electricCrucible.ElectricCrucibleContainer;
 import minechem.apparatus.tier1.electricCrucible.ElectricCrucibleGUI;
 import minechem.apparatus.tier1.electricCrucible.ElectricCrucibleTileEntity;
+import minechem.apparatus.tier1.electrolysis.ElectrolysisContainer;
+import minechem.apparatus.tier1.electrolysis.ElectrolysisGUI;
+import minechem.apparatus.tier1.electrolysis.ElectrolysisTileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import minechem.apparatus.tier1.opticalMicroscope.OpticalMicroscopeContainer;
@@ -44,6 +47,8 @@ public class GuiHandler implements IGuiHandler
                     return new OpticalMicroscopeGUI(player.inventory, (OpticalMicroscopeTileEntity) tileEntity);
                 case CENTRIFUGE:
                     return new CentrifugeGUI(player.inventory, (CentrifugeTileEntity) tileEntity);
+                case ELECTROLYSIS:
+                    return new ElectrolysisGUI(player.inventory, (ElectrolysisTileEntity) tileEntity);
                 case ELECTRIC_CRUCIBLE:
                     return new ElectricCrucibleGUI(player.inventory, (ElectricCrucibleTileEntity) tileEntity);
             }
@@ -73,6 +78,8 @@ public class GuiHandler implements IGuiHandler
                     return new OpticalMicroscopeContainer(player.inventory, (OpticalMicroscopeTileEntity) tileEntity);
                 case CENTRIFUGE:
                     return new CentrifugeContainer(player.inventory, (CentrifugeTileEntity) tileEntity);
+                case ELECTROLYSIS:
+                    return new ElectrolysisContainer(player.inventory, (ElectrolysisTileEntity) tileEntity);
                 case ELECTRIC_CRUCIBLE:
                     return new ElectricCrucibleContainer(player.inventory, (ElectricCrucibleTileEntity) tileEntity);
             }
