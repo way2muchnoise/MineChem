@@ -1,7 +1,10 @@
 package minechem.apparatus.prefab.tileEntity;
 
+import minechem.apparatus.prefab.block.BasicBlockContainer;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.common.capabilities.Capability;
 
 import javax.annotation.Nullable;
@@ -13,8 +16,8 @@ public abstract class BaseTileEntity extends TileEntity implements IChangeable
     protected String name;
     private Map<Capability, Object> caps;
 
-    public BaseTileEntity(String name) {
-        this.name = name;
+    public BaseTileEntity(BasicBlockContainer block) {
+        this.name = block.getLocalizedName();
         caps = new HashMap<>();
     }
 
@@ -25,6 +28,16 @@ public abstract class BaseTileEntity extends TileEntity implements IChangeable
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public NBTTagCompound getUpdateTag() {
+        return writeToNBT(new NBTTagCompound());
+    }
+
+    @Override
+    public void handleUpdateTag(NBTTagCompound tag) {
+        readFromNBT(tag);
     }
 
     public <T, V extends T> void attachCapability(Capability<T> cap, V data) {

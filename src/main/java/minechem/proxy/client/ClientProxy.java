@@ -23,6 +23,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.relauncher.Side;
 import org.apache.logging.log4j.Level;
 
 public class ClientProxy extends CommonProxy
@@ -67,13 +68,21 @@ public class ClientProxy extends CommonProxy
     @Override
     public World getWorld(MessageContext context)
     {
-        return Minecraft.getMinecraft().world;
+        if (context.side == Side.CLIENT) {
+            return Minecraft.getMinecraft().world;
+        } else {
+            return super.getWorld(context);
+        }
     }
 
     @Override
     public EntityPlayer getPlayer(MessageContext context)
     {
-        return Minecraft.getMinecraft().player;
+        if (context.side == Side.CLIENT) {
+            return Minecraft.getMinecraft().player;
+        } else {
+            return super.getPlayer(context);
+        }
     }
 
     @Override

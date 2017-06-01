@@ -1,10 +1,13 @@
 package minechem.apparatus.tier1.centrifuge;
 
 import minechem.Compendium;
+import minechem.Minechem;
 import minechem.apparatus.prefab.block.BasicBlockContainer;
+import minechem.handler.GuiHandler;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
@@ -28,6 +31,11 @@ public class CentrifugeBlock extends BasicBlockContainer
     public TileEntity createNewTileEntity(World world, int meta)
     {
         return new CentrifugeTileEntity();
+    }
+
+    @Override
+    public int getGuiId() {
+        return GuiHandler.CENTRIFUGE;
     }
 
     @Override

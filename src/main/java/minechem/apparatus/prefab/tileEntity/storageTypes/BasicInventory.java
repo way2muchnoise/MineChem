@@ -7,6 +7,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.items.IItemHandlerModifiable;
+import net.minecraftforge.items.wrapper.InvWrapper;
 
 /**
  * Defines basic properties for TileEntities
@@ -34,6 +36,10 @@ public class BasicInventory extends InventoryBasic implements INBTWritable {
     public void markDirty() {
         super.markDirty();
         this.listener.onChange();
+    }
+
+    public IItemHandlerModifiable asCapability() {
+        return new InvWrapper(this);
     }
 
     @Override

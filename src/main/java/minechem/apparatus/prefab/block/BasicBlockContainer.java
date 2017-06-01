@@ -2,6 +2,8 @@ package minechem.apparatus.prefab.block;
 
 import java.util.ArrayList;
 import minechem.Compendium;
+import minechem.Minechem;
+import minechem.handler.GuiHandler;
 import minechem.helper.AchievementHelper;
 import minechem.helper.ItemHelper;
 import minechem.helper.ResearchHelper;
@@ -89,7 +91,7 @@ public abstract class BasicBlockContainer extends BlockContainer
      *
      * @param world    the world object
      * @param pos      the x,y,z position
-     * @param state     the state of the block being broken
+     * @param state     the form of the block being broken
      */
     @Override
     public void breakBlock(World world, BlockPos pos, IBlockState state) {
@@ -176,7 +178,14 @@ public abstract class BasicBlockContainer extends BlockContainer
     }
 
     public void openGui(EntityPlayer player, World world, int posX, int posY, int posZ) {
+        int guiId = getGuiId();
+        if (guiId != -1) {
+            player.openGui(Minechem.INSTANCE, guiId, world, posX, posY, posZ);
+        }
+    }
 
+    public int getGuiId() {
+        return -1;
     }
 
     /**

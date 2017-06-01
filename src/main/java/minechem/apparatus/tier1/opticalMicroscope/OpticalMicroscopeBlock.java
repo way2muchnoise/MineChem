@@ -1,13 +1,11 @@
 package minechem.apparatus.tier1.opticalMicroscope;
 
-import minechem.Minechem;
-import minechem.apparatus.prefab.block.BasicBlockContainer;
 import minechem.Compendium;
+import minechem.apparatus.prefab.block.BasicBlockContainer;
 import minechem.handler.GuiHandler;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.world.World;
@@ -27,8 +25,8 @@ public class OpticalMicroscopeBlock extends BasicBlockContainer
     }
 
     @Override
-    public void openGui(EntityPlayer player, World world, int posX, int posY, int posZ) {
-        player.openGui(Minechem.INSTANCE, GuiHandler.MICROSCOPE, world, posX, posY, posZ);
+    public int getGuiId() {
+        return GuiHandler.MICROSCOPE;
     }
 
     @Override

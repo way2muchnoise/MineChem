@@ -4,6 +4,11 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
+import minechem.chemical.ChemicalBase;
+import minechem.chemical.Molecule;
+import minechem.item.journal.pages.JournalPage;
+import minechem.item.journal.pages.elements.*;
+import minechem.registry.MoleculeRegistry;
 import net.afterlifelochie.fontbox.api.formatting.layout.AlignmentMode;
 import net.afterlifelochie.fontbox.api.formatting.layout.FloatMode;
 import net.minecraft.util.ResourceLocation;
@@ -11,10 +16,8 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+
 import minechem.Compendium;
 import minechem.Config;
 import minechem.helper.FileHelper;
@@ -23,9 +26,6 @@ import minechem.helper.LogHelper;
 import minechem.item.journal.pages.EntryPage;
 import minechem.item.journal.pages.IJournalPage;
 import minechem.item.journal.pages.SectionPage;
-import minechem.item.journal.pages.elements.IJournalElement;
-import minechem.item.journal.pages.elements.JournalImage;
-import minechem.item.journal.pages.elements.JournalText;
 import minechem.registry.JournalRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -97,17 +97,17 @@ public class StructuredJournalHandler
     public static List<IJournalPage> getPagesFromJsonObject(String chapter, JsonObject object)
     {
         List<IJournalPage> pages = new ArrayList<>();
-        for (Map.Entry<String, JsonElement> pageEntry : object.entrySet())
-        {
-            if (pageEntry.getValue().isJsonNull())
-            {
-                pages.add(new EntryPage(pageEntry.getKey(), chapter, new JournalText(chapter + "." + pageEntry.getKey())));
-            } else if (!pageEntry.getValue().isJsonObject())
-            {
-                continue;
-            } else
-            {
-                pages.add(getPageFromJSONObject(pageEntry.getKey(), chapter, pageEntry.getValue().getAsJsonObject()));
+        if (chapter.equals("chemicals.compounds")) {
+            pages.addAll(getCompoundPages(chapter));
+        } else {
+            for (Map.Entry<String, JsonElement> pageEntry : object.entrySet()) {
+                if (pageEntry.getValue().isJsonNull()) {
+                    pages.add(new EntryPage(pageEntry.getKey(), chapter, new JournalText(chapter + "." + pageEntry.getKey())));
+                } else if (!pageEntry.getValue().isJsonObject()) {
+                    continue;
+                } else {
+                    pages.add(getPageFromJSONObject(pageEntry.getKey(), chapter, pageEntry.getValue().getAsJsonObject()));
+                }
             }
         }
         return pages;
@@ -256,5 +256,18 @@ public class StructuredJournalHandler
             }
         }
         return null;
+    }
+
+    public static List<IJournalPage> getCompoundPages(String chapter) {
+        List<IJournalPage> compoundPages = new LinkedList<>();
+        for (Molecule molecule : MoleculeRegistry.getInstance().getMolecules()) {
+            List<IJournalElement> pageElements = new LinkedList<>();
+            pageElements.add(new JournalHeader(molecule.getResearchKey()).setTitle(molecule.fullName));
+            pageElements.add(new JournalText(molecule.getResearchKey()).setText("chemical.structure"));
+            pageElements.add(new JournalImage(molecule.getResearchKey(), molecule.getStructureResource(), 200, 200, AlignmentMode.CENTER, FloatMode.NONE));
+            pageElements.add(new JournalText(molecule.getResearchKey()).setText(molecule.getFormula()).setAlignment(AlignmentMode.CENTER));
+            compoundPages.add(new EntryPage(molecule.fullName.toLowerCase(), chapter, pageElements));
+        }
+        return compoundPages;
     }
 }

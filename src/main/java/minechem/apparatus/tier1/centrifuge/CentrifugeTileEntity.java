@@ -1,30 +1,36 @@
 package minechem.apparatus.tier1.centrifuge;
 
-import minechem.Compendium;
 import minechem.apparatus.prefab.tileEntity.BaseTileEntity;
 import minechem.apparatus.prefab.tileEntity.storageTypes.BasicEnergyStorage;
 import minechem.apparatus.prefab.tileEntity.storageTypes.BasicInventory;
+import minechem.registry.BlockRegistry;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ITickable;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.wrapper.InvWrapper;
+import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 
-public class CentrifugeTileEntity extends BaseTileEntity
+public class CentrifugeTileEntity extends BaseTileEntity implements ITickable
 {
-    private BasicInventory inventory;
+    private BasicInventory inventoryIn, inventoryOut;
     private BasicEnergyStorage energy;
 
     public CentrifugeTileEntity()
     {
-        super(Compendium.Naming.centrifuge);
-        this.inventory = new BasicInventory(2, getName()).setListener(this);
+        super(BlockRegistry.centrifugeBlock);
+        this.inventoryIn = new BasicInventory(3, "insert").setListener(this);
+        this.inventoryOut = new BasicInventory(3, "extract").setListener(this);
         this.energy = new BasicEnergyStorage(10000).setListener(this);
-        attachCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, new InvWrapper(inventory));
+        attachCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, new CombinedInvWrapper(inventoryIn.asCapability(), inventoryOut.asCapability()));
         attachCapability(CapabilityEnergy.ENERGY, this.energy);
     }
 
-    public BasicInventory getInventory() {
-        return inventory;
+    public BasicInventory getInventoryIn() {
+        return inventoryIn;
+    }
+
+    public BasicInventory getInventoryOut() {
+        return inventoryOut;
     }
 
     public BasicEnergyStorage getEnergy() {
@@ -32,10 +38,15 @@ public class CentrifugeTileEntity extends BaseTileEntity
     }
 
     @Override
+    public void update() {
+
+    }
+
+    @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbttagcompound)
     {
         super.writeToNBT(nbttagcompound);
-        inventory.writeToNBT(nbttagcompound);
+        inventoryIn.writeToNBT(nbttagcompound);
         energy.writeToNBT(nbttagcompound);
         return nbttagcompound;
     }
@@ -44,7 +55,7 @@ public class CentrifugeTileEntity extends BaseTileEntity
     public void readFromNBT(NBTTagCompound nbttagcompound)
     {
         super.readFromNBT(nbttagcompound);
-        inventory.readFromNBT(nbttagcompound);
+        inventoryIn.readFromNBT(nbttagcompound);
         energy.readFromNBT(nbttagcompound);
     }
 }

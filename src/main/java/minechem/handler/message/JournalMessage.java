@@ -1,23 +1,21 @@
 package minechem.handler.message;
 
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
-import java.util.UUID;
 import minechem.item.journal.JournalItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+
+import java.util.UUID;
 
 /**
  * Message used to write knowledge in on an journal on the server side
  */
-public class JournalMessage extends BaseTEMessage implements IMessageHandler<JournalMessage, IMessage>
+public class JournalMessage extends BaseTEMessage
 {
     private String uuid;
 
-    public JournalMessage()
-    {
+    public JournalMessage() {
 
     }
 
@@ -45,19 +43,17 @@ public class JournalMessage extends BaseTEMessage implements IMessageHandler<Jou
         buf.writeBytes(this.uuid.getBytes());
     }
 
-    @Override
-    public IMessage onMessage(JournalMessage message, MessageContext ctx)
-    {
-        EntityPlayer player = getServerPlayer(ctx);
-        if (player.getUniqueID().equals(UUID.fromString(message.uuid)))
-        {
-            if (player.getActiveItemStack().getItem() instanceof JournalItem)
-            {
-                ItemStack journalStack = player.getActiveItemStack();
-                JournalItem journalItem = (JournalItem) journalStack.getItem();
-                journalItem.writeKnowledge(journalStack, player, false);
+    public static class Handler extends MessageHandler<JournalMessage> {
+        @Override
+        public void handle(JournalMessage message, MessageContext ctx) {
+            EntityPlayer player = getPlayer(ctx);
+            if (player.getUniqueID().equals(UUID.fromString(message.uuid))) {
+                if (player.getActiveItemStack().getItem() instanceof JournalItem) {
+                    ItemStack journalStack = player.getActiveItemStack();
+                    JournalItem journalItem = (JournalItem) journalStack.getItem();
+                    journalItem.writeKnowledge(journalStack, player, false);
+                }
             }
         }
-        return null;
     }
 }

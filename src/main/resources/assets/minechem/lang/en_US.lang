@@ -4,7 +4,15 @@ language.name=English
 language.region=US
 language.code=en_US
 
+chemical.unknown=Unknown Chemical
+chemical.formula=Formula
+chemical.state=State
+chemical.neutrons=Neutrons
+chemical.structure=Structure
+
 gui.element.tank.empty=Empty
+gui.element.tank.mb=mB
+gui.element.energy.fe=%s/%s FE
 gui.journal.writtenBy=Written By
 gui.journal.index=Index
 

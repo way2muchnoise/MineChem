@@ -57,7 +57,7 @@ public class EntryPage extends JournalPage
         {
             for (IJournalElement element : elements)
             {
-                Element e = element.getElement(keys);
+                IElement e = element.getElement(keys);
                 if (e != null)
                 {
                     result.add(e);

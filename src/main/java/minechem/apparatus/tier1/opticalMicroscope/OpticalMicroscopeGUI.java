@@ -31,9 +31,9 @@ public class OpticalMicroscopeGUI extends BasicGuiContainer
     {
         super(new OpticalMicroscopeContainer(inventoryPlayer, opticalMicroscope));
         this.opticalMicroscope = opticalMicroscope;
-        texture = Compendium.Resource.GUI.opticalMicroscope;
-        name = LocalizationHelper.getLocalString("tile.opticalMicroscope.name");
-        renderItem = new MicroscopeRenderItem(this);
+        this.name = opticalMicroscope.getName();
+        this.texture = Compendium.Resource.GUI.opticalMicroscope;
+        this.renderItem = new MicroscopeRenderItem(this);
     }
 
     public boolean isMouseInMicroscope()
@@ -60,26 +60,19 @@ public class OpticalMicroscopeGUI extends BasicGuiContainer
     private void drawInfo()
     {
         Slot slot = inventorySlots.getSlotFromInventory(opticalMicroscope.getInventory(), 0);
-        if (slot.getHasStack())
+        if (slot != null && slot.getHasStack())
         {
             ItemStack itemStack = slot.getStack();
             if (itemStack.getItem() instanceof ChemicalItem)
             {
                 ChemicalBase chemicalBase = ChemicalBase.readFromNBT(itemStack.getTagCompound());
                 fontRenderer.drawString(chemicalBase.fullName, eyePieceX + eyePieceH + 3, eyePieceY, 0);
-                fontRenderer.drawString("Formula:", eyePieceX + eyePieceH + 3, eyePieceY + 10, 0);
+                fontRenderer.drawString(LocalizationHelper.getLocalString("chemical.formula"), eyePieceX + eyePieceH + 3, eyePieceY + 10, 0);
                 fontRenderer.drawString(chemicalBase.getFormula(), eyePieceX + eyePieceH + 3, eyePieceY + 20, 0);
 
-                if (!chemicalBase.isElement())
-                {
-                    RenderHelper.drawScaledTexturedRectUV(eyePieceX + eyePieceW + 40, eyePieceY - 5, 0, 0, 0, 200, 200, 0.4F, ((Molecule) chemicalBase).getStructureResource());
-                }
-
-                if (prevStack != itemStack)
-                {
+                if (prevStack != itemStack) {
                     prevStack = itemStack;
-                    if (chemicalBase.isElement())
-                    {
+                    if (chemicalBase.isElement()) {
                         AchievementHelper.giveAchievement(getPlayer(), (Element) chemicalBase, getWorld().isRemote);
                     }
                     ResearchHelper.addResearch(getPlayer(), chemicalBase.getResearchKey(), getWorld().isRemote);
@@ -100,7 +93,8 @@ public class OpticalMicroscopeGUI extends BasicGuiContainer
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-        Minecraft.getMinecraft().renderEngine.bindTexture(texture);
+        bindTexture(texture);
         drawTexturedModalRect(guiLeft, guiTop, 0, 0,176, 166);
+        super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
     }
 }

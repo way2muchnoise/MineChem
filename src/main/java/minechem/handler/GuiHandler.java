@@ -1,5 +1,8 @@
 package minechem.handler;
 
+import minechem.apparatus.tier1.centrifuge.CentrifugeContainer;
+import minechem.apparatus.tier1.centrifuge.CentrifugeGUI;
+import minechem.apparatus.tier1.centrifuge.CentrifugeTileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import minechem.apparatus.tier1.opticalMicroscope.OpticalMicroscopeContainer;
@@ -12,6 +15,9 @@ import net.minecraft.world.World;
 public class GuiHandler implements IGuiHandler
 {
     public static final int MICROSCOPE = 0;
+    public static final int CENTRIFUGE = 1;
+    public static final int ELECTROLYSIS = 2;
+    public static final int ELECTRIC_CRUCIBLE = 3;
 
     /**
      * Get the GUI container object for the server
@@ -33,6 +39,8 @@ public class GuiHandler implements IGuiHandler
             switch (ID) {
                 case MICROSCOPE:
                     return new OpticalMicroscopeGUI(player.inventory, (OpticalMicroscopeTileEntity) tileEntity);
+                case CENTRIFUGE:
+                    return new CentrifugeGUI(player.inventory, (CentrifugeTileEntity) tileEntity);
             }
         }
         return null;
@@ -58,6 +66,8 @@ public class GuiHandler implements IGuiHandler
             switch (ID) {
                 case MICROSCOPE:
                     return new OpticalMicroscopeContainer(player.inventory, (OpticalMicroscopeTileEntity) tileEntity);
+                case CENTRIFUGE:
+                    return new CentrifugeContainer(player.inventory, (CentrifugeTileEntity) tileEntity);
             }
         }
         return null;

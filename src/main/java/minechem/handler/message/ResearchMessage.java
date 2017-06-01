@@ -1,17 +1,15 @@
 package minechem.handler.message;
 
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import minechem.registry.ResearchRegistry;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-public class ResearchMessage extends BaseMessage implements IMessageHandler<ResearchMessage, IMessage>
+public class ResearchMessage implements IMessage
 {
     private String key;
 
-    public ResearchMessage()
-    {
+    public ResearchMessage() {
 
     }
 
@@ -34,10 +32,10 @@ public class ResearchMessage extends BaseMessage implements IMessageHandler<Rese
         buf.writeBytes(this.key.getBytes());
     }
 
-    @Override
-    public IMessage onMessage(ResearchMessage message, MessageContext ctx)
-    {
-        ResearchRegistry.getInstance().addResearch(getServerPlayer(ctx), message.key);
-        return null;
+    public static class Handler extends MessageHandler<ResearchMessage> {
+        @Override
+        public void handle(ResearchMessage message, MessageContext ctx) {
+            ResearchRegistry.getInstance().addResearch(getPlayer(ctx), message.key);
+        }
     }
 }

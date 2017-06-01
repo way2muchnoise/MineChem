@@ -1,16 +1,15 @@
 package minechem.apparatus.tier1.electrolysis;
 
-import minechem.Compendium;
 import minechem.apparatus.prefab.tileEntity.BaseTileEntity;
 import minechem.apparatus.prefab.tileEntity.storageTypes.BasicEnergyStorage;
 import minechem.apparatus.prefab.tileEntity.storageTypes.BasicInventory;
 import minechem.chemical.ChemicalBase;
 import minechem.item.chemical.ChemicalItem;
+import minechem.registry.BlockRegistry;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.wrapper.InvWrapper;
 
 public class ElectrolysisTileEntity extends BaseTileEntity
 {
@@ -22,10 +21,10 @@ public class ElectrolysisTileEntity extends BaseTileEntity
 
     public ElectrolysisTileEntity()
     {
-        super(Compendium.Naming.electrolysis);
+        super(BlockRegistry.electrolysisBlock);
         this.inventory = new BasicInventory(2, getName()).setListener(this);
         this.energy = new BasicEnergyStorage(10000).setListener(this);
-        attachCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, new InvWrapper(inventory));
+        attachCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, inventory.asCapability());
         attachCapability(CapabilityEnergy.ENERGY, this.energy);
     }
 
@@ -44,11 +43,6 @@ public class ElectrolysisTileEntity extends BaseTileEntity
             }
         }
         return -1;
-    }
-
-    @Override
-    public String getName() {
-        return Compendium.Naming.electrolysis;
     }
 
     /**

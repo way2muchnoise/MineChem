@@ -2,6 +2,7 @@ package minechem.item.journal.pages.elements;
 
 import minechem.helper.LocalizationHelper;
 import net.afterlifelochie.fontbox.api.data.FormattedString;
+import net.afterlifelochie.fontbox.api.layout.IElement;
 import net.afterlifelochie.fontbox.document.Element;
 import net.afterlifelochie.fontbox.document.Heading;
 import net.afterlifelochie.fontbox.document.Link;
@@ -17,14 +18,19 @@ public class JournalHeader extends JournalElement
         titleKey = "journal" + (pageKey.isEmpty() ? "" : "." + pageKey) + ".title";
     }
 
+    public JournalHeader setTitle(String title) {
+        titleKey = title;
+        return this;
+    }
+
     @Override
-    public Element getElement(EntityPlayer player)
+    public IElement getElement(EntityPlayer player)
     {
         return getHeading();
     }
 
     @Override
-    public Element getElement(String[] keys)
+    public IElement getElement(String[] keys)
     {
         return getHeading();
     }

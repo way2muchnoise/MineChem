@@ -41,11 +41,12 @@ public abstract class GuiElement extends Gui
 
     /**
      * Draw the element at the given location
-     *
-     * @param guiLeft the absolute x pos of the parent gui
+     *  @param guiLeft the absolute x pos of the parent gui
      * @param guiTop  the absolute y pos of the parent gui
+     * @param mouseX
+     * @param mouseY
      */
-    public abstract void draw(int guiLeft, int guiTop);
+    public abstract void draw(int guiLeft, int guiTop, int mouseX, int mouseY);
 
     /**
      * Shorthand for binding a Resource
@@ -80,17 +81,17 @@ public abstract class GuiElement extends Gui
      * @param drawWidth    width to draw on
      * @param drawHeight   height to draw on
      */
-    protected void drawTexturedModalRect(int x, int y, int u, int v, int actualWidth, int actualHeight, int drawWidth, int drawHeight)
+    protected void drawTexturedModalRectScaled(float x, float y, float u, float v, int actualWidth, int actualHeight, int drawWidth, int drawHeight)
     {
         float f = 0.00390625F;
         float f1 = 0.00390625F;
         Tessellator tessellator = Tessellator.getInstance();
         VertexBuffer vertexBuffer = tessellator.getBuffer();
         vertexBuffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
-        vertexBuffer.pos((double) x, (double) (y + drawHeight), (double) this.zLevel).tex((double) ((float) u * f), (double) ((float) (v + actualHeight) * f1)).endVertex();
-        vertexBuffer.pos((double) (x + drawWidth), (double) (y + drawHeight), (double) this.zLevel).tex((double) ((float) (u + actualWidth) * f), (double) ((float) (v + actualHeight) * f1)).endVertex();
-        vertexBuffer.pos((double) (x + drawWidth), (double) (y), (double) this.zLevel).tex((double) ((float) (u + actualWidth) * f), (double) ((float) (v) * f1)).endVertex();
-        vertexBuffer.pos((double) (x), (double) (y), (double) this.zLevel).tex((double) ((float) (u) * f), (double) ((float) (v) * f1)).endVertex();
+        vertexBuffer.pos((double) x, (double) (y + drawHeight), (double) this.zLevel).tex((double) (u * f), (double) ((v + actualHeight) * f1)).endVertex();
+        vertexBuffer.pos((double) (x + drawWidth), (double) (y + drawHeight), (double) this.zLevel).tex((double) ((u + actualWidth) * f), (double) ((v + actualHeight) * f1)).endVertex();
+        vertexBuffer.pos((double) (x + drawWidth), (double) (y), (double) this.zLevel).tex((double) ((u + actualWidth) * f), (double) (v * f1)).endVertex();
+        vertexBuffer.pos((double) (x), (double) (y), (double) this.zLevel).tex((double) (u * f), (double) (v * f1)).endVertex();
         tessellator.draw();
     }
 
@@ -162,5 +163,10 @@ public abstract class GuiElement extends Gui
             GlStateManager.enableDepth();
             GlStateManager.enableRescaleNormal();
         }
+    }
+
+    protected boolean mouseInElement(int x, int y)
+    {
+        return x >= this.posX && x < this.posX + width - 2 && y >= this.posY && y < this.posY + height - 2;
     }
 }

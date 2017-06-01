@@ -17,7 +17,7 @@ public abstract class ChemicalBase
         solid, liquid, gas, plasma
     }
 
-    public final Form form;// @TODO: this should become a temperature so that the state can be defined on that maybe?
+    public final Form form;// @TODO: this should become a temperature so that the form can be defined on that maybe?
     public final String fullName;
     protected int colour;
 

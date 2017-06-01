@@ -151,17 +151,14 @@ public class Compendium
         {
             public static final ResourceLocation journal = new ResourceLocation(Compendium.Naming.id, Compendium.Texture.GUI.journal);
             public static final ResourceLocation opticalMicroscope = new ResourceLocation(Compendium.Naming.id, Compendium.Texture.GUI.opticalMicroscope);
+            public static final ResourceLocation centrifuge = new ResourceLocation(Compendium.Naming.id, Compendium.Texture.GUI.centrifuge);
             public static final ResourceLocation achievements = new ResourceLocation(Compendium.Naming.id, Compendium.Texture.GUI.achievements);
             public static final ResourceLocation noContent = new ResourceLocation(Compendium.Naming.id, Compendium.Texture.GUI.noContent);
+            public static final ResourceLocation guiElements = new ResourceLocation(Compendium.Naming.id, Compendium.Texture.GUI.guiElements);
 
             public static ResourceLocation getResourceForStructure(String name)
             {
                 return new ResourceLocation(Compendium.Naming.id, Compendium.Texture.GUI.compounds + name.replaceAll("\\s", "_") + ".png");
-            }
-
-            public static final class Element
-            {
-                public static final ResourceLocation fluidTank = new ResourceLocation(Compendium.Naming.id, Texture.GUI.Element.fluidTank);
             }
         }
 
@@ -219,15 +216,12 @@ public class Compendium
             public static final String blankMachine = Compendium.Texture.GUI.prefix + "blank_machine.png";
             public static final String journal = Compendium.Texture.GUI.prefix + "journal.png";
             public static final String opticalMicroscope = Compendium.Texture.GUI.prefix + "optical_microscope.png";
+            public static final String centrifuge = Compendium.Texture.GUI.prefix + "centrifuge.png";
             public static final String tab_left = Compendium.Texture.GUI.prefix + "tabLeft.png";
             public static final String tab_right = Compendium.Texture.GUI.prefix + "tabRight.png";
             public static final String achievements = Compendium.Texture.GUI.prefix + "achievement_page.png";
             public static final String noContent = Compendium.Texture.GUI.prefix + "no_content.png";
-
-            public static final class Element
-            {
-                public static final String fluidTank = Compendium.Texture.GUI.prefix + "fluidTank.png";
-            }
+            public static final String guiElements = Compendium.Texture.GUI.prefix + "gui_elements.png";
         }
 
         public static final class Model

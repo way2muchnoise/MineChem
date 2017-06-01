@@ -2,9 +2,12 @@ package minechem.item.chemical;
 
 import minechem.chemical.ChemicalBase;
 import minechem.helper.Jenkins;
+import minechem.helper.LocalizationHelper;
+import minechem.helper.ResearchHelper;
 import minechem.item.prefab.BasicItem;
 import minechem.registry.CreativeTabRegistry;
 import minechem.registry.ItemRegistry;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
@@ -14,6 +17,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -68,28 +72,30 @@ public class ChemicalItem extends BasicItem
     @Override
     public String getItemStackDisplayName(ItemStack itemStack)
     {
-        if (itemStack.hasTagCompound() && itemStack.getTagCompound().hasKey("fullName"))
-        {
+        boolean hasTag = itemStack.hasTagCompound() && itemStack.getTagCompound().hasKey("fullName");
+        if (FMLCommonHandler.instance().getSide() == Side.SERVER && hasTag) {
             return itemStack.getTagCompound().getString("fullName");
-        } else
-        {
-            return "Generic ChemicalItem";
+        } else if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
+            ChemicalBase chemical = getChemicalBase(itemStack);
+            if (chemical != null && ResearchHelper.hasResearch(Minecraft.getMinecraft().player, chemical.getResearchKey())) {
+                return itemStack.getTagCompound().getString("fullName");
+            }
         }
+        return LocalizationHelper.getLocalString("chemical.unknown");
     }
 
     @Override
-    public void addInformation(ItemStack itemStack, EntityPlayer player, List tooltip, boolean bool)
+    @SideOnly(Side.CLIENT)
+    public void addInformation(ItemStack itemStack, EntityPlayer player, List<String> tooltip, boolean advanced)
     {
-        super.addInformation(itemStack, player, tooltip, bool);
         ChemicalBase chemicalBase = getChemicalBase(itemStack);
-        if (chemicalBase != null)
-        {
+        if (chemicalBase != null && ResearchHelper.hasResearch(player, chemicalBase.getResearchKey())) {
             tooltip.addAll(chemicalBase.getToolTip());
         }
     }
 
     @Override
-    public void getSubItems(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> subItems) {
+    public void getSubItems(Item item, CreativeTabs tab, NonNullList<ItemStack> subItems) {
         ItemStack itemStack;
         NBTTagCompound tagCompound;
         for (ChemicalBase element : Jenkins.getAll())

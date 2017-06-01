@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import minechem.Compendium;
+import minechem.helper.LocalizationHelper;
 import minechem.helper.LogHelper;
 import minechem.registry.ElementRegistry;
 import minechem.registry.MoleculeRegistry;
@@ -15,7 +16,7 @@ import net.minecraft.util.ResourceLocation;
  */
 public class Molecule extends ChemicalBase
 {
-    public ChemicalStructure structure;
+    private ChemicalStructure structure;
     private ResourceLocation structureResource;
 
     /**
@@ -70,8 +71,8 @@ public class Molecule extends ChemicalBase
     public List<String> getToolTip()
     {
         List<String> list = new LinkedList<String>();
-        list.add("Form: " + this.form);
-        list.add("Formula: " + this.getFormula());
+        list.add(LocalizationHelper.getLocalString("chemical.form") + ": " + this.form);
+        list.add(LocalizationHelper.getLocalString("chemical.formula") + ": " + this.getFormula());
         return list;
     }
 

@@ -125,7 +125,7 @@
 	  },
 	  "compounds":{
 		"section":{
-
+			"placeholder" : "this section is generated"
 		}
 	  }
 	}

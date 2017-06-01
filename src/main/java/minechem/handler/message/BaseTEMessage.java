@@ -2,6 +2,7 @@ package minechem.handler.message;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.tileentity.TileEntity;
@@ -9,7 +10,7 @@ import net.minecraft.tileentity.TileEntity;
 /**
  * Basic message for {@link net.minecraft.tileentity.TileEntity} T represents the {@link net.minecraft.tileentity.TileEntity}
  */
-public abstract class BaseTEMessage<T extends TileEntity> extends BaseMessage implements IMessage
+public abstract class BaseTEMessage<T extends TileEntity> implements IMessage
 {
     private BlockPos pos;
 
@@ -52,16 +53,7 @@ public abstract class BaseTEMessage<T extends TileEntity> extends BaseMessage im
         buf.writeLong(this.pos.toLong());
     }
 
-    /**
-     * Gets the TileEntity
-     *
-     * @param message
-     * @param ctx
-     * @return can be null
-     */
-    public T getTileEntity(BaseTEMessage message, MessageContext ctx)
-    {
-        TileEntity tileEntity = getWorld(ctx).getTileEntity(message.pos);
-        return tileEntity == null ? null : (T) tileEntity;
+    public BlockPos getPos() {
+        return pos;
     }
 }

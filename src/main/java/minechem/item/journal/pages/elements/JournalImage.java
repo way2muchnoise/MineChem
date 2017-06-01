@@ -3,6 +3,7 @@ package minechem.item.journal.pages.elements;
 import minechem.Compendium;
 import net.afterlifelochie.fontbox.api.formatting.layout.AlignmentMode;
 import net.afterlifelochie.fontbox.api.formatting.layout.FloatMode;
+import net.afterlifelochie.fontbox.api.layout.IElement;
 import net.afterlifelochie.fontbox.document.Element;
 import net.afterlifelochie.fontbox.document.Image;
 import net.afterlifelochie.fontbox.document.ImageItemStack;
@@ -33,13 +34,13 @@ public class JournalImage extends JournalElement
     }
 
     @Override
-    public Element getElement(EntityPlayer player)
+    public IElement getElement(EntityPlayer player)
     {
         return isUnlocked(player, getKey()) ? element : null;
     }
 
     @Override
-    public Element getElement(String[] keys)
+    public IElement getElement(String[] keys)
     {
         return isUnlocked(keys, getKey()) ? element : null;
     }

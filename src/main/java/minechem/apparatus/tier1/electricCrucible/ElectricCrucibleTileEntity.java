@@ -1,13 +1,12 @@
 package minechem.apparatus.tier1.electricCrucible;
 
-import minechem.Compendium;
 import minechem.apparatus.prefab.tileEntity.BaseTileEntity;
 import minechem.apparatus.prefab.tileEntity.storageTypes.BasicEnergyStorage;
 import minechem.apparatus.prefab.tileEntity.storageTypes.BasicInventory;
+import minechem.registry.BlockRegistry;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.wrapper.InvWrapper;
 
 public class ElectricCrucibleTileEntity extends BaseTileEntity
 {
@@ -16,10 +15,10 @@ public class ElectricCrucibleTileEntity extends BaseTileEntity
 
     public ElectricCrucibleTileEntity()
     {
-        super(Compendium.Naming.electricCrucible);
+        super(BlockRegistry.electricCrucibleBlock);
         this.inventory = new BasicInventory(2, getName()).setListener(this);
         this.energy = new BasicEnergyStorage(10000).setListener(this);
-        attachCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, new InvWrapper(inventory));
+        attachCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, inventory.asCapability());
         attachCapability(CapabilityEnergy.ENERGY, this.energy);
     }
 
@@ -40,9 +39,9 @@ public class ElectricCrucibleTileEntity extends BaseTileEntity
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-        compound = super.writeToNBT(compound);
+        super.writeToNBT(compound);
         inventory.writeToNBT(compound);
-        energy.readFromNBT(compound);
+        energy.writeToNBT(compound);
         return compound;
     }
 }

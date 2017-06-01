@@ -27,17 +27,13 @@ public class ResearchRegistry
     }
 
     /**
-     * Adds research with given key to the player if key does not exist nothing happens
+     * Adds research with given key to the player
      *
      * @param playerUUID the players UUID
      * @param pageName   the page name
      */
     public void addResearch(UUID playerUUID, String pageName)
     {
-        if (!JournalRegistry.hasPage(pageName))
-        {
-            return;
-        }
         Set<String> pages = playerResearchMap.get(playerUUID);
         if (pages == null)
         {
@@ -48,7 +44,7 @@ public class ResearchRegistry
     }
 
     /**
-     * Adds research with given key to the player if key does not exist nothing happens
+     * Adds research with given key to the player
      *
      * @param player   the player entity
      * @param pageName the page name

@@ -1,6 +1,7 @@
 package minechem.registry;
 
 import minechem.handler.StructuredJournalHandler;
+import minechem.item.journal.pages.AuthorPage;
 import minechem.item.journal.pages.IJournalPage;
 import minechem.item.journal.pages.SectionPage;
 import net.afterlifelochie.fontbox.api.formatting.layout.CompilerHint;
@@ -40,18 +41,22 @@ public class JournalRegistry
         return journal.getPage(key) != null;
     }
 
-    public static List<IElement> getJournalFor(EntityPlayer player)
+    public static List<IElement> getJournalFor(EntityPlayer player, String[] authors)
     {
         List<IElement> result = getIndexPageFor(player);
+        result.add(new CompilerHintElement(CompilerHint.PAGE_BREAK));
+        result.addAll(getAuthors(authors));
         result.add(new CompilerHintElement(CompilerHint.PAGE_BREAK));
         result.addAll(journal.getElements(player));
         result.remove(result.size() - 1);
         return result;
     }
 
-    public static List<IElement> getJournalFor(String[] keys)
+    public static List<IElement> getJournalFor(String[] keys, String[] authors)
     {
         List<IElement> result = getIndexPageFor(keys);
+        result.add(new CompilerHintElement(CompilerHint.PAGE_BREAK));
+        result.addAll(getAuthors(authors));
         result.add(new CompilerHintElement(CompilerHint.PAGE_BREAK));
         result.addAll(journal.getElements(keys));
         result.remove(result.size() - 1);
@@ -66,6 +71,10 @@ public class JournalRegistry
     public static List<IElement> getIndexPageFor(String[] keys)
     {
         return journal.getIndexPage(keys, 0);
+    }
+
+    public static List<IElement> getAuthors(String[] authors) {
+        return new AuthorPage(authors).getElements();
     }
 
     public static SectionPage setJournal(SectionPage journal)

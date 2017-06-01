@@ -6,6 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import minechem.Compendium;
 import minechem.helper.ColourHelper;
+import minechem.helper.LocalizationHelper;
 import minechem.helper.LogHelper;
 
 /**
@@ -139,8 +140,8 @@ public class Element extends ChemicalBase implements Comparable<Element>
     public List<String> getToolTip()
     {
         List<String> list = new LinkedList<String>();
-        list.add("Form: " + this.form);
-        list.add("Neutrons: " + this.neutrons);
+        list.add(LocalizationHelper.getLocalString("chemical.form") + ": " + this.form);
+        list.add(LocalizationHelper.getLocalString("chemical.neutrons") + ": " + this.neutrons);
         return list;
     }
 

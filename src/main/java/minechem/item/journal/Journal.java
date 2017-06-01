@@ -24,10 +24,10 @@ public class Journal {
         List<IElement> elements;
         if (Config.playerPrivateKnowledge)
         {
-            elements = JournalRegistry.getJournalFor(who);
+            elements = JournalRegistry.getJournalFor(who, authors);
         } else
         {
-            elements = JournalRegistry.getJournalFor(knowledgeKeys);
+            elements = JournalRegistry.getJournalFor(knowledgeKeys, authors);
         }
         journal.addElements(elements);
 

@@ -1,11 +1,10 @@
 package minechem.apparatus.tier1.opticalMicroscope;
 
-import minechem.Compendium;
 import minechem.apparatus.prefab.tileEntity.BaseTileEntity;
 import minechem.apparatus.prefab.tileEntity.storageTypes.BasicInventory;
+import minechem.registry.BlockRegistry;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.wrapper.InvWrapper;
 
 public class OpticalMicroscopeTileEntity extends BaseTileEntity
 {
@@ -13,9 +12,9 @@ public class OpticalMicroscopeTileEntity extends BaseTileEntity
 
     public OpticalMicroscopeTileEntity()
     {
-        super(Compendium.Naming.opticalMicroscope);
+        super(BlockRegistry.opticalMicroscope);
         this.inventory = new BasicInventory(1, getName()).setListener(this);
-        attachCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, new InvWrapper(inventory));
+        attachCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, inventory.asCapability());
     }
 
     public BasicInventory getInventory() {
@@ -24,7 +23,7 @@ public class OpticalMicroscopeTileEntity extends BaseTileEntity
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-        compound = super.writeToNBT(compound);
+        super.writeToNBT(compound);
         inventory.writeToNBT(compound);
         return compound;
     }

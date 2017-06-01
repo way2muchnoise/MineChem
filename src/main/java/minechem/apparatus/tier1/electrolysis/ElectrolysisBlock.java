@@ -48,9 +48,4 @@ public class ElectrolysisBlock extends BasicBlockContainer
     public EnumBlockRenderType getRenderType(IBlockState state) {
         return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
     }
-
-    @Override
-    public void openGui(EntityPlayer player, World world, int posX, int posY, int posZ) {
-        super.openGui(player, world, posX, posY, posZ);
-    }
 }
