@@ -132,10 +132,10 @@
   },
   "apparatus": {
 	"section":{
-	  "opticalMicroscope": null,
+	  "optical_microscope": null,
 	  "electrolysis": null,
       "centrifuge": null,
-      "electricCrucible": null
+      "electric_crucible": null
 	}
   }
 }

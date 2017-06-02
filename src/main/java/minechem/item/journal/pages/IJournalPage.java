@@ -13,6 +13,8 @@ public interface IJournalPage
 
     String getPageName();
 
+    String getPageTitle();
+
     boolean hasSubPages();
 
     void addSubPage(IJournalPage page);

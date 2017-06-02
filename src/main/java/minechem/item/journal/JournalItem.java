@@ -9,6 +9,7 @@ import minechem.helper.LocalizationHelper;
 import minechem.item.prefab.BasicItem;
 import minechem.registry.ResearchRegistry;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -171,13 +172,13 @@ public class JournalItem extends BasicItem
      * @param itemStack the ItemStack
      * @param player    the player
      * @param lines     lines to print
-     * @param bool      dunno ?
+     * @param advanced  is an advanced tooltip
      */
     @Override
-    public void addInformation(ItemStack itemStack, EntityPlayer player, List lines, boolean bool)
+    public void addInformation(ItemStack itemStack, EntityPlayer player, List lines, boolean advanced)
     {
-        super.addInformation(itemStack, player, lines, bool);
-        if (!Config.playerPrivateKnowledge)
+        super.addInformation(itemStack, player, lines, advanced);
+        if (!Config.playerPrivateKnowledge && GuiScreen.isShiftKeyDown())
         {
             String[] authors = getAuthors(itemStack);
             if (authors == null || authors.length < 1)

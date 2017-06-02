@@ -2,6 +2,8 @@ package minechem.item.journal.pages;
 
 import java.util.Arrays;
 import java.util.regex.Pattern;
+
+import minechem.helper.LocalizationHelper;
 import minechem.registry.ResearchRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -49,6 +51,13 @@ public abstract class JournalPage implements IJournalPage
     public final String getPageName()
     {
         return page;
+    }
+
+    @Override
+    public final String getPageTitle() {
+        String pageKey = "journal." + getPageKey() + ".title";
+        String localString = LocalizationHelper.getLocalString(pageKey);
+        return localString.equals(pageKey) ? getPageName() : localString;
     }
 
     @Override

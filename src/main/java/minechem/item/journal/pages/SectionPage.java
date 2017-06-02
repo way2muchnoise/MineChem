@@ -1,20 +1,16 @@
 package minechem.item.journal.pages;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-
 import minechem.item.journal.pages.elements.JournalHeader;
 import net.afterlifelochie.fontbox.api.data.FormattedString;
 import net.afterlifelochie.fontbox.api.formatting.layout.CompilerHint;
 import net.afterlifelochie.fontbox.api.layout.IElement;
 import net.afterlifelochie.fontbox.document.CompilerHintElement;
 import net.afterlifelochie.fontbox.document.Element;
-import net.afterlifelochie.fontbox.document.Heading;
 import net.afterlifelochie.fontbox.document.Link;
 import net.minecraft.entity.player.EntityPlayer;
+
+import java.util.*;
+import java.util.regex.Matcher;
 
 public class SectionPage extends JournalPage
 {
@@ -72,7 +68,7 @@ public class SectionPage extends JournalPage
     @Override
     public void addSubPage(IJournalPage page)
     {
-        pages.put(page.getPageName(), page);
+        pages.put(page.getPageKey(), page);
     }
 
     @Override
@@ -88,7 +84,7 @@ public class SectionPage extends JournalPage
 
     public List<Element> getPageElements(EntityPlayer player)
     {
-        List<Element> result = new ArrayList<>();
+        List<Element> result = new LinkedList<>();
         for (IJournalPage page : pages.values())
         {
             if (page.isUnlocked(player))
@@ -101,7 +97,7 @@ public class SectionPage extends JournalPage
 
     public List<Element> getPageElements(String[] keys)
     {
-        List<Element> result = new ArrayList<Element>();
+        List<Element> result = new LinkedList<>();
         for (IJournalPage page : pages.values())
         {
             if (page.isUnlocked(keys))
@@ -115,7 +111,7 @@ public class SectionPage extends JournalPage
     @Override
     public List<IElement> getElements(EntityPlayer player)
     {
-        List<IElement> result = new ArrayList<>();
+        List<IElement> result = new LinkedList<>();
         for (IJournalPage page : pages.values())
         {
             List<IElement> elements = page.getElements(player);
@@ -137,7 +133,7 @@ public class SectionPage extends JournalPage
     @Override
     public List<IElement> getElements(String[] keys)
     {
-        List<IElement> result = new ArrayList<>();
+        List<IElement> result = new LinkedList<>();
         for (IJournalPage page : pages.values())
         {
             List<IElement> elements = page.getElements(keys);
@@ -183,7 +179,7 @@ public class SectionPage extends JournalPage
 
     public List<IElement> getIndexPage(String[] keys, int indent)
     {
-        List<IElement> result = new ArrayList<>();
+        List<IElement> result = new LinkedList<>();
         result.add(heading.getHeadingOrLink(indent));
         if (indent > 1)
         {
@@ -203,7 +199,7 @@ public class SectionPage extends JournalPage
                     {
                         sIndent += "--";
                     }
-                    result.add(new Link(new FormattedString(sIndent + " " + page.getPageName()), page.getPageKey()));
+                    result.add(new Link(new FormattedString(sIndent + " " + page.getPageTitle()), page.getPageKey()));
                 }
             }
         }
@@ -212,7 +208,7 @@ public class SectionPage extends JournalPage
 
     public List<IElement> getIndexPage(EntityPlayer player, int indent)
     {
-        List<IElement> result = new ArrayList<>();
+        List<IElement> result = new LinkedList<>();
         result.add(heading.getHeadingOrLink(indent));
         if (indent > 1)
         {
@@ -232,7 +228,7 @@ public class SectionPage extends JournalPage
                     {
                         sIndent += "--";
                     }
-                    result.add(new Link(new FormattedString(sIndent + " " + page.getPageName()), page.getPageKey()));
+                    result.add(new Link(new FormattedString(sIndent + " " + page.getPageTitle()), page.getPageKey()));
                 }
             }
         }
