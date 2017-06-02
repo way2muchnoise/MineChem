@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+
+import minechem.chemical.Chemical;
 import minechem.chemical.ChemicalBase;
 import minechem.chemical.process.ChemicalProcess;
 import minechem.chemical.process.ChemicalProcessComboType;
@@ -125,30 +127,26 @@ public class ChemicalProcessRegistry
     }
 
     /**
-     * Get the output of given {@link net.minecraft.item.ItemStack} using given {@link minechem.chemical.process.ChemicalProcessType} and the given level
+     * Get the output of given {@link net.minecraft.item.ItemStack} using given {@link minechem.chemical.process.ChemicalProcessType}
      *
      * @param itemStack   the input ItemStack
      * @param processType the ChemicalProcessType
-     * @param level       the level of the process
      * @return the output in an array
      */
-    public ChemicalBase[] getOutput(ItemStack itemStack, ChemicalProcessType processType, int level)
+    public Chemical[] getOutput(ItemStack itemStack, ChemicalProcessType processType)
     {
         Map<ChemicalProcessType, Set<ChemicalProcess>> chemicalTypes = itemProcessMap.get(itemStack);
-        if (itemStack == null)
-        {
+        if (chemicalTypes == null) {
             return ChemicalProcess.empty;
         }
         Set<ChemicalProcess> processes = chemicalTypes.get(processType);
-        if (processType == null)
-        {
+        if (processType == null) {
             return ChemicalProcess.empty;
         }
-        List<ChemicalBase> output = new ArrayList<>();
-        for (ChemicalProcess process : processes)
-        {
-            output.addAll(Arrays.asList(process.getOutput(processType, level)));
+        List<Chemical> output = new ArrayList<>();
+        for (ChemicalProcess process : processes) {
+            output.addAll(Arrays.asList(process.getOutput(processType)));
         }
-        return output.toArray(new ChemicalBase[output.size()]);
+        return output.toArray(new Chemical[output.size()]);
     }
 }

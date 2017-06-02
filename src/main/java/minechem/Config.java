@@ -18,9 +18,6 @@ public class Config
     // turns on extra logging printouts
     public static boolean debugMode = false;
 
-    // turns on to show Patreon tab in GUI
-    public static boolean enablePatreon = true;
-
     // turns on to copy the newest elements list from jar
     public static boolean useDefaultElements = true;
     // turns on to copy the newest molecules list from jar
@@ -30,6 +27,9 @@ public class Config
 
     // makes it that the player can only see his own work in the book
     public static boolean playerPrivateKnowledge = false;
+
+    public static int energyConsumption = 10;
+    public static int fluidConsumption = 10;
 
     public static List<IConfigElement> getConfigElements()
     {
@@ -79,16 +79,22 @@ public class Config
         useDefaultResearchPages = prop.getBoolean();
         configList.add(prop.getName());
 
-        prop = config.get(Configuration.CATEGORY_GENERAL, "enablePatreon", Config.enablePatreon);
-        prop.setComment(LocalizationHelper.getLocalString("config.enablePatreon"));
-        prop.setLanguageKey("config.enablePatreon.tooltip");
-        enablePatreon = prop.getBoolean();
-        configList.add(prop.getName());
-
         prop = config.get(Configuration.CATEGORY_GENERAL, "playerPrivateKnowledge", Config.playerPrivateKnowledge);
         prop.setComment(LocalizationHelper.getLocalString("config.playerPrivateKnowledge"));
         prop.setLanguageKey("config.playerPrivateKnowledge.tooltip");
         playerPrivateKnowledge = prop.getBoolean();
+        configList.add(prop.getName());
+
+        prop = config.get(Configuration.CATEGORY_GENERAL, "enegryConsumption", Config.energyConsumption);
+        prop.setComment(LocalizationHelper.getLocalString("config.energyConsumption"));
+        prop.setLanguageKey("config.energyConsumption.tooltip");
+        energyConsumption = prop.getInt();
+        configList.add(prop.getName());
+
+        prop = config.get(Configuration.CATEGORY_GENERAL, "fluidConsumption", Config.fluidConsumption);
+        prop.setComment(LocalizationHelper.getLocalString("config.fluidConsumption"));
+        prop.setLanguageKey("config.fluidConsumption.tooltip");
+        fluidConsumption = prop.getInt();
         configList.add(prop.getName());
 
         if (config.hasChanged())

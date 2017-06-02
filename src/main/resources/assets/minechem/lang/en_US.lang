@@ -21,6 +21,9 @@ tile.optical_microscope.name=Optical Microscope
 tile.electric_crucible.name=Electric Crucible
 tile.centrifuge.name=Centrifuge
 
+apparatus.progress=Progress %s%%
+journal.scribble=You scribble down your knowledge.
+
 item.journal.name=Chemist's Journal
 
 config.debugMode=Turns on extra logging printouts

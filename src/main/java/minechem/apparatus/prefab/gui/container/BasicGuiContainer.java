@@ -66,6 +66,7 @@ public abstract class BasicGuiContainer extends GuiContainer
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         if (texture != null) {
             bindTexture(texture);
             drawTexturedModalRect(guiLeft, guiTop, 0, 0,176, 166);
@@ -80,6 +81,7 @@ public abstract class BasicGuiContainer extends GuiContainer
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         drawString(fontRenderer, LocalizationHelper.getLocalString(name), 5, 5, Compendium.Color.TrueColor.white);
         for (GuiElement element : elements) {
             GlStateManager.pushMatrix();

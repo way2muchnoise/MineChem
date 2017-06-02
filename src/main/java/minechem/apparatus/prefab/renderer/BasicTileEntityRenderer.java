@@ -1,7 +1,7 @@
 package minechem.apparatus.prefab.renderer;
 
 import minechem.apparatus.prefab.model.BasicModel;
-import minechem.apparatus.prefab.tileEntity.BaseTileEntity;
+import minechem.apparatus.prefab.tileEntity.BasicTileEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
@@ -9,7 +9,7 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
-public abstract class BasicTileEntityRenderer<T extends BaseTileEntity, M extends BasicModel> extends TileEntitySpecialRenderer<T>
+public abstract class BasicTileEntityRenderer<T extends BasicTileEntity, M extends BasicModel> extends TileEntitySpecialRenderer<T>
 {
     protected M model;
     protected float rotation;
@@ -46,8 +46,11 @@ public abstract class BasicTileEntityRenderer<T extends BaseTileEntity, M extend
         GlStateManager.pushMatrix();
 
         GlStateManager.enableRescaleNormal();
-        GlStateManager.enableBlend();
-        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        if (tileEntity != null) {
+            // rendering in the world
+            GlStateManager.enableBlend();
+            GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+        }
         if (Minecraft.isAmbientOcclusionEnabled()) GlStateManager.shadeModel(GL11.GL_SMOOTH);
         else GlStateManager.shadeModel(GL11.GL_FLAT);
 
@@ -60,7 +63,10 @@ public abstract class BasicTileEntityRenderer<T extends BaseTileEntity, M extend
         applyChangesToModel(tileEntity);
         model.render(this.rotation);
 
-        GlStateManager.disableBlend();
+        if (tileEntity != null) {
+            GlStateManager.disableBlend();
+        }
+
         GlStateManager.disableRescaleNormal();
 
         GlStateManager.popMatrix();

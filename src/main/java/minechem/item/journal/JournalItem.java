@@ -19,6 +19,7 @@ import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.relauncher.Side;
@@ -47,10 +48,8 @@ public class JournalItem extends BasicItem
     @Override
     public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
         ItemStack stack = player.getHeldItem(hand);
-        if (player.isSneaking())
-        {
-            if (!Config.playerPrivateKnowledge)
-            {
+        if (player.isSneaking()) {
+            if (!Config.playerPrivateKnowledge) {
                 writeKnowledge(stack, player, world.isRemote);
             }
         } else
@@ -78,6 +77,8 @@ public class JournalItem extends BasicItem
             MessageHandler.INSTANCE.sendToServer(new JournalMessage(player));
             return;
         }
+
+        player.sendStatusMessage(new TextComponentTranslation("journal.scribble"), false);
 
         NBTTagCompound tagCompound = itemStack.getTagCompound();
         Set<String> playerKnowledge = ResearchRegistry.getInstance().getResearchFor(player);

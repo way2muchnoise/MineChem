@@ -45,13 +45,13 @@ public class GuiEnergybar extends GuiElement {
         GlStateManager.color(ColourHelper.getRed(colour), ColourHelper.getGreen(colour), ColourHelper.getBlue(colour));
 
         bindTexture(Compendium.Resource.GUI.guiElements);
-        drawTexturedModalRectScaled(guiLeft + posX, guiTop + posY, 0, 0, 18, 39, width, height);
+        drawTexturedModalRectScaled(guiLeft + posX, guiTop + posY, 0, 40, 18, 39, width, height);
 
         GlStateManager.color(1.0F, 1.0F, 1.0F);
 
         if (energyStorage != null && energyStorage.getEnergyStored() > 0) {
-            float height = 1.0F * this.height / energyStorage.getEnergyStored() * energyStorage.getEnergyStored();
-            drawTexturedModalRectScaled(guiLeft + posX, guiTop + posY + this.height - height, 0, 0,18, 39, width, MathHelper.ceil(height));
+            float height = 1.0F * this.height / energyStorage.getMaxEnergyStored() * energyStorage.getEnergyStored();
+            drawTexturedModalRectScaled(guiLeft + posX, guiTop + posY + this.height - height, 18, 40 + (39 - height),18, height, width, height);
         }
     }
 
@@ -69,7 +69,7 @@ public class GuiEnergybar extends GuiElement {
             return;
         }
 
-        List<String> description = new ArrayList<>();
+        List<String> description = new ArrayList<>(1);
         int stored = energyStorage.getEnergyStored();
         int capacity = energyStorage.getMaxEnergyStored();
         description.add(LocalizationHelper.getFormattedString("gui.element.energy.fe", stored, capacity));

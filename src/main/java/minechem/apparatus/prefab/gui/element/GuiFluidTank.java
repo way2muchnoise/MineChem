@@ -1,6 +1,6 @@
 package minechem.apparatus.prefab.gui.element;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import minechem.helper.ColourHelper;
 import minechem.helper.LocalizationHelper;
@@ -105,7 +105,7 @@ public class GuiFluidTank extends GuiElement
         }
 
         bindTexture(Compendium.Resource.GUI.guiElements);
-        drawTexturedModalRectScaled(guiLeft + posX + 1, guiTop + posY + 1, 19, 1, 16, 37, width - 2, height - 2);
+        drawTexturedModalRectScaled(guiLeft + posX, guiTop + posY, 18, 0, 18, 39, width, height);
 
         GlStateManager.enableLighting();
     }
@@ -124,7 +124,7 @@ public class GuiFluidTank extends GuiElement
             return;
         }
 
-        List<String> description = new ArrayList<>();
+        List<String> description = new LinkedList<>();
         FluidStack fluidStack = tank.getFluid();
 
         if (fluidStack == null || fluidStack.getFluid() == null)

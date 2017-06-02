@@ -92,7 +92,7 @@ public abstract class GuiElement extends Gui
      * @param drawWidth    width to draw on
      * @param drawHeight   height to draw on
      */
-    protected void drawTexturedModalRectScaled(float x, float y, float u, float v, int actualWidth, int actualHeight, int drawWidth, int drawHeight)
+    protected void drawTexturedModalRectScaled(float x, float y, float u, float v, float actualWidth, float actualHeight, float drawWidth, float drawHeight)
     {
         float f = 0.00390625F;
         float f1 = 0.00390625F;
@@ -119,8 +119,8 @@ public abstract class GuiElement extends Gui
         if (!tooltip.isEmpty())
         {
             GlStateManager.disableRescaleNormal();
-            GlStateManager.disableLighting();
             GlStateManager.disableDepth();
+
             int k = 0;
 
             for (String line : tooltip)
@@ -170,7 +170,6 @@ public abstract class GuiElement extends Gui
             }
 
             this.zLevel = 0.0F;
-            GlStateManager.enableLighting();
             GlStateManager.enableDepth();
             GlStateManager.enableRescaleNormal();
         }

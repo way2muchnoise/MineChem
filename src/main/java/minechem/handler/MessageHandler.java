@@ -1,15 +1,12 @@
 package minechem.handler;
 
-import minechem.handler.message.ResearchSyncMessage;
+import minechem.handler.message.*;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 import minechem.Compendium;
-import minechem.handler.message.AchievementMessage;
-import minechem.handler.message.JournalMessage;
-import minechem.handler.message.ResearchMessage;
 
 public class MessageHandler implements IMessageHandler
 {
@@ -26,6 +23,7 @@ public class MessageHandler implements IMessageHandler
         INSTANCE.registerMessage(ResearchMessage.Handler.class, ResearchMessage.class, id++, Side.SERVER);
 
         INSTANCE.registerMessage(ResearchSyncMessage.Handler.class, ResearchSyncMessage.class, id++, Side.CLIENT);
+        INSTANCE.registerMessage(ClientTEUpdate.Handler.class, ClientTEUpdate.class, id++, Side.CLIENT);
     }
 
     /**

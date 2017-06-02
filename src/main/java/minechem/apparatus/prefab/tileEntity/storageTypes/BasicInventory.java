@@ -1,6 +1,6 @@
 package minechem.apparatus.prefab.tileEntity.storageTypes;
 
-import minechem.apparatus.prefab.tileEntity.BaseTileEntity;
+import minechem.Compendium;
 import minechem.apparatus.prefab.tileEntity.IChangeable;
 import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.item.ItemStack;
@@ -8,18 +8,22 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.items.IItemHandlerModifiable;
+import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 import net.minecraftforge.items.wrapper.InvWrapper;
+
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Defines basic properties for TileEntities
  */
 public class BasicInventory extends InventoryBasic implements INBTWritable {
-    private static final String prefix = "minechem:basicinv:";
-    private IChangeable listener = new IChangeable.NoListener();
+    private IChangeable listener = IChangeable.NONE;
 
-    public BasicInventory(BaseTileEntity entity, int inventorySize)
-    {
-        this(inventorySize, "basicInventory");
+    public BasicInventory(int inventorySize) {
+        this(inventorySize, "inventory");
     }
 
     public BasicInventory(int inventorySize, String inventoryName)
@@ -32,14 +36,30 @@ public class BasicInventory extends InventoryBasic implements INBTWritable {
         return this;
     }
 
+    public List<ItemStack> getAllStacks() {
+        List<ItemStack> itemStacks = new LinkedList<>();
+        for (int i = 0; i < getSizeInventory(); i++) {
+            ItemStack stack = getStackInSlot(i);
+            if (!stack.isEmpty()) {
+                itemStacks.add(stack);
+            }
+        }
+        return itemStacks;
+    }
+
     @Override
     public void markDirty() {
         super.markDirty();
-        this.listener.onChange();
+        this.listener.onChange(false);
     }
 
     public IItemHandlerModifiable asCapability() {
         return new InvWrapper(this);
+    }
+
+    public static IItemHandlerModifiable asCapability(BasicInventory... others) {
+        List<IItemHandlerModifiable> handlers = Arrays.stream(others).map(inv -> inv.asCapability()).collect(Collectors.toList());
+        return new CombinedInvWrapper(handlers.toArray(new IItemHandlerModifiable[handlers.size()]));
     }
 
     @Override
@@ -52,12 +72,12 @@ public class BasicInventory extends InventoryBasic implements INBTWritable {
             stack.writeToNBT(tag);
             nbttaglist.appendTag(tag);
         }
-        tagCompound.setTag(prefix + getName(), nbttaglist);
+        tagCompound.setTag(Compendium.NBTTags.inventory + getName(), nbttaglist);
     }
 
     @Override
     public void readFromNBT(NBTTagCompound nbttagcompound) {
-        NBTTagList nbttaglist = nbttagcompound.getTagList( prefix + getName(), Constants.NBT.TAG_COMPOUND);
+        NBTTagList nbttaglist = nbttagcompound.getTagList( Compendium.NBTTags.inventory + getName(), Constants.NBT.TAG_COMPOUND);
         for (int i = 0; i < getSizeInventory(); i++)
         {
             setInventorySlotContents(i, new ItemStack(nbttaglist.getCompoundTagAt(i)));

@@ -14,8 +14,6 @@ import net.minecraft.util.ResourceLocation;
  */
 public class Compendium
 {
-    private static final String modPrefix = Compendium.Naming.id + ":";
-
     public static final class Color
     {
         public static final class TextFormat

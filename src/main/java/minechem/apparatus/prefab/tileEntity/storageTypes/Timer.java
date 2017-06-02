@@ -1,41 +1,78 @@
 package minechem.apparatus.prefab.tileEntity.storageTypes;
 
 import minechem.Compendium;
+import minechem.apparatus.prefab.tileEntity.IChangeable;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.math.MathHelper;
 
-public class Timer
-{
+/**
+ * The timer works per second
+ */
+public class Timer implements INBTWritable {
+    private static final int ticksPerSecond = 20;
+
+    private String name;
     private int reset;
     private int counter;
+    private boolean selfResetting, visual;
 
-    public Timer(int reset)
-    {
-        this.reset = reset;
+    private IChangeable listener = IChangeable.NONE;
+
+    public Timer() {
+        this(1, "tickTimer", true, false);
     }
 
-    private Timer(int reset, int count)
+    public Timer(float reset, String name) {
+        this(reset, name, false, true);
+    }
+
+    public Timer(float reset, String name, boolean selfResetting, boolean visual)
     {
-        this.reset = reset;
-        this.counter = count;
+        this.reset = MathHelper.ceil(reset * ticksPerSecond);
+        this.name = name;
+        this.selfResetting = selfResetting;
+        this.visual = visual;
+    }
+
+    public Timer setListener(IChangeable changeable) {
+        this.listener = changeable;
+        return this;
     }
 
     public boolean update()
     {
-        if (counter++ == reset)
+        boolean metTarget = false;
+        if (++counter >= reset)
         {
-            counter = 0;
-            return true;
+            metTarget = true;
+            if (selfResetting) reset();
         }
-        return false;
+        listener.onChange(visual);
+        return metTarget;
     }
 
-    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound)
+    public void reset() {
+        counter = 0;
+        listener.onChange(visual);
+    }
+
+    public int getCounter() {
+        return counter;
+    }
+
+    /**
+     * @return percentage of the time
+     */
+    public int getProgress() {
+        return (counter * 100) / reset;
+    }
+
+    public void writeToNBT(NBTTagCompound tagCompound)
     {
-        tagCompound.setTag(Compendium.NBTTags.timer, writeToNBT());
-        return tagCompound;
+        tagCompound.setTag(Compendium.NBTTags.timer + name, asNBTTag());
     }
 
-    public NBTTagCompound writeToNBT()
+    public NBTTagCompound asNBTTag()
     {
         NBTTagCompound timer = new NBTTagCompound();
         timer.setInteger(Compendium.NBTTags.count, this.counter);
@@ -43,18 +80,15 @@ public class Timer
         return timer;
     }
 
-    public static Timer nbtToTimer(NBTTagCompound compound)
+    public void readFromNBT(NBTTagCompound compound)
     {
         NBTTagCompound timer = compound;
-        if (compound.hasKey(Compendium.NBTTags.timer, Compendium.NBTTags.tagCompound))
-        {
-            timer = compound.getCompoundTag(Compendium.NBTTags.timer);
+        if (timer.hasKey(Compendium.NBTTags.timer + name, Compendium.NBTTags.tagCompound)) {
+            timer = compound.getCompoundTag(Compendium.NBTTags.timer + name);
+            reset = timer.getInteger(Compendium.NBTTags.reset);
+            counter = timer.getInteger(Compendium.NBTTags.count);
         }
-        if (timer.hasKey(Compendium.NBTTags.count) && timer.hasKey(Compendium.NBTTags.reset))
-        {
-            return new Timer(timer.getInteger(Compendium.NBTTags.reset), timer.getInteger(Compendium.NBTTags.count));
-        }
-        return null;
+
     }
 
 }

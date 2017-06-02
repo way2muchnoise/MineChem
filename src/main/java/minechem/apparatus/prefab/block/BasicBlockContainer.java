@@ -3,19 +3,17 @@ package minechem.apparatus.prefab.block;
 import java.util.ArrayList;
 import minechem.Compendium;
 import minechem.Minechem;
-import minechem.handler.GuiHandler;
+import minechem.apparatus.prefab.tileEntity.BasicTileEntity;
 import minechem.helper.AchievementHelper;
 import minechem.helper.ItemHelper;
 import minechem.helper.ResearchHelper;
 import minechem.registry.CreativeTabRegistry;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -76,14 +74,8 @@ public abstract class BasicBlockContainer extends BlockContainer
         return this.boudningBox;
     }
 
-    /**
-     * Define what stacks get dropped when the block is broken, defaults to nothing
-     *
-     * @param tileEntity
-     * @param itemStacks
-     */
-    public void addStacksDroppedOnBlockBreak(TileEntity tileEntity, ArrayList<ItemStack> itemStacks)
-    {
+    public void addStacksDroppedOnBlockBreak(BasicTileEntity basicTileEntity, ArrayList<ItemStack> itemStacks) {
+        basicTileEntity.addStacksDroppedOnBlockBreak(itemStacks);
     }
 
     /**
@@ -95,38 +87,16 @@ public abstract class BasicBlockContainer extends BlockContainer
      */
     @Override
     public void breakBlock(World world, BlockPos pos, IBlockState state) {
-        Block block = state.getBlock();
-        if (block instanceof BasicBlockContainer)
+        TileEntity tileEntity = world.getTileEntity(pos);
+        if (tileEntity != null && tileEntity instanceof BasicTileEntity)
         {
-            TileEntity tileEntity = world.getTileEntity(pos);
-            if (tileEntity != null)
-            {
-                ArrayList<ItemStack> droppedStacks = new ArrayList<ItemStack>();
-
-                if (dropInventory())
-                {
-                    if (tileEntity instanceof IInventory)
-                    {
-                        IInventory inventory = (IInventory) tileEntity;
-                        for (int i = 0; i < inventory.getSizeInventory(); i++)
-                        {
-                            ItemStack stack = inventory.getStackInSlot(i);
-                            if (stack != null && !stack.isEmpty())
-                            {
-                                droppedStacks.add(stack);
-                            }
-                        }
-                    }
-                }
-
-                addStacksDroppedOnBlockBreak(tileEntity, droppedStacks);
-                for (ItemStack itemstack : droppedStacks)
-                {
-                    ItemHelper.throwItemStack(world, itemstack, pos);
-                }
-                super.breakBlock(world, pos, state);
+            ArrayList<ItemStack> droppedStacks = new ArrayList<>();
+            addStacksDroppedOnBlockBreak((BasicTileEntity) tileEntity, droppedStacks);
+            for (ItemStack itemstack : droppedStacks) {
+                ItemHelper.throwItemStack(world, itemstack, pos);
             }
         }
+        super.breakBlock(world, pos, state);
     }
 
     /**
@@ -138,16 +108,6 @@ public abstract class BasicBlockContainer extends BlockContainer
      */
     @Override
     public abstract TileEntity createNewTileEntity(World world, int meta);
-
-    /**
-     * Override to allow inventory dropping to be toggled
-     *
-     * @return boolean true
-     */
-    public boolean dropInventory()
-    {
-        return true;
-    }
 
     /**
      * Open the GUI on block activation
@@ -167,10 +127,7 @@ public abstract class BasicBlockContainer extends BlockContainer
         if (tileEntity != null && !player.isSneaking())
         {
             acquireResearch(player, world);
-            if (!world.isRemote)
-            {
-                openGui(player, world, pos.getX(), pos.getY(), pos.getZ());
-            }
+            openGui(player, world, pos.getX(), pos.getY(), pos.getZ());
             return true;
         }
 

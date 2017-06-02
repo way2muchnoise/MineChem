@@ -8,7 +8,7 @@ import net.minecraftforge.fluids.FluidTank;
  */
 public class BasicFluidTank extends FluidTank
 {
-    private IChangeable listener = new IChangeable.NoListener();
+    private IChangeable listener = IChangeable.NONE;
 
     /**
      * Creates a new fluid tank with a specific capacity
@@ -28,6 +28,6 @@ public class BasicFluidTank extends FluidTank
     @Override
     protected void onContentsChanged() {
         super.onContentsChanged();
-        listener.onChange();
+        listener.onChange(true);
     }
 }
