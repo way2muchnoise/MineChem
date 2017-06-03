@@ -12,13 +12,12 @@ import net.minecraft.nbt.NBTTagCompound;
  */
 public abstract class ChemicalBase
 {
-    public enum Form
-    {
+    public enum Form {
         solid, liquid, gas, plasma
     }
 
-    public final Form form;// @TODO: this should become a temperature so that the form can be defined on that maybe?
     public final String fullName;
+    public Form form;
     protected int colour;
 
     public ChemicalBase(String fullName, String form, int colour)
@@ -70,6 +69,12 @@ public abstract class ChemicalBase
     public ItemStack getItemStack()
     {
         return ChemicalItem.getItemStackForChemical(this);
+    }
+
+    public ItemStack getItemStack(int size) {
+        ItemStack stack = getItemStack();
+        stack.setCount(size);
+        return stack;
     }
 
     public int getColour()

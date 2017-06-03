@@ -4,6 +4,7 @@ import java.util.Random;
 
 import minechem.chemical.Chemical;
 import minechem.chemical.ChemicalBase;
+import net.minecraft.item.ItemStack;
 
 public class ChemicalMultiProcess extends ChemicalProcess
 {
@@ -22,9 +23,9 @@ public class ChemicalMultiProcess extends ChemicalProcess
     }
 
     @Override
-    public Chemical[] getOutput(ChemicalProcessType type)
+    public Chemical[] getOutput(ChemicalProcessType type, ItemStack stack)
     {
-        if (super.getOutput(type) != empty) {
+        if (super.getOutput(type, stack) != empty) {
             return outputs[new Random().nextInt(outputs.length)];
         }
         return empty;

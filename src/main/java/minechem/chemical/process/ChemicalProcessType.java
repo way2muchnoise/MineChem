@@ -5,12 +5,12 @@ import minechem.registry.ChemicalProcessRegistry;
 public class ChemicalProcessType implements Comparable<ChemicalProcessType>
 {
     public static final ChemicalProcessType heat = ChemicalProcessRegistry.getInstance().addProcess("heat");
+    public static final ChemicalProcessType ionization = ChemicalProcessRegistry.getInstance().addProcess("ionization");
     public static final ChemicalProcessType acid = ChemicalProcessRegistry.getInstance().addProcess("acid");
-    public static final ChemicalProcessType friction = ChemicalProcessRegistry.getInstance().addProcess("friction");
+    public static final ChemicalProcessType dissolve = ChemicalProcessRegistry.getInstance().addProcess("dissolve");
+    public static final ChemicalProcessType dry = ChemicalProcessRegistry.getInstance().addProcess("dry");
     public static final ChemicalProcessType centrifuge = ChemicalProcessRegistry.getInstance().addProcess("centrifuge");
     public static final ChemicalProcessType electrolysis = ChemicalProcessRegistry.getInstance().addProcess("electrolysis");
-
-    public static final ChemicalProcessType heatFriction = ChemicalProcessRegistry.getInstance().addProcess(heat, friction);
 
     protected String name;
 

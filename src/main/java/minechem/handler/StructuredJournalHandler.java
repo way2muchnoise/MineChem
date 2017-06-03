@@ -39,10 +39,10 @@ public class StructuredJournalHandler
     public static void init()
     {
         String[] fileDestSource = new String[2];
-        fileDestSource[0] = Compendium.Config.dataJsonPrefix + "pages.json";
-        fileDestSource[1] = Compendium.Config.configPrefix + Compendium.Config.dataJsonPrefix + "pages.json";
+        fileDestSource[0] = Compendium.Config.dataJsonPrefix + Compendium.Config.researchPagesJson;
+        fileDestSource[1] = Compendium.Config.configPrefix + Compendium.Config.dataJsonPrefix + Compendium.Config.researchPagesJson;
 
-        InputStream inputStream = FileHelper.getJsonFile(ResearchHandler.class, fileDestSource, Config.useDefaultResearchPages);
+        InputStream inputStream = FileHelper.getJsonFile(StructuredJournalHandler.class, fileDestSource, Config.useDefaultResearchPages);
         readFromStream(inputStream);
         if (inputStream != null)
         {

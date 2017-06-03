@@ -1,12 +1,15 @@
 package minechem.chemical.process;
 
 import minechem.chemical.Chemical;
+import net.minecraft.item.ItemStack;
+
+import java.util.Collection;
 
 public class ChemicalProcess
 {
     public static Chemical[] empty = new Chemical[0];
-    private ChemicalProcessType type;
-    private Chemical[] output;
+    protected ChemicalProcessType type;
+    protected Chemical[] output;
 
     /**
      * Create a process to bind to an ItemStack
@@ -20,7 +23,11 @@ public class ChemicalProcess
         this.output = components;
     }
 
-    public Chemical[] getOutput(ChemicalProcessType type)
+    public ChemicalProcess(ChemicalProcessType type, Collection<Chemical> components) {
+        this(type, components.toArray(new Chemical[components.size()]));
+    }
+
+    public Chemical[] getOutput(ChemicalProcessType type, ItemStack stack)
     {
         if (this.type == type) {
             return output;

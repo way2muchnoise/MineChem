@@ -1,9 +1,9 @@
 package minechem.chemical.process;
 
-import java.util.Random;
-
 import minechem.chemical.Chemical;
-import minechem.chemical.ChemicalBase;
+import net.minecraft.item.ItemStack;
+
+import java.util.Random;
 
 public class ChemicalChanceProcess extends ChemicalProcess
 {
@@ -31,11 +31,11 @@ public class ChemicalChanceProcess extends ChemicalProcess
     }
 
     @Override
-    public Chemical[] getOutput(ChemicalProcessType type)
+    public Chemical[] getOutput(ChemicalProcessType type, ItemStack stack)
     {
         if (new Random().nextFloat() > chance)
         {
-            return super.getOutput(type);
+            return super.getOutput(type, stack);
         }
         return empty;
     }

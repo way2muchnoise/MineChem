@@ -1,5 +1,7 @@
 package minechem;
 
+import minechem.chemical.process.DefaultProcesses;
+import minechem.handler.*;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -11,12 +13,6 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
-import minechem.handler.AchievementHandler;
-import minechem.handler.ElementHandler;
-import minechem.handler.GuiHandler;
-import minechem.handler.ResearchHandler;
-import minechem.handler.MessageHandler;
-import minechem.handler.MoleculeHandler;
 import minechem.helper.LogHelper;
 import minechem.proxy.CommonProxy;
 import minechem.registry.BlockRegistry;
@@ -84,6 +80,12 @@ public class Minechem
     {
         LogHelper.debug("Registering Recipes...");
         RecipeRegistry.getInstance().init();
+
+        LogHelper.debug("Registering default chemical processes...");
+        DefaultProcesses.register();
+
+        LogHelper.debug("Registering custom chemical processes...");
+        ReactionsHandler.init();
 
         LogHelper.debug("Registering GUI and Container handlers...");
         NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
