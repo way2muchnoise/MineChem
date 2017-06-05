@@ -50,7 +50,11 @@ public abstract class ChemicalBase
     {
         if (tag != null && tag.hasKey("fullName"))
         {
-            return Jenkins.get(tag.getString("fullName"));
+            ChemicalBase chemical = Jenkins.get(tag.getString("fullName")).copy();
+            if (tag.hasKey("form")) {
+                chemical.form = Form.valueOf(tag.getString("form"));
+            }
+            return chemical;
         }
         return null;
     }
@@ -63,6 +67,7 @@ public abstract class ChemicalBase
         }
         tag.setString("fullName", this.fullName);
         tag.setBoolean("isElement", isElement());
+        tag.setString("form", this.form.name());
         return tag;
     }
 
@@ -85,6 +90,8 @@ public abstract class ChemicalBase
     public abstract List<String> getToolTip();
 
     public abstract String getResearchKey();
+
+    public abstract ChemicalBase copy();
 
     @Override
     public String toString()

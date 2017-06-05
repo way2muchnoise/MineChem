@@ -1,5 +1,6 @@
 package minechem.registry;
 
+import minechem.breakdown.ProbabilityItemStack;
 import minechem.chemical.Chemical;
 import minechem.chemical.process.ChemicalProcess;
 import minechem.chemical.process.ChemicalProcessType;
@@ -24,7 +25,7 @@ public class ChemicalProcessRegistry {
     }
 
     private ChemicalProcessRegistry() {
-        itemStackProcessMap = new ItemStackMap<>();
+        itemStackProcessMap = new ItemStackMap<>(true);
         itemProcessMap = new HashMap<>();
         processNames = new TreeMap<>();
         processTypes = new HashMap<>();
@@ -66,17 +67,18 @@ public class ChemicalProcessRegistry {
      * @return the output in an array
      */
     public Chemical[] getOutput(ItemStack itemStack, ChemicalProcessType processType) {
-        List<ItemStack> items = RecipeRegistry.getInstance().getBreakdown(itemStack);
+        List<ProbabilityItemStack> items = RecipeBreakdownsRegistry.getInstance().getBreakdown(itemStack);
         List<Chemical> outputs = new LinkedList<>();
-        for (ItemStack stack : items) {
+        for (ProbabilityItemStack stack : items) {
             outputs.addAll(getInternalOutput(stack, processType));
         }
         return outputs.toArray(new Chemical[outputs.size()]);
     }
 
-    private List<Chemical> getInternalOutput(ItemStack itemStack, ChemicalProcessType processType) {
+    private List<Chemical> getInternalOutput(ProbabilityItemStack probabilityItemStack, ChemicalProcessType processType) {
         List<Chemical> output = new LinkedList<>();
         Set<ChemicalProcess> processes = new HashSet<>();
+        ItemStack itemStack =  probabilityItemStack.getStack();
 
         if (itemStackProcessMap.contains(itemStack)) {
             processes.addAll(getProcesses(itemStackProcessMap.get(itemStack), processType));
@@ -91,7 +93,7 @@ public class ChemicalProcessRegistry {
             Collections.addAll(output, process.getOutput(processType, itemStack));
         }
 
-        return output;
+        return Chemical.applyProbability(output, probabilityItemStack.getChance());
     }
 
     /**
@@ -103,6 +105,7 @@ public class ChemicalProcessRegistry {
     public void addItemStackProcess(ItemStack itemStack, ChemicalProcess process) {
         Map<ChemicalProcessType, Set<ChemicalProcess>> chemicalTypes = itemStackProcessMap.get(itemStack);
         itemStackProcessMap.put(itemStack, addChemicalType(chemicalTypes, process));
+        RecipeBreakdownsRegistry.getInstance().addStackWithProcess(itemStack);
     }
 
     /**
@@ -114,6 +117,7 @@ public class ChemicalProcessRegistry {
     public void addItemProcess(Item item, ChemicalProcess process) {
         Map<ChemicalProcessType, Set<ChemicalProcess>> chemicalTypes = itemProcessMap.get(item);
         itemProcessMap.put(item, addChemicalType(chemicalTypes, process));
+        RecipeBreakdownsRegistry.getInstance().addItemWithProcess(item);
     }
 
     public void clearProcessingFor(Item item, ChemicalProcessType... types) {
@@ -156,5 +160,10 @@ public class ChemicalProcessRegistry {
             return Collections.emptySet();
         }
         return chemicalTypes.get(processType);
+    }
+
+    public void clear() {
+        itemProcessMap.clear();
+        itemStackProcessMap.clear();
     }
 }

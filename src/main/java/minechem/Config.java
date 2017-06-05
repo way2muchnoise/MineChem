@@ -24,6 +24,10 @@ public class Config
     public static boolean useDefaultMolecules = true;
     // turns on to copy the newest researchPages list from jar
     public static boolean useDefaultResearchPages = true;
+    // turns on to copy the newest reactions list from jar
+    public static boolean useDefaultReactions = false;
+    // turns on to copy the newest fuels list from jar
+    public static boolean useDefaultFuels = false;
 
     // makes it that the player can only see his own work in the book
     public static boolean playerPrivateKnowledge = false;
@@ -33,7 +37,7 @@ public class Config
 
     public static List<IConfigElement> getConfigElements()
     {
-        List<IConfigElement> list = new ArrayList<IConfigElement>();
+        List<IConfigElement> list = new ArrayList<>();
         list.addAll(new ConfigElement(config.getCategory(Configuration.CATEGORY_GENERAL)).getChildElements());
         return list;
     }
@@ -77,6 +81,18 @@ public class Config
         prop.setComment(LocalizationHelper.getLocalString("config.useDefaultResearchPages"));
         prop.setLanguageKey("config.useDefaultResearchPages.tooltip");
         useDefaultResearchPages = prop.getBoolean();
+        configList.add(prop.getName());
+
+        prop = config.get(Configuration.CATEGORY_GENERAL, "useDefaultReactions", Config.useDefaultReactions);
+        prop.setComment(LocalizationHelper.getLocalString("config.useDefaultReactions"));
+        prop.setLanguageKey("config.useDefaultReactions.tooltip");
+        useDefaultReactions = prop.getBoolean();
+        configList.add(prop.getName());
+
+        prop = config.get(Configuration.CATEGORY_GENERAL, "useDefaultFuels", Config.useDefaultFuels);
+        prop.setComment(LocalizationHelper.getLocalString("config.useDefaultFuels"));
+        prop.setLanguageKey("config.useDefaultFuels.tooltip");
+        useDefaultFuels = prop.getBoolean();
         configList.add(prop.getName());
 
         prop = config.get(Configuration.CATEGORY_GENERAL, "playerPrivateKnowledge", Config.playerPrivateKnowledge);

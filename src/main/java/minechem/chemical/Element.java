@@ -137,6 +137,11 @@ public class Element extends ChemicalBase implements Comparable<Element>
     }
 
     @Override
+    public Element copy() {
+        return new Element(atomicNumber, fullName, shortName, form.name(), type.name(), neutrons);
+    }
+
+    @Override
     public List<String> getToolTip()
     {
         List<String> list = new LinkedList<String>();

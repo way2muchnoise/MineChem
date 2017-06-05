@@ -63,6 +63,7 @@ public class Compendium
         public static final String moleculesDataJson = "molecules_data.json";
         public static final String researchPagesJson = "pages.json";
         public static final String reactionsJson = "reactions.json";
+        public static final String fuelsJson = "fuels.json";
         public static final String playerResearchData = "minechem/research_data.json";
     }
 

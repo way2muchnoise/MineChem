@@ -1,6 +1,7 @@
 package minechem.handler;
 
 import minechem.handler.message.ResearchSyncMessage;
+import minechem.helper.LogHelper;
 import minechem.registry.ResearchRegistry;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -12,17 +13,16 @@ import java.util.Collection;
 /**
  * Holds all event triggered methods
  */
-public class EventHandler
-{
+public class EventHandler {
     @SubscribeEvent
-    public void onWorldSave(WorldEvent.Save event)
-    {
+    public void onWorldSave(WorldEvent.Save event) {
+        LogHelper.debug("Saving player research...");
         ResearchHandler.saveResearch();
     }
 
     @SubscribeEvent
-    public void onWorldUnload(WorldEvent.Unload event)
-    {
+    public void onWorldUnload(WorldEvent.Unload event) {
+        LogHelper.debug("Saving player research...");
         ResearchHandler.saveResearch();
     }
 

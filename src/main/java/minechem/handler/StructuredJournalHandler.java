@@ -4,60 +4,60 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
-import minechem.chemical.ChemicalBase;
-import minechem.chemical.Molecule;
-import minechem.item.journal.pages.JournalPage;
-import minechem.item.journal.pages.elements.*;
-import minechem.registry.MoleculeRegistry;
-import net.afterlifelochie.fontbox.api.formatting.layout.AlignmentMode;
-import net.afterlifelochie.fontbox.api.formatting.layout.FloatMode;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.*;
-
 import minechem.Compendium;
 import minechem.Config;
+import minechem.chemical.Molecule;
 import minechem.helper.FileHelper;
 import minechem.helper.Jenkins;
 import minechem.helper.LogHelper;
 import minechem.item.journal.pages.EntryPage;
 import minechem.item.journal.pages.IJournalPage;
 import minechem.item.journal.pages.SectionPage;
+import minechem.item.journal.pages.elements.IJournalElement;
+import minechem.item.journal.pages.elements.JournalHeader;
+import minechem.item.journal.pages.elements.JournalImage;
+import minechem.item.journal.pages.elements.JournalText;
 import minechem.registry.JournalRegistry;
+import minechem.registry.MoleculeRegistry;
+import net.afterlifelochie.fontbox.api.formatting.layout.AlignmentMode;
+import net.afterlifelochie.fontbox.api.formatting.layout.FloatMode;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import org.apache.logging.log4j.Level;
 
-public class StructuredJournalHandler
-{
-    public static void init()
-    {
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.*;
+
+public class StructuredJournalHandler {
+    public static void init() {
         String[] fileDestSource = new String[2];
         fileDestSource[0] = Compendium.Config.dataJsonPrefix + Compendium.Config.researchPagesJson;
         fileDestSource[1] = Compendium.Config.configPrefix + Compendium.Config.dataJsonPrefix + Compendium.Config.researchPagesJson;
 
         InputStream inputStream = FileHelper.getJsonFile(StructuredJournalHandler.class, fileDestSource, Config.useDefaultResearchPages);
         readFromStream(inputStream);
-        if (inputStream != null)
-        {
-            try
-            {
+        if (inputStream != null) {
+            try {
                 inputStream.close();
-            } catch (IOException e)
-            {
+            } catch (IOException e) {
                 LogHelper.exception("Cannot close stream!", e, Level.WARN);
             }
         }
     }
 
-    private static void readFromStream(InputStream inputStream)
-    {
+    public static void reload() {
+        // In the way this works it is fine to just rerun init on reload
+        init();
+    }
+
+    private static void readFromStream(InputStream inputStream) {
         JsonReader jReader = new JsonReader(new InputStreamReader(inputStream));
         JsonParser parser = new JsonParser();
 
@@ -66,36 +66,29 @@ public class StructuredJournalHandler
         JournalRegistry.setJournal(journal);
     }
 
-    public static SectionPage getJournal(JsonObject object)
-    {
+    public static SectionPage getJournal(JsonObject object) {
         SectionPage result = new SectionPage("");
-        for (IJournalPage page : getPagesFromJsonObject("", object))
-        {
+        for (IJournalPage page : getPagesFromJsonObject("", object)) {
             result.addSubPage(page);
         }
         return result;
     }
 
-    public static IJournalPage getPageFromJSONObject(String name, String chapter, JsonObject object)
-    {
+    public static IJournalPage getPageFromJSONObject(String name, String chapter, JsonObject object) {
         IJournalPage result;
-        if (object.has("section"))
-        {
+        if (object.has("section")) {
             result = new SectionPage(name, chapter, new ArrayList<>());
-            for (IJournalPage page : getPagesFromJsonObject((chapter.isEmpty() ? "" : chapter + ".") + name, object.getAsJsonObject("section")))
-            {
+            for (IJournalPage page : getPagesFromJsonObject((chapter.isEmpty() ? "" : chapter + ".") + name, object.getAsJsonObject("section"))) {
                 result.addSubPage(page);
             }
-        } else
-        {
+        } else {
             List<IJournalElement> elements = getElementsFromJsonObject((chapter.isEmpty() ? "" : chapter + ".") + name, object);
             result = new EntryPage(name, chapter, elements);
         }
         return result;
     }
 
-    public static List<IJournalPage> getPagesFromJsonObject(String chapter, JsonObject object)
-    {
+    public static List<IJournalPage> getPagesFromJsonObject(String chapter, JsonObject object) {
         List<IJournalPage> pages = new ArrayList<>();
         if (chapter.equals("chemicals.compounds")) {
             pages.addAll(getCompoundPages(chapter));
@@ -113,23 +106,17 @@ public class StructuredJournalHandler
         return pages;
     }
 
-    public static List<IJournalElement> getElementsFromJsonObject(String page, JsonObject object)
-    {
+    public static List<IJournalElement> getElementsFromJsonObject(String page, JsonObject object) {
         List<IJournalElement> pages = new ArrayList<>();
         Set<Map.Entry<String, JsonElement>> entrySet = object.entrySet();
-        if (entrySet.size() == 0)
-        {
+        if (entrySet.size() == 0) {
             pages.add(new JournalText(page));
-        } else
-        {
-            for (Map.Entry<String, JsonElement> elementEntry : entrySet)
-            {
+        } else {
+            for (Map.Entry<String, JsonElement> elementEntry : entrySet) {
                 IJournalElement element = getElementFromJsonElement(page, elementEntry.getKey(), elementEntry.getValue());
-                if (element != null)
-                {
+                if (element != null) {
                     pages.add(element);
-                } else
-                {
+                } else {
                     LogHelper.info(page + " object " + elementEntry.getKey() + " failed to parse");
                 }
             }
@@ -137,22 +124,17 @@ public class StructuredJournalHandler
         return pages;
     }
 
-    public static IJournalElement getElementFromJsonElement(String page, String key, JsonElement element)
-    {
-        if (element.isJsonNull())
-        {
+    public static IJournalElement getElementFromJsonElement(String page, String key, JsonElement element) {
+        if (element.isJsonNull()) {
             return new JournalText(page, page + "." + key);
         }
-        if (element.isJsonObject())
-        {
+        if (element.isJsonObject()) {
             return getElementFromJsonObject(page, key, element.getAsJsonObject());
         }
-        try
-        {
+        try {
             String unlockString = element.getAsString();
             return new JournalText(unlockString, page + "." + key);
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
         }
         return null;
     }
@@ -160,95 +142,73 @@ public class StructuredJournalHandler
     private static final String prefix = "textures/journal/";
     private static final String suffix = ".png";
 
-    public static IJournalElement getElementFromJsonObject(String page, String key, JsonObject object)
-    {
+    public static IJournalElement getElementFromJsonObject(String page, String key, JsonObject object) {
         String unlock = page;
-        if (object.has("unlock"))
-        {
+        if (object.has("unlock")) {
             unlock = object.get("unlock").getAsString();
         }
-        if (object.entrySet().size() == 0)
-        {
+        if (object.entrySet().size() == 0) {
             return new JournalText(page, page + "." + key);
         }
-        if (object.entrySet().size() == 1 && object.has("unlock"))
-        {
+        if (object.entrySet().size() == 1 && object.has("unlock")) {
             return new JournalText(unlock, page + "." + key);
         }
-        if (object.has("width"))
-        {
+        if (object.has("width")) {
             int width = object.get("width").getAsInt();
             int height = object.get("height").getAsInt();
             AlignmentMode align = object.has("align") ? AlignmentMode.valueOf(object.get("align").getAsString()) : AlignmentMode.JUSTIFY;
             FloatMode floatMode = object.has("float") ? FloatMode.valueOf(object.get("float").getAsString()) : FloatMode.NONE;
-            if (object.has("image") || key.endsWith(".png"))
-            {
+            if (object.has("image") || key.endsWith(".png")) {
                 String imageDir = object.has("image") ? object.get("image").getAsString() : key;
-                if (!imageDir.startsWith(prefix))
-                {
+                if (!imageDir.startsWith(prefix)) {
                     imageDir = prefix + imageDir;
                 }
-                if (!imageDir.endsWith(suffix))
-                {
+                if (!imageDir.endsWith(suffix)) {
                     imageDir += suffix;
                 }
                 return new JournalImage(unlock, imageDir, width, height, align, floatMode);
-            } else
-            {
+            } else {
                 ItemStack stack = null;
                 String id;
                 String[] split;
                 int damage = object.has("damage") ? object.get("damage").getAsInt() : 0;
                 NBTTagCompound tagCompound;
-                try
-                {
+                try {
                     tagCompound = object.has("nbt") ? JsonToNBT.getTagFromJson(object.get("nbt").getAsString()) : null;
-                } catch (Exception e)
-                {
+                } catch (Exception e) {
                     tagCompound = null;
                 }
-                if (object.has("item"))
-                {
+                if (object.has("item")) {
                     id = object.get("item").getAsString();
-                    if (!id.contains(":"))
-                    {
+                    if (!id.contains(":")) {
                         return null;
                     }
                     split = id.split(":");
-                    if (split.length != 2)
-                    {
+                    if (split.length != 2) {
                         return null;
                     }
                     Item item = GameRegistry.findRegistry(Item.class).getValue(new ResourceLocation(split[0], split[1]));
-                    if (item != null)
-                    {
+                    if (item != null) {
                         stack = new ItemStack(item, 1, damage);
                     }
-                } else if (object.has("block"))
-                {
+                } else if (object.has("block")) {
                     id = object.get("block").getAsString();
-                    if (!id.contains(":"))
-                    {
+                    if (!id.contains(":")) {
                         return null;
                     }
                     split = id.split(":");
-                    if (split.length != 2)
-                    {
+                    if (split.length != 2) {
                         return null;
                     }
                     Block block = GameRegistry.findRegistry(Block.class).getValue(new ResourceLocation(split[0], split[1]));
-                    if (block != null)
-                    {
+                    if (block != null) {
                         stack = new ItemStack(block, 1, damage % 16);
                     }
-                } else if (object.has("chemical"))
-                {
+                } else if (object.has("chemical")) {
                     stack = Jenkins.getStack(object.get("chemical").getAsString());
                 }
-                if (stack != null)
-                {
-                    if (tagCompound != null)
-                    {
+                if (stack != null) {
+                    if (tagCompound != null) {
                         stack.setTagCompound(tagCompound);
                     }
                     return new JournalImage(unlock, stack, width, height, align, floatMode);

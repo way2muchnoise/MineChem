@@ -15,20 +15,32 @@
   },
   {
     "process" : "heat",
-    "input" : {
-      "name" : "minecraft:iron_nugget"
-    },
+    "input" : "oreIron",
     "output" : [
-      "Fe"
+      "9*Fe"
+    ]
+  },
+  {
+    "process" : "heat",
+    "input" : "oreGold",
+    "output" : [
+      "9*Au"
     ]
   },
   {
     "process" : "heat",
     "input" : {
-      "name" : "minecraft:gold_nugget"
+      "name": "minecraft:coal"
     },
     "output" : [
-      "Au"
+      "9*C"
+    ]
+  },
+  {
+    "process" : "heat",
+    "input" : "logWood",
+    "output" : [
+      "8*C"
     ]
   }
 ]

@@ -82,6 +82,11 @@ public class Molecule extends ChemicalBase
         return "chemicals.compounds." + fullName.toLowerCase();
     }
 
+    @Override
+    public Molecule copy() {
+        return new Molecule(fullName, form.name(), colour, structure.copy());
+    }
+
     /**
      * Helper methods
      */
