@@ -57,11 +57,11 @@ public class ElectricCrucibleTileEntity extends BasicTileTickingEntity
     @Override
     public void readFromNBT(NBTTagCompound nbttagcompound) {
         super.readFromNBT(nbttagcompound);
-        INBTWritable.readFromNBT(nbttagcompound, inventoryIn, inventoryOut, processingInventory, energy);
+        INBTWritable.readNBT(nbttagcompound, inventoryIn, inventoryOut, processingInventory, energy);
     }
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbttagcompound) {
-        return INBTWritable.writeToNBT(super.writeToNBT(nbttagcompound), inventoryIn, inventoryOut, processingInventory, energy);
+        return INBTWritable.writeNBT(super.writeToNBT(nbttagcompound), inventoryIn, inventoryOut, processingInventory, energy);
     }
 }

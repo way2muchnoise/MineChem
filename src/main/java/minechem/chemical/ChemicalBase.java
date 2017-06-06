@@ -98,4 +98,21 @@ public abstract class ChemicalBase
     {
         return getFormula();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ChemicalBase that = (ChemicalBase) o;
+
+        return this.fullName.equals(that.fullName) && this.form == that.form;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = fullName.hashCode();
+        result = 31 * result + form.hashCode();
+        return result;
+    }
 }

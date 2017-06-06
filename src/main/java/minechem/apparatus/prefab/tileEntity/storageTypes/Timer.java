@@ -67,7 +67,7 @@ public class Timer implements INBTWritable {
         return (counter * 100) / reset;
     }
 
-    public void writeToNBT(NBTTagCompound tagCompound)
+    public void writeNBT(NBTTagCompound tagCompound)
     {
         tagCompound.setTag(Compendium.NBTTags.timer + name, asNBTTag());
     }
@@ -80,7 +80,7 @@ public class Timer implements INBTWritable {
         return timer;
     }
 
-    public void readFromNBT(NBTTagCompound compound)
+    public void readNBT(NBTTagCompound compound)
     {
         NBTTagCompound timer = compound;
         if (timer.hasKey(Compendium.NBTTags.timer + name, Compendium.NBTTags.tagCompound)) {

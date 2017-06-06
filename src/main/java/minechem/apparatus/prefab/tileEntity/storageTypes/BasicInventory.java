@@ -63,7 +63,7 @@ public class BasicInventory extends InventoryBasic implements INBTWritable {
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tagCompound) {
+    public void writeNBT(NBTTagCompound tagCompound) {
         NBTTagList nbttaglist = new NBTTagList();
         for (int i = 0; i < getSizeInventory(); i++)
         {
@@ -76,7 +76,7 @@ public class BasicInventory extends InventoryBasic implements INBTWritable {
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbttagcompound) {
+    public void readNBT(NBTTagCompound nbttagcompound) {
         NBTTagList nbttaglist = nbttagcompound.getTagList( Compendium.NBTTags.inventory + getName(), Constants.NBT.TAG_COMPOUND);
         for (int i = 0; i < getSizeInventory(); i++)
         {

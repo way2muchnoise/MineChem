@@ -8,7 +8,7 @@ import minechem.apparatus.prefab.gui.element.GuiFluidTank;
 import net.minecraft.entity.player.InventoryPlayer;
 
 public class ElectrolysisGUI extends BasicGuiContainer {
-    private static final int arrowPosX = 74, arrowPosY = 33;
+    private static final int arrowPosX = 102, arrowPosY = 35;
 
     public ElectrolysisGUI(InventoryPlayer inventoryPlayer, ElectrolysisTileEntity electrolysis) {
         super(new ElectrolysisContainer(inventoryPlayer, electrolysis));

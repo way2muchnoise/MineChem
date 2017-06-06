@@ -28,14 +28,14 @@ public class ProcessingInventory extends BasicInventory implements IUpdateable {
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tagCompound) {
-        super.writeToNBT(tagCompound);
-        timer.writeToNBT(tagCompound);
+    public void writeNBT(NBTTagCompound tagCompound) {
+        super.writeNBT(tagCompound);
+        timer.writeNBT(tagCompound);
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbttagcompound) {
-        super.readFromNBT(nbttagcompound);
-        timer.readFromNBT(nbttagcompound);
+    public void readNBT(NBTTagCompound nbttagcompound) {
+        super.readNBT(nbttagcompound);
+        timer.readNBT(nbttagcompound);
     }
 }

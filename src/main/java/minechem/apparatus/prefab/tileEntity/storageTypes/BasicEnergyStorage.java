@@ -45,7 +45,7 @@ public class BasicEnergyStorage extends EnergyStorage implements INBTWritable {
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tagCompound) {
+    public void writeNBT(NBTTagCompound tagCompound) {
         NBTTagCompound energyTag = new NBTTagCompound();
         energyTag.setInteger("energy", energy);
         energyTag.setInteger("capacity", capacity);
@@ -55,7 +55,7 @@ public class BasicEnergyStorage extends EnergyStorage implements INBTWritable {
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbttagcompound) {
+    public void readNBT(NBTTagCompound nbttagcompound) {
         NBTTagCompound energyTag = nbttagcompound.getCompoundTag(prefix);
         energy = energyTag.getInteger("energy");
         capacity = energyTag.getInteger("capacity");

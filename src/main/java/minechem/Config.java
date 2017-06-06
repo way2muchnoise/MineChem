@@ -33,7 +33,7 @@ public class Config
     public static boolean playerPrivateKnowledge = false;
 
     public static int energyConsumption = 10;
-    public static int fluidConsumption = 10;
+    public static int fluidConsumption = 2;
 
     public static List<IConfigElement> getConfigElements()
     {

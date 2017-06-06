@@ -64,7 +64,7 @@ public class ElectrolysisTileEntity extends BasicTileTickingEntity
                 return true;
             }
             // put energy back when there was no fluid
-            energy.receiveEnergy(10, false);
+            energy.receiveEnergy(Config.energyConsumption, false);
         }
         return false;
     }
@@ -72,11 +72,11 @@ public class ElectrolysisTileEntity extends BasicTileTickingEntity
     @Override
     public void readFromNBT(NBTTagCompound nbttagcompound) {
         super.readFromNBT(nbttagcompound);
-        INBTWritable.readFromNBT(nbttagcompound, inventoryIn, inventoryOut, processingInventory, energy);
+        INBTWritable.readNBT(nbttagcompound, inventoryIn, inventoryOut, tank, processingInventory, energy);
     }
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbttagcompound) {
-        return INBTWritable.writeToNBT(super.writeToNBT(nbttagcompound), inventoryIn, inventoryOut, processingInventory, energy);
+        return INBTWritable.writeNBT(super.writeToNBT(nbttagcompound), inventoryIn, inventoryOut, tank, processingInventory, energy);
     }
 }

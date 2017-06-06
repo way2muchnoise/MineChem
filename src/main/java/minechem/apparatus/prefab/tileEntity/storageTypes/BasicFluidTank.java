@@ -9,7 +9,7 @@ import net.minecraftforge.fluids.FluidTank;
 /**
  * Implementation of a basic single fluid type tank
  */
-public class BasicFluidTank extends FluidTank
+public class BasicFluidTank extends FluidTank implements INBTWritable
 {
     private Fluid allowedFluid;
     private IChangeable listener = IChangeable.NONE;
@@ -50,5 +50,13 @@ public class BasicFluidTank extends FluidTank
     protected void onContentsChanged() {
         super.onContentsChanged();
         listener.onChange(true);
+    }
+
+    public void writeNBT(NBTTagCompound tagCompound) {
+        writeToNBT(tagCompound);
+    }
+
+    public void readNBT(NBTTagCompound nbttagcompound) {
+        readFromNBT(nbttagcompound);
     }
 }

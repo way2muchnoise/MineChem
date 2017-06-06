@@ -2,6 +2,7 @@ package minechem.apparatus.prefab.gui.element;
 
 import minechem.Compendium;
 import minechem.helper.LocalizationHelper;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.math.MathHelper;
 
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ public class GuiArrow extends GuiElement {
         if (progression.get() > 0) {
             bindTexture(Compendium.Resource.GUI.guiElements);
             int width = MathHelper.floor((progression.get() / 100.0F) * arrowW);
+            GlStateManager.color(1.0F, 1.0F, 1.0F);
             drawTexturedModalRect(guiLeft + posX, guiTop + posY, arrowX, arrowY, width, arrowH);
         }
     }

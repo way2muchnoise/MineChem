@@ -72,6 +72,7 @@ public class ChemicalProcessRegistry {
         for (ProbabilityItemStack stack : items) {
             outputs.addAll(getInternalOutput(stack, processType));
         }
+        outputs = Chemical.flatten(outputs);
         return outputs.toArray(new Chemical[outputs.size()]);
     }
 

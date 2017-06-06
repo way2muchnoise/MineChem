@@ -23,13 +23,18 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 
 /**
  * Extendable class for simple container blocks
  */
 public abstract class BasicBlockContainer extends BlockContainer
 {
-    private AxisAlignedBB boudningBox;
+    private AxisAlignedBB boundingBox;
 
     /**
      * Unnamed blocks are given a default name
@@ -66,12 +71,12 @@ public abstract class BasicBlockContainer extends BlockContainer
     }
 
     public void setBlockBounds(double x1, double y1, double z1, double x2, double y2, double z2) {
-        this.boudningBox = new AxisAlignedBB(x1, y1, z1, x2, y2, z2);
+        this.boundingBox = new AxisAlignedBB(x1, y1, z1, x2, y2, z2);
     }
 
     @Override
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-        return this.boudningBox;
+        return this.boundingBox;
     }
 
     public void addStacksDroppedOnBlockBreak(BasicTileEntity basicTileEntity, ArrayList<ItemStack> itemStacks) {
@@ -126,11 +131,24 @@ public abstract class BasicBlockContainer extends BlockContainer
         TileEntity tileEntity = world.getTileEntity(pos);
         if (tileEntity != null && !player.isSneaking())
         {
+            if (tileEntity.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, facing)
+                && player.getHeldItem(hand).hasCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, facing)) {
+                IFluidHandler fluidHandler = tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, facing);
+                IFluidHandlerItem fluidHandlerItem = player.getHeldItem(hand).getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, facing);
+                if (!world.isRemote && fluidHandler != null && fluidHandlerItem != null) {
+                    FluidStack willBeDrained = fluidHandlerItem.drain(Fluid.BUCKET_VOLUME, false);
+                    if (willBeDrained != null) {
+                        willBeDrained.amount = fluidHandler.fill(willBeDrained, false);
+                        FluidStack drained = fluidHandlerItem.drain(willBeDrained.amount, true);
+                        fluidHandler.fill(drained, true);
+                    }
+                }
+                return true;
+            }
             acquireResearch(player, world);
             openGui(player, world, pos.getX(), pos.getY(), pos.getZ());
             return true;
         }
-
         return false;
     }
 

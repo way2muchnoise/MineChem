@@ -25,12 +25,12 @@ public class OpticalMicroscopeTileEntity extends BasicTileEntity
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbttagcompound) {
-        return INBTWritable.writeToNBT(super.writeToNBT(nbttagcompound), inventory);
+        return INBTWritable.writeNBT(super.writeToNBT(nbttagcompound), inventory);
     }
 
     @Override
     public void readFromNBT(NBTTagCompound nbttagcompound) {
         super.readFromNBT(nbttagcompound);
-        INBTWritable.readFromNBT(nbttagcompound, inventory);
+        INBTWritable.readNBT(nbttagcompound, inventory);
     }
 }
