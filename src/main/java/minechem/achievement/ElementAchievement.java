@@ -73,7 +73,7 @@ public class ElementAchievement extends Achievement implements ICustomBackground
         {
             smallFont = new Font(Minecraft.getMinecraft().fontRenderer).setFontSize(8);
         }
-        regularFont.print(element.shortName, x + 10 - (element.shortName.length() - 1) * 4, y + 10, Compendium.Color.TrueColor.white, true);
-        smallFont.print(element.atomicNumber, x + 1, y + 1, Compendium.Color.TrueColor.white, true);
+        regularFont.print(element.shortName, x + 10 - (element.shortName.length() - 1) * 4, y + 11, Compendium.Color.TrueColor.white, true);
+        smallFont.print(element.atomicNumber, x + 2, y + 2, Compendium.Color.TrueColor.white, true);
     }
 }

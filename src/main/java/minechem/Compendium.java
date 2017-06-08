@@ -102,8 +102,14 @@ public class Compendium
         public static final String electricCrucible = "electric_crucible";
         public static final String centrifuge = "centrifuge";
         public static final String journal = "journal";
-        public static final String light = "light";
-        public static final String redstone = "redstone";
+        public static final String chemical = "chemical";
+        public static final String concaveLens = "concave_lens";
+        public static final String convexLens = "convex_lens";
+        public static final String microscopeLens = "microscope_lens";
+        public static final String ceramicBowl = "ceramic_bowl";
+        public static final String heatingCore = "heating_core";
+        public static final String electricCore = "electric_core";
+        public static final String centrifugeCore = "centrifuge_core";
     }
 
     public static final class Fontbox

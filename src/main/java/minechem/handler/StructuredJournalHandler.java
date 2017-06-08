@@ -53,7 +53,7 @@ public class StructuredJournalHandler {
     }
 
     public static void reload() {
-        // In the way this works it is fine to just rerun init on reload
+        // In the way this works it is fine to just rerun register on reload
         init();
     }
 

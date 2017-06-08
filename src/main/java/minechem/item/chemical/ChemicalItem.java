@@ -1,5 +1,6 @@
 package minechem.item.chemical;
 
+import minechem.Compendium;
 import minechem.chemical.ChemicalBase;
 import minechem.helper.Jenkins;
 import minechem.helper.LocalizationHelper;
@@ -33,12 +34,12 @@ public class ChemicalItem extends BasicItem
 
     public ChemicalItem()
     {
-        super("chemical");
+        super(Compendium.Naming.chemical);
         setCreativeTab(CreativeTabRegistry.TAB_CHEMICALS);
     }
 
     @SideOnly(Side.CLIENT)
-    public void initModels() {
+    public void initModel() {
         ModelResourceLocation dust = new ModelResourceLocation(getRegistryName() + dustSuffix, "inventory");
         ModelResourceLocation liquid = new ModelResourceLocation(getRegistryName() + liquidSuffix, "inventory");
         ModelResourceLocation gas = new ModelResourceLocation(getRegistryName() + gasSuffix, "inventory");

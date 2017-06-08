@@ -75,13 +75,13 @@ public abstract class BasicContainer extends Container
             {
                 if (!mergeItemStack(stack, player.inventory.mainInventory.size(), inventorySlots.size(), true))
                 {
-                    return null;
+                    return ItemStack.EMPTY;
                 }
             } else
             {
                 if (!mergeItemStack(stack, 0, player.inventory.mainInventory.size(), true))
                 {
-                    return null;
+                    return ItemStack.EMPTY;
                 }
             }
 

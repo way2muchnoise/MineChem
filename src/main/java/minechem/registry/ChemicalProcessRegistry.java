@@ -157,7 +157,7 @@ public class ChemicalProcessRegistry {
     }
 
     private Set<ChemicalProcess> getProcesses(Map<ChemicalProcessType, Set<ChemicalProcess>> chemicalTypes, ChemicalProcessType processType) {
-        if (chemicalTypes == null || chemicalTypes.isEmpty()) {
+        if (chemicalTypes == null || chemicalTypes.isEmpty() || !chemicalTypes.containsKey(processType)) {
             return Collections.emptySet();
         }
         return chemicalTypes.get(processType);

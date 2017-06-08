@@ -74,6 +74,9 @@ public class Minechem {
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
+        LogHelper.debug("Registering crafting recipes...");
+        Recipes.register();
+
         LogHelper.debug("Registering Journal...");
         JournalRegistry.init();
 

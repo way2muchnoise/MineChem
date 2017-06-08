@@ -25,6 +25,14 @@ apparatus.progress=Progress %s%%
 journal.scribble=You scribble down your knowledge.
 
 item.journal.name=Chemist's Journal
+item.centrifuge_core.name=Centrifuge Core
+item.heating_core.name=Heating Core
+item.electric_core.name=Electric Core
+item.microscope_lens.name=Microscope Lens
+item.convex_lens.name=Convex Lens
+item.concave_lens.name=Concave Lens
+item.ceramic_bowl_fired.name=Ceramic Bowl
+item.ceramic_bowl_unfired.name=Unfired Ceramic Bowl
 
 config.debugMode=Turns on extra logging printouts
 config.debugMode.tooltip=Debug Mode
