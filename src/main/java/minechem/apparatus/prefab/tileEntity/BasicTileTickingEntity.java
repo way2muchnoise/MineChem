@@ -60,7 +60,7 @@ public abstract class BasicTileTickingEntity extends BasicTileEntity implements 
                     processingInventory.update();
                 }
             } else {
-                if (processingTick() && processingInventory.update()) {
+                if (processingInventory.isDone() || (processingTick() && processingInventory.update())) {
                     ItemStack toProcess = processingInventory.decrStackSize(0, 1);
                     Chemical[] outputs = ChemicalProcessRegistry.getInstance().getOutput(toProcess, processType);
                     IItemHandlerModifiable output = inventoryOut.asCapability();
@@ -68,6 +68,9 @@ public abstract class BasicTileTickingEntity extends BasicTileEntity implements 
                     if (insert(output, new LinkedList<>(stacks), true)) {
                         insert(output, new LinkedList<>(stacks), false);
                         processingInventory.reset();
+                    } else {
+                        // Try again next time
+                        processingInventory.addItem(toProcess);
                     }
                 }
             }
@@ -76,6 +79,7 @@ public abstract class BasicTileTickingEntity extends BasicTileEntity implements 
 
     /**
      * Use certain resources during the {@link #doChemicalProcessUpdate(BasicInventory, BasicInventory, ProcessingInventory, ChemicalProcessType)}
+     * or other processes
      */
     protected boolean processingTick() {
         return true;

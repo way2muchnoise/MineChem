@@ -9,6 +9,12 @@ import minechem.apparatus.electricCrucible.ElectricCrucibleTileEntity;
 import minechem.apparatus.electrolysis.ElectrolysisContainer;
 import minechem.apparatus.electrolysis.ElectrolysisGUI;
 import minechem.apparatus.electrolysis.ElectrolysisTileEntity;
+import minechem.apparatus.itemPrinter.ItemPrinterContainer;
+import minechem.apparatus.itemPrinter.ItemPrinterGUI;
+import minechem.apparatus.itemPrinter.ItemPrinterTileEntity;
+import minechem.apparatus.molecularConstructor.MolecularConstructorContainer;
+import minechem.apparatus.molecularConstructor.MolecularConstructorGUI;
+import minechem.apparatus.molecularConstructor.MolecularConstructorTileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import minechem.apparatus.opticalMicroscope.OpticalMicroscopeContainer;
@@ -24,6 +30,8 @@ public class GuiHandler implements IGuiHandler
     public static final int CENTRIFUGE = 1;
     public static final int ELECTROLYSIS = 2;
     public static final int ELECTRIC_CRUCIBLE = 3;
+    public static final int MOLECULAR_CONSTRUCTOR = 4;
+    public static final int ITEM_PRINTER = 5;
 
     /**
      * Get the GUI container object for the server
@@ -51,6 +59,10 @@ public class GuiHandler implements IGuiHandler
                     return new ElectrolysisGUI(player.inventory, (ElectrolysisTileEntity) tileEntity);
                 case ELECTRIC_CRUCIBLE:
                     return new ElectricCrucibleGUI(player.inventory, (ElectricCrucibleTileEntity) tileEntity);
+                case MOLECULAR_CONSTRUCTOR:
+                    return new MolecularConstructorGUI(player.inventory, (MolecularConstructorTileEntity) tileEntity);
+                case ITEM_PRINTER:
+                    return new ItemPrinterGUI(player.inventory, (ItemPrinterTileEntity) tileEntity);
             }
         }
         return null;
@@ -82,6 +94,10 @@ public class GuiHandler implements IGuiHandler
                     return new ElectrolysisContainer(player.inventory, (ElectrolysisTileEntity) tileEntity);
                 case ELECTRIC_CRUCIBLE:
                     return new ElectricCrucibleContainer(player.inventory, (ElectricCrucibleTileEntity) tileEntity);
+                case MOLECULAR_CONSTRUCTOR:
+                    return new MolecularConstructorContainer(player.inventory, (MolecularConstructorTileEntity) tileEntity);
+                case ITEM_PRINTER:
+                    return new ItemPrinterContainer(player.inventory, (ItemPrinterTileEntity) tileEntity);
             }
         }
         return null;

@@ -109,6 +109,11 @@ public class ChemicalItem extends BasicItem
         }
     }
 
+    @Override
+    public int getItemStackLimit(ItemStack stack) {
+        return 256;
+    }
+
     public static ChemicalBase getChemicalBase(ItemStack itemStack)
     {
         return ChemicalBase.readFromNBT(itemStack.getTagCompound());

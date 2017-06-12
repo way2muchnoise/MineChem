@@ -3,7 +3,7 @@ package minechem.apparatus.electricCrucible;
 import minechem.Compendium;
 import minechem.apparatus.prefab.gui.container.BasicGuiContainer;
 import minechem.apparatus.prefab.gui.element.GuiArrow;
-import minechem.apparatus.prefab.gui.element.GuiEnergybar;
+import minechem.apparatus.prefab.gui.element.GuiEnergyBar;
 import net.minecraft.entity.player.InventoryPlayer;
 
 public class ElectricCrucibleGUI extends BasicGuiContainer {
@@ -13,7 +13,7 @@ public class ElectricCrucibleGUI extends BasicGuiContainer {
         super(new ElectricCrucibleContainer(inventoryPlayer, electricCrucible));
         this.name = electricCrucible.getName();
         this.texture = Compendium.Resource.GUI.electricCrucible;
-        addGuiElement(new GuiEnergybar(electricCrucible.getEnergy(), 12, 23));
+        addGuiElement(new GuiEnergyBar(electricCrucible.getEnergy(), 12, 23));
         addGuiElement(new GuiArrow(arrowPosX - 1, arrowPosY - 1, electricCrucible::getProgression));
     }
 }

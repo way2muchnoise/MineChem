@@ -11,8 +11,15 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Chemical {
+    public static final Chemical EMPTY = new Chemical(null, 0);
+
     private ChemicalBase chemicalBase;
     private int count;
+
+    public Chemical(ItemStack stack) {
+        this.chemicalBase = ChemicalItem.getChemicalBase(stack);
+        this.count = stack.getCount();
+    }
 
     public Chemical(ChemicalBase chemicalBase, int count) {
         this.chemicalBase = chemicalBase;
@@ -43,6 +50,33 @@ public class Chemical {
         if (Math.random() < (newCount - count)) {
             count += 1;
         }
+    }
+
+    public boolean isEmpty() {
+        return chemicalBase == null || count <= 0;
+    }
+
+    public boolean matches(Chemical chemical) {
+        if (chemicalBase == null) {
+            return chemical.chemicalBase == null && count >= chemical.count;
+        } else {
+            return chemicalBase.equals(chemical.chemicalBase) && count >= chemical.count;
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Chemical that = (Chemical) o;
+
+        return this.chemicalBase.equals(that.chemicalBase) && this.count == that.count;
+    }
+
+    @Override
+    public String toString() {
+        return count + "*" + chemicalBase.getFormula();
     }
 
     public static List<Chemical> applyProbability(List<Chemical> chemicals, float chance) {

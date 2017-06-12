@@ -10,7 +10,7 @@
     "process" : "electrolysis",
     "input" : "Al(OH)3",
     "output" : [
-      "2*Al", "3*O"
+      "2*Al", "3*OH"
     ]
   },
   {

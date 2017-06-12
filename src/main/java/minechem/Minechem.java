@@ -89,6 +89,9 @@ public class Minechem {
         LogHelper.debug("Registering Chemical fuels...");
         FuelHandler.init();
 
+        LogHelper.debug("Registering Item Printing Recipes...");
+        PrintingHandler.init();
+
         LogHelper.debug("Registering GUI and Container handlers...");
         NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
 

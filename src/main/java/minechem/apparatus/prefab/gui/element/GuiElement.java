@@ -1,6 +1,5 @@
 package minechem.apparatus.prefab.gui.element;
 
-import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
@@ -11,13 +10,14 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
+import java.util.List;
+
 /**
  * Base class for GuiElements Holds methods that can be useful when making GuiElements
  *
  * @author way2muchnoise
  */
-public abstract class GuiElement extends Gui
-{
+public abstract class GuiElement extends Gui {
     protected int posX;
     protected int posY;
     protected int width;
@@ -31,8 +31,7 @@ public abstract class GuiElement extends Gui
      * @param width  the width of the element
      * @param height the height of the element
      */
-    public GuiElement(int posX, int posY, int width, int height)
-    {
+    public GuiElement(int posX, int posY, int width, int height) {
         this.posX = posX;
         this.posY = posY;
         this.width = width;
@@ -64,8 +63,7 @@ public abstract class GuiElement extends Gui
      *
      * @param resource the ResourceLocation
      */
-    protected void bindTexture(ResourceLocation resource)
-    {
+    protected void bindTexture(ResourceLocation resource) {
         Minecraft.getMinecraft().renderEngine.bindTexture(resource);
     }
 
@@ -75,8 +73,7 @@ public abstract class GuiElement extends Gui
      *
      * @return the main MinecraftFontRenderer
      */
-    protected FontRenderer getFontRenderer()
-    {
+    protected FontRenderer getFontRenderer() {
         return Minecraft.getMinecraft().fontRenderer;
     }
 
@@ -92,8 +89,7 @@ public abstract class GuiElement extends Gui
      * @param drawWidth    width to draw on
      * @param drawHeight   height to draw on
      */
-    protected void drawTexturedModalRectScaled(float x, float y, float u, float v, float actualWidth, float actualHeight, float drawWidth, float drawHeight)
-    {
+    protected void drawTexturedModalRectScaled(float x, float y, float u, float v, float actualWidth, float actualHeight, float drawWidth, float drawHeight) {
         float f = 0.00390625F;
         float f1 = 0.00390625F;
         Tessellator tessellator = Tessellator.getInstance();
@@ -114,21 +110,17 @@ public abstract class GuiElement extends Gui
      * @param y            y pos
      * @param fontrenderer FontRenderer to draw
      */
-    protected void drawHoveringText(List<String> tooltip, int x, int y, FontRenderer fontrenderer)
-    {
-        if (!tooltip.isEmpty())
-        {
+    protected void drawHoveringText(List<String> tooltip, int x, int y, FontRenderer fontrenderer) {
+        if (!tooltip.isEmpty()) {
             GlStateManager.disableRescaleNormal();
             GlStateManager.disableDepth();
 
             int k = 0;
 
-            for (String line : tooltip)
-            {
+            for (String line : tooltip) {
                 int l = fontrenderer.getStringWidth(line);
 
-                if (l > k)
-                {
+                if (l > k) {
                     k = l;
                 }
             }
@@ -137,8 +129,7 @@ public abstract class GuiElement extends Gui
             int j1 = y - 12;
             int k1 = 8;
 
-            if (tooltip.size() > 1)
-            {
+            if (tooltip.size() > 1) {
                 k1 += 2 + (tooltip.size() - 1) * 10;
             }
 
@@ -156,13 +147,11 @@ public abstract class GuiElement extends Gui
             this.drawGradientRect(i1 - 3, j1 - 3, i1 + k + 3, j1 - 3 + 1, i2, i2);
             this.drawGradientRect(i1 - 3, j1 + k1 + 2, i1 + k + 3, j1 + k1 + 3, j2, j2);
 
-            for (int k2 = 0; k2 < tooltip.size(); ++k2)
-            {
+            for (int k2 = 0; k2 < tooltip.size(); ++k2) {
                 String s1 = tooltip.get(k2);
                 fontrenderer.drawStringWithShadow(s1, i1, j1, -1);
 
-                if (k2 == 0)
-                {
+                if (k2 == 0) {
                     j1 += 2;
                 }
 
@@ -175,8 +164,7 @@ public abstract class GuiElement extends Gui
         }
     }
 
-    protected boolean mouseInElement(int x, int y)
-    {
+    protected boolean mouseInElement(int x, int y) {
         return x >= this.posX && x < this.posX + width - 2 && y >= this.posY && y < this.posY + height - 2;
     }
 }

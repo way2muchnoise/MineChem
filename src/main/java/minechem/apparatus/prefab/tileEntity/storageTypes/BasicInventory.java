@@ -21,18 +21,23 @@ import java.util.stream.Collectors;
  */
 public class BasicInventory extends InventoryBasic implements INBTWritable {
     private IChangeable listener = IChangeable.NONE;
+    private boolean sendUpdates = false;
 
     public BasicInventory(int inventorySize) {
         this(inventorySize, "inventory");
     }
 
-    public BasicInventory(int inventorySize, String inventoryName)
-    {
+    public BasicInventory(int inventorySize, String inventoryName) {
         super(inventoryName, true, inventorySize);
     }
 
     public BasicInventory setListener(IChangeable changeable) {
         this.listener = changeable;
+        return this;
+    }
+
+    public BasicInventory sendUpdates() {
+        this.sendUpdates = true;
         return this;
     }
 
@@ -50,7 +55,7 @@ public class BasicInventory extends InventoryBasic implements INBTWritable {
     @Override
     public void markDirty() {
         super.markDirty();
-        this.listener.onChange(false);
+        this.listener.onChange(sendUpdates);
     }
 
     public IItemHandlerModifiable asCapability() {
@@ -65,8 +70,7 @@ public class BasicInventory extends InventoryBasic implements INBTWritable {
     @Override
     public void writeNBT(NBTTagCompound tagCompound) {
         NBTTagList nbttaglist = new NBTTagList();
-        for (int i = 0; i < getSizeInventory(); i++)
-        {
+        for (int i = 0; i < getSizeInventory(); i++) {
             ItemStack stack = getStackInSlot(i);
             NBTTagCompound tag = new NBTTagCompound();
             stack.writeToNBT(tag);
@@ -77,10 +81,16 @@ public class BasicInventory extends InventoryBasic implements INBTWritable {
 
     @Override
     public void readNBT(NBTTagCompound nbttagcompound) {
-        NBTTagList nbttaglist = nbttagcompound.getTagList( Compendium.NBTTags.inventory + getName(), Constants.NBT.TAG_COMPOUND);
-        for (int i = 0; i < getSizeInventory(); i++)
-        {
-            setInventorySlotContents(i, new ItemStack(nbttaglist.getCompoundTagAt(i)));
+        NBTTagList nbttaglist = nbttagcompound.getTagList(Compendium.NBTTags.inventory + getName(), Constants.NBT.TAG_COMPOUND);
+        for (int i = 0; i < getSizeInventory(); i++) {
+            setInventorySlotContentNoUpdate(i, new ItemStack(nbttaglist.getCompoundTagAt(i)));
+        }
+    }
+
+    public void setInventorySlotContentNoUpdate(int index, ItemStack stack) {
+        this.inventoryContents.set(index, stack);
+        if (!stack.isEmpty() && stack.getCount() > this.getInventoryStackLimit()) {
+            stack.setCount(this.getInventoryStackLimit());
         }
     }
 }

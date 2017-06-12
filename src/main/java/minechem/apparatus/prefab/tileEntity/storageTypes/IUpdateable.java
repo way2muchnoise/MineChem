@@ -19,4 +19,8 @@ public interface IUpdateable {
     default int getCounter() {
         return getTimer().getCounter();
     }
+
+    default boolean isDone() {
+        return getTimer().isDone();
+    }
 }

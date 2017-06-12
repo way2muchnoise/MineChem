@@ -51,6 +51,10 @@ public class Timer implements INBTWritable {
         return metTarget;
     }
 
+    public boolean isDone() {
+        return counter >= reset;
+    }
+
     public void reset() {
         counter = 0;
         listener.onChange(visual);

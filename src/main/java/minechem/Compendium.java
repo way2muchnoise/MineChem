@@ -63,6 +63,7 @@ public class Compendium
         public static final String moleculesDataJson = "molecules_data.json";
         public static final String researchPagesJson = "pages.json";
         public static final String reactionsJson = "reactions.json";
+        public static final String printingJson = "printing.json";
         public static final String fuelsJson = "fuels.json";
         public static final String playerResearchData = "minechem/research_data.json";
     }
@@ -110,6 +111,8 @@ public class Compendium
         public static final String heatingCore = "heating_core";
         public static final String electricCore = "electric_core";
         public static final String centrifugeCore = "centrifuge_core";
+        public static final String molecularConstructor = "molecular_constructor";
+        public static final String itemPrinter = "item_printer";
     }
 
     public static final class Fontbox
@@ -160,6 +163,8 @@ public class Compendium
             public static final ResourceLocation centrifuge = new ResourceLocation(Compendium.Naming.id, Compendium.Texture.GUI.centrifuge);
             public static final ResourceLocation electricCrucible = new ResourceLocation(Compendium.Naming.id, Compendium.Texture.GUI.electricCrucible);
             public static final ResourceLocation electrolysis = new ResourceLocation(Compendium.Naming.id, Compendium.Texture.GUI.electrolysis);
+            public static final ResourceLocation itemPrinter = new ResourceLocation(Compendium.Naming.id, Compendium.Texture.GUI.itemPrinter);
+            public static final ResourceLocation molecularConstructor = new ResourceLocation(Compendium.Naming.id, Compendium.Texture.GUI.molecularConstructor);
             public static final ResourceLocation achievements = new ResourceLocation(Compendium.Naming.id, Compendium.Texture.GUI.achievements);
             public static final ResourceLocation noContent = new ResourceLocation(Compendium.Naming.id, Compendium.Texture.GUI.noContent);
             public static final ResourceLocation guiElements = new ResourceLocation(Compendium.Naming.id, Compendium.Texture.GUI.guiElements);
@@ -176,12 +181,6 @@ public class Compendium
             public static final ResourceLocation electrolysis = new ResourceLocation(Compendium.Naming.id, Compendium.Texture.Model.electrolysis);
             public static final ResourceLocation electricCrucible = new ResourceLocation(Compendium.Naming.id, Compendium.Texture.Model.electricCrucible);
             public static final ResourceLocation centrifuge = new ResourceLocation(Compendium.Naming.id, Compendium.Texture.Model.centrifuge);
-        }
-
-        public static final class Tab
-        {
-            public static final ResourceLocation right = new ResourceLocation(Compendium.Naming.id, Compendium.Texture.GUI.tab_right);
-            public static final ResourceLocation left = new ResourceLocation(Compendium.Naming.id, Compendium.Texture.GUI.tab_left);
         }
 
         public static final class Font
@@ -227,8 +226,8 @@ public class Compendium
             public static final String centrifuge = Compendium.Texture.GUI.prefix + "centrifuge.png";
             public static final String electricCrucible = Compendium.Texture.GUI.prefix + "electric_crucible.png";
             public static final String electrolysis = Compendium.Texture.GUI.prefix + "electrolysis.png";
-            public static final String tab_left = Compendium.Texture.GUI.prefix + "tabLeft.png";
-            public static final String tab_right = Compendium.Texture.GUI.prefix + "tabRight.png";
+            public static final String itemPrinter = Compendium.Texture.GUI.prefix + "item_printer.png";
+            public static final String molecularConstructor = Compendium.Texture.GUI.prefix + "molecular_constructor.png";
             public static final String achievements = Compendium.Texture.GUI.prefix + "achievement_page.png";
             public static final String noContent = Compendium.Texture.GUI.prefix + "no_content.png";
             public static final String guiElements = Compendium.Texture.GUI.prefix + "gui_elements.png";

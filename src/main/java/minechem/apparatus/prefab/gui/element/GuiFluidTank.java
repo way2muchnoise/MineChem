@@ -25,7 +25,6 @@ import java.util.List;
  */
 public class GuiFluidTank extends GuiElement {
     private IFluidTank tank;
-    private int colour;
 
     /**
      * Make a take with given properties
@@ -39,7 +38,6 @@ public class GuiFluidTank extends GuiElement {
     public GuiFluidTank(IFluidTank tank, int posX, int posY, int width, int height) {
         super(posX, posY, width, height);
         this.tank = tank;
-        this.colour = Compendium.Color.TrueColor.blue;
     }
 
     /**
@@ -53,24 +51,13 @@ public class GuiFluidTank extends GuiElement {
         this(tank, posX, posY, 18, 39);
     }
 
-    /**
-     * Set the colour of the line around the tank
-     *
-     * @param colour in Integer form
-     * @return the GuiFluidTank
-     */
-    public GuiFluidTank setColour(int colour) {
-        this.colour = colour;
-        return this;
-    }
-
     @Override
     public void drawBackground(int guiLeft, int guiTop, int mouseX, int mouseY) {
-        GlStateManager.color(ColourHelper.getRed(colour), ColourHelper.getGreen(colour), ColourHelper.getBlue(colour));
+        GlStateManager.color(1.0F, 1.0F, 1.0F);
+
         bindTexture(Compendium.Resource.GUI.guiElements);
         drawTexturedModalRectScaled(guiLeft + posX, guiTop + posY, 0, 0, 18, 39, width, height);
 
-        GlStateManager.color(1.0F, 1.0F, 1.0F);
         FluidStack fluidStack = tank.getFluid();
         if (fluidStack != null && fluidStack.amount > 0) {
             TextureAtlasSprite icon = getStillTexture(fluidStack);

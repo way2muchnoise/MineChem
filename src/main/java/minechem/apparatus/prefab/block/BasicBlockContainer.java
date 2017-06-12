@@ -34,15 +34,7 @@ import net.minecraftforge.fluids.capability.IFluidHandlerItem;
  */
 public abstract class BasicBlockContainer extends BlockContainer
 {
-    private AxisAlignedBB boundingBox;
-
-    /**
-     * Unnamed blocks are given a default name
-     */
-    public BasicBlockContainer()
-    {
-        this(Compendium.Naming.name + " Basic Block");
-    }
+    private AxisAlignedBB boundingBox = FULL_BLOCK_AABB;
 
     /**
      * Create a basic block with a given name

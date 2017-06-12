@@ -21,6 +21,8 @@ public class MessageHandler implements IMessageHandler
         INSTANCE.registerMessage(AchievementMessage.Handler.class, AchievementMessage.class, id++, Side.SERVER);
         INSTANCE.registerMessage(JournalMessage.Handler.class, JournalMessage.class, id++, Side.SERVER);
         INSTANCE.registerMessage(ResearchMessage.Handler.class, ResearchMessage.class, id++, Side.SERVER);
+        INSTANCE.registerMessage(MolecularCraftMessage.Handler.class, MolecularCraftMessage.class, id++, Side.SERVER);
+        INSTANCE.registerMessage(ItemPrinterMessage.Handler.class, ItemPrinterMessage.class, id++, Side.SERVER);
 
         INSTANCE.registerMessage(ResearchSyncMessage.Handler.class, ResearchSyncMessage.class, id++, Side.CLIENT);
         INSTANCE.registerMessage(ClientTEUpdate.Handler.class, ClientTEUpdate.class, id++, Side.CLIENT);

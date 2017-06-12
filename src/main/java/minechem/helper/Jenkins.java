@@ -3,6 +3,7 @@ package minechem.helper;
 import minechem.chemical.Chemical;
 import minechem.chemical.ChemicalBase;
 import minechem.chemical.Element;
+import minechem.chemical.Molecule;
 import minechem.registry.ElementRegistry;
 import minechem.registry.MoleculeRegistry;
 import net.minecraft.item.ItemStack;
@@ -30,18 +31,28 @@ public class Jenkins {
      * @param s eg. 'H', 'H2O', 'hydrogen', 'water'
      * @return the element or molecule that matches given abbreviation or full name
      */
-    public static <T extends ChemicalBase> T get(String s) {
-        ChemicalBase chemicalBase = ElementRegistry.getInstance().getElement(s);
+    public static ChemicalBase get(String s) {
+        ChemicalBase chemicalBase = getElement(s);
         if (chemicalBase == null) {
-            chemicalBase = ElementRegistry.getInstance().getElementByName(s);
+            chemicalBase = getMolecule(s);
         }
-        if (chemicalBase == null) {
-            chemicalBase = MoleculeRegistry.getInstance().getMoleculeByFormula(s);
+        return chemicalBase;
+    }
+
+    public static Element getElement(String s) {
+        Element element = ElementRegistry.getInstance().getElement(s);
+        if (element == null) {
+            element = ElementRegistry.getInstance().getElementByName(s);
         }
-        if (chemicalBase == null) {
-            chemicalBase = MoleculeRegistry.getInstance().getMoleculeByName(s);
+        return element;
+    }
+
+    public static Molecule getMolecule(String s) {
+        Molecule molecule = MoleculeRegistry.getInstance().getMoleculeByFormula(s);
+        if (molecule == null) {
+            molecule = MoleculeRegistry.getInstance().getMoleculeByName(s);
         }
-        return (T) chemicalBase;
+        return molecule;
     }
 
     /**
@@ -61,6 +72,32 @@ public class Jenkins {
         }
         ChemicalBase chemicalBase = get(s);
         return chemicalBase == null ? ItemStack.EMPTY : chemicalBase.getItemStack(size);
+    }
+
+    public static ItemStack getMoleculeStack(String s) {
+        int size = 1;
+        if (s.contains("*")) {
+            String[] splitted = s.split("\\*", 2);
+            s = splitted[1];
+            try {
+                size = Integer.parseInt(splitted[0]);
+            } catch (NumberFormatException ignored) {}
+        }
+        Molecule molecule = getMolecule(s);
+        return molecule == null ? ItemStack.EMPTY : molecule.getItemStack(size);
+    }
+
+    public static ItemStack getElementStack(String s) {
+        int size = 1;
+        if (s.contains("*")) {
+            String[] splitted = s.split("\\*", 2);
+            s = splitted[1];
+            try {
+                size = Integer.parseInt(splitted[0]);
+            } catch (NumberFormatException ignored) {}
+        }
+        Element element = getElement(s);
+        return element == null ? ItemStack.EMPTY : element.getItemStack(size);
     }
 
     /**

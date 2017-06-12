@@ -1,6 +1,7 @@
 package minechem.command;
 
 import minechem.handler.FuelHandler;
+import minechem.handler.PrintingHandler;
 import minechem.handler.ReactionHandler;
 import minechem.handler.StructuredJournalHandler;
 import minechem.registry.RecipeBreakdownsRegistry;
@@ -15,7 +16,7 @@ import java.util.List;
 
 public class ReloadCommand implements ISubCommand {
 
-    public static final String[] reloadables = { "fuels", "reactions", "pages", "breakdowns" };
+    public static final String[] reloadables = { "fuels", "reactions", "pages", "breakdowns", "printing" };
 
     @Override
     public String getCommandName() {
@@ -40,6 +41,9 @@ public class ReloadCommand implements ISubCommand {
             } else if (reloadables[3].startsWith(arg)) {
                 RecipeBreakdownsRegistry.getInstance().clear();
                 reply = "command.minechem.reload.breakdowns";
+            } else if (reloadables[4].startsWith(arg)) {
+                PrintingHandler.reload();
+                reply = "command.minechem.reload.printing";
             }
             if (reply != null) {
                 sender.sendMessage(new TextComponentTranslation(reply));

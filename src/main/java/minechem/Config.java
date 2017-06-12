@@ -28,6 +28,8 @@ public class Config
     public static boolean useDefaultReactions = false;
     // turns on to copy the newest fuels list from jar
     public static boolean useDefaultFuels = false;
+    // turns on to copy the newest printing recipes list from jar
+    public static boolean useDefaultPrinting = false;
 
     // makes it that the player can only see his own work in the book
     public static boolean playerPrivateKnowledge = false;
@@ -93,6 +95,12 @@ public class Config
         prop.setComment(LocalizationHelper.getLocalString("config.useDefaultFuels"));
         prop.setLanguageKey("config.useDefaultFuels.tooltip");
         useDefaultFuels = prop.getBoolean();
+        configList.add(prop.getName());
+
+        prop = config.get(Configuration.CATEGORY_GENERAL, "useDefaultPrinting", Config.useDefaultPrinting);
+        prop.setComment(LocalizationHelper.getLocalString("config.useDefaultPrinting"));
+        prop.setLanguageKey("config.useDefaultPrinting.tooltip");
+        useDefaultPrinting = prop.getBoolean();
         configList.add(prop.getName());
 
         prop = config.get(Configuration.CATEGORY_GENERAL, "playerPrivateKnowledge", Config.playerPrivateKnowledge);

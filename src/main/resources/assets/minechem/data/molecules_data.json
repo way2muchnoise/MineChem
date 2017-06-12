@@ -3565,14 +3565,6 @@
 		"Height":200,
 		"Width":200
 	},
-	"Dioxygen":{
-		"Formula":"O2",
-		"CSID":952,
-		"MolarMass":32.0,
-		"SMILES":"O\u003dO",
-		"Height":200,
-		"Width":200
-	},
 	"Magnesium carbonate":{
 		"Formula":"MgCO3",
 		"MeltingPt":350.0,
@@ -3677,14 +3669,6 @@
 		"Height":243,
 		"Width":273
 	},
-	"Nitrogen":{
-		"Formula":"N2",
-		"CSID":922,
-		"MolarMass":28.0,
-		"SMILES":"N#N",
-		"Height":200,
-		"Width":200
-	},
 	"Nitrous oxide":{
 		"Formula":"N2O",
 		"Density":1.977,
@@ -3703,14 +3687,6 @@
 		"CSID":920,
 		"MolarMass":31.0,
 		"SMILES":"N\u003dO",
-		"Height":200,
-		"Width":200
-	},
-	"Nitrite ion":{
-		"Formula":"NO",
-		"CSID":921,
-		"MolarMass":46.0,
-		"SMILES":"N(\u003dO)[O-]",
 		"Height":200,
 		"Width":200
 	},
@@ -5925,14 +5901,6 @@
 		"CSID":13837650,
 		"MolarMass":98.0,
 		"SMILES":"C(CCl)Cl",
-		"Height":200,
-		"Width":200
-	},
-	"Fluorine":{
-		"Formula":"F2",
-		"CSID":22932,
-		"MolarMass":38.0,
-		"SMILES":"FF",
 		"Height":200,
 		"Width":200
 	},
@@ -8384,14 +8352,6 @@
 		"Flammability":4,
 		"Reactivity":0,
 		"SMILES":"CCC",
-		"Height":200,
-		"Width":200
-	},
-	"Hydrogen":{
-		"Formula":"H2",
-		"CSID":4515072,
-		"MolarMass":1.0,
-		"SMILES":"[H]",
 		"Height":200,
 		"Width":200
 	},

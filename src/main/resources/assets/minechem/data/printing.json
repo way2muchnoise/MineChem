@@ -1,0 +1,32 @@
+[
+  {
+    "recipe" : [
+      [null, null, null],
+      [null, null, null],
+      ["3*Fe", "3*Fe", "3*Fe"]
+    ],
+    "result": {
+      "name" : "minecraft:iron_ingot"
+    }
+  },
+  {
+    "recipe" : [
+      [null, null, null],
+      [null, null, null],
+      ["3*Au", "3*Au", "3*Au"]
+    ],
+    "result": {
+      "name" : "minecraft:gold_ingot"
+    }
+  },
+  {
+    "recipe" : [
+      ["4*Fe", null, "4*Fe"],
+      ["5*Fe", null, "5*Fe"],
+      [null, "9*Fe", null]
+    ],
+    "result": {
+      "name" : "minecraft:bucket"
+    }
+  }
+]
