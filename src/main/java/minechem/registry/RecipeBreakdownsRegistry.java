@@ -1,6 +1,6 @@
 package minechem.registry;
 
-import minechem.api.IReverseRecipe;
+import minechem.api.breakdown.IReverseRecipe;
 import minechem.breakdown.ProbabilityItemStack;
 import minechem.breakdown.ReverseRecipeRegistry;
 import minechem.breakdown.ReverseRecipeSorter;

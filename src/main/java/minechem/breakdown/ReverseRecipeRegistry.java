@@ -1,8 +1,8 @@
 package minechem.breakdown;
 
-import minechem.api.IReverseRecipe;
-import minechem.api.IReverseRecipeFactory;
-import minechem.api.IReverseRecipeRegistry;
+import minechem.api.breakdown.IReverseRecipe;
+import minechem.api.breakdown.IReverseRecipeFactory;
+import minechem.api.breakdown.IReverseRecipeRegistry;
 import net.minecraft.item.ItemStack;
 
 import java.util.HashMap;

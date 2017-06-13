@@ -1,6 +1,6 @@
 package minechem.breakdown;
 
-import minechem.api.IReverseRecipe;
+import minechem.api.breakdown.IReverseRecipe;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;

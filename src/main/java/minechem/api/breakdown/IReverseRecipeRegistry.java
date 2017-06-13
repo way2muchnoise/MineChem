@@ -1,4 +1,4 @@
-package minechem.api;
+package minechem.api.breakdown;
 
 public interface IReverseRecipeRegistry {
     <T> void registerFactory(Class<T> clazz, IReverseRecipeFactory<T> factory);

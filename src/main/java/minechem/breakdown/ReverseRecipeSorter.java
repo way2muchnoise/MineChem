@@ -1,6 +1,6 @@
 package minechem.breakdown;
 
-import minechem.api.IReverseRecipe;
+import minechem.api.breakdown.IReverseRecipe;
 import minechem.helper.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 

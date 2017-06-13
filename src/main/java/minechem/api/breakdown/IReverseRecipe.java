@@ -1,4 +1,4 @@
-package minechem.api;
+package minechem.api.breakdown;
 
 import net.minecraft.item.ItemStack;
 

@@ -107,10 +107,10 @@ public class DefaultProcesses {
 
     public static void register() {
         // Form related
-        ChemicalProcessRegistry.getInstance().addItemProcess(ItemRegistry.chemicalItem, vaporize);
+        /*ChemicalProcessRegistry.getInstance().addItemProcess(ItemRegistry.chemicalItem, vaporize);
         ChemicalProcessRegistry.getInstance().addItemProcess(ItemRegistry.chemicalItem, condensate);
         ChemicalProcessRegistry.getInstance().addItemProcess(ItemRegistry.chemicalItem, dry);
-        ChemicalProcessRegistry.getInstance().addItemProcess(ItemRegistry.chemicalItem, melt);
+        ChemicalProcessRegistry.getInstance().addItemProcess(ItemRegistry.chemicalItem, melt);*/
 
         // Default machine output
         ChemicalProcessRegistry.getInstance().addItemProcess(ItemRegistry.chemicalItem, electrolysis);

@@ -1,7 +1,6 @@
 package minechem.breakdown;
 
-import minechem.api.IReverseRecipe;
-import minechem.helper.ItemStackHelper;
+import minechem.api.breakdown.IReverseRecipe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraftforge.oredict.OreDictionary;

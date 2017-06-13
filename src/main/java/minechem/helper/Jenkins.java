@@ -62,6 +62,7 @@ public class Jenkins {
      * @return a stack of the wanted item
      */
     public static ItemStack getStack(String s) {
+        if (s == null) return ItemStack.EMPTY;
         int size = 1;
         if (s.contains("*")) {
             String[] splitted = s.split("\\*", 2);
@@ -75,6 +76,7 @@ public class Jenkins {
     }
 
     public static ItemStack getMoleculeStack(String s) {
+        if (s == null) return ItemStack.EMPTY;
         int size = 1;
         if (s.contains("*")) {
             String[] splitted = s.split("\\*", 2);
@@ -88,6 +90,7 @@ public class Jenkins {
     }
 
     public static ItemStack getElementStack(String s) {
+        if (s == null) return ItemStack.EMPTY;
         int size = 1;
         if (s.contains("*")) {
             String[] splitted = s.split("\\*", 2);
@@ -107,6 +110,7 @@ public class Jenkins {
      * @return a stack of the wanted item
      */
     public static Chemical getChemical(String s) {
+        if (s == null) return Chemical.EMPTY;
         int size = 1;
         if (s.contains("*")) {
             String[] splitted = s.split("\\*", 2);
@@ -116,7 +120,7 @@ public class Jenkins {
             } catch (NumberFormatException ignored) {}
         }
         ChemicalBase chemicalBase = get(s);
-        return chemicalBase == null ? null : new Chemical(chemicalBase, size);
+        return chemicalBase == null ? Chemical.EMPTY : new Chemical(chemicalBase, size);
     }
 
     /**
