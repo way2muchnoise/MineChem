@@ -19,7 +19,7 @@ public class CentrifugeTileEntity extends BasicTileTickingEntity
     {
         super(BlockRegistry.centrifugeBlock);
         this.inventoryIn = new BasicInventory(1, "insert").setListener(this);
-        this.inventoryOut = new BasicInventory(3, "extract").setListener(this);
+        this.inventoryOut = new BasicInventory(3, "extract").setListener(this).setOutput();
         this.processingInventory = new ProcessingInventory(5).setListener(this);
         this.energy = new BasicEnergyStorage(10000).setListener(this);
         attachCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, BasicInventory.asCapability(inventoryIn, inventoryOut));

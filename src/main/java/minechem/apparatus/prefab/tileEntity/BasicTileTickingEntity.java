@@ -9,11 +9,14 @@ import minechem.chemical.Chemical;
 import minechem.chemical.process.ChemicalProcessType;
 import minechem.handler.MessageHandler;
 import minechem.handler.message.ClientTEUpdate;
+import minechem.handler.message.MolecularCraftMessage;
 import minechem.registry.ChemicalProcessRegistry;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ITickable;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 
@@ -50,6 +53,20 @@ public abstract class BasicTileTickingEntity extends BasicTileEntity implements 
         }
     }
 
+    protected void doGeneralProcessUpdate(ProcessingInventory processingInventory, BasicInventory output) {
+        if (!processingInventory.isEmpty()) {
+            if (processingInventory.isDone() || (processingTick() && processingInventory.update())) {
+                ItemStack result = processingInventory.decrStackSize(0, 1);
+                ItemStack left = output.addItem(result);
+                if (left.isEmpty()) {
+                    processingInventory.reset();
+                } else {
+                    processingInventory.addItem(left);
+                }
+            }
+        }
+    }
+
     protected void doChemicalProcessUpdate(BasicInventory inventoryIn, BasicInventory inventoryOut, ProcessingInventory processingInventory, ChemicalProcessType processType) {
         if (!world.isRemote) {
             if (processingInventory.isEmpty()) {
@@ -63,10 +80,9 @@ public abstract class BasicTileTickingEntity extends BasicTileEntity implements 
                 if (processingInventory.isDone() || (processingTick() && processingInventory.update())) {
                     ItemStack toProcess = processingInventory.decrStackSize(0, 1);
                     Chemical[] outputs = ChemicalProcessRegistry.getInstance().getOutput(toProcess, processType);
-                    IItemHandlerModifiable output = inventoryOut.asCapability();
                     List<ItemStack> stacks = Arrays.stream(outputs).map(Chemical::asItemStack).collect(Collectors.toList());
-                    if (insert(output, new LinkedList<>(stacks), true)) {
-                        insert(output, new LinkedList<>(stacks), false);
+                    if (insert(inventoryOut, new LinkedList<>(stacks), true)) {
+                        insert(inventoryOut, new LinkedList<>(stacks), false);
                         processingInventory.reset();
                     } else {
                         // Try again next time
@@ -111,13 +127,13 @@ public abstract class BasicTileTickingEntity extends BasicTileEntity implements 
      * @param simulate simulate or actually insert the {@link ItemStack}s
      * @return true when all can be inserted, false otherwise
      */
-    protected static boolean insert(IItemHandler dest, Deque<ItemStack> stacks, boolean simulate) {
+    protected static boolean insert(BasicInventory dest, Deque<ItemStack> stacks, boolean simulate) {
         ItemStack current = stacks.poll();
-        List<Integer> availableSlots = IntStream.range(0, dest.getSlots()).boxed().collect(Collectors.toList());
+        List<Integer> availableSlots = IntStream.range(0, dest.getSizeInventory()).boxed().collect(Collectors.toList());
         while (current != null && !availableSlots.isEmpty()) {
             ItemStack remainder = null;
             for (Integer slot : availableSlots) {
-                remainder = dest.insertItem(slot, current, simulate);
+                remainder = dest.addItem(slot, current, simulate);
                 if (remainder.isEmpty() || current.getCount() != remainder.getCount()) {
                     availableSlots.remove(slot);
                     break;

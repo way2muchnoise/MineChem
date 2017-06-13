@@ -21,7 +21,7 @@ public class ElectrolysisTileEntity extends BasicTileTickingEntity
     {
         super(BlockRegistry.electrolysisBlock);
         this.inventoryIn = new BasicInventory(1, "insert").setListener(this);
-        this.inventoryOut = new BasicInventory(2, "extract").setListener(this);
+        this.inventoryOut = new BasicInventory(2, "extract").setListener(this).setOutput();
         this.processingInventory = new ProcessingInventory(5).setListener(this);
         this.energy = new BasicEnergyStorage(10000).setListener(this);
         this.tank = new BasicFluidTank(3000).setListener(this);

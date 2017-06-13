@@ -19,7 +19,7 @@ public class ElectricCrucibleTileEntity extends BasicTileTickingEntity
     {
         super(BlockRegistry.electricCrucibleBlock);
         this.inventoryIn = new BasicInventory(1, "insert").setListener(this);
-        this.inventoryOut = new BasicInventory(6, "extract").setListener(this);
+        this.inventoryOut = new BasicInventory(6, "extract").setListener(this).setOutput();
         this.energy = new BasicEnergyStorage(10000).setListener(this);
         this.processingInventory = new ProcessingInventory(5).setListener(this);
         attachCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, BasicInventory.asCapability(inventoryIn, inventoryOut));

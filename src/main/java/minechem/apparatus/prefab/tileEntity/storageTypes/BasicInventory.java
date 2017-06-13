@@ -8,6 +8,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.items.IItemHandlerModifiable;
+import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
@@ -19,9 +20,11 @@ import java.util.stream.Collectors;
 /**
  * Defines basic properties for TileEntities
  */
+@SuppressWarnings("unchecked")
 public class BasicInventory extends InventoryBasic implements INBTWritable {
     private IChangeable listener = IChangeable.NONE;
     private boolean sendUpdates = false;
+    private boolean isOutput = false;
 
     public BasicInventory(int inventorySize) {
         this(inventorySize, "inventory");
@@ -31,13 +34,18 @@ public class BasicInventory extends InventoryBasic implements INBTWritable {
         super(inventoryName, true, inventorySize);
     }
 
-    public BasicInventory setListener(IChangeable changeable) {
+    public <T extends BasicInventory> T setListener(IChangeable changeable) {
         this.listener = changeable;
-        return this;
+        return (T) this;
     }
 
-    public BasicInventory sendUpdates() {
+    public <T extends BasicInventory> T sendUpdates() {
         this.sendUpdates = true;
+        return (T) this;
+    }
+
+    public BasicInventory setOutput() {
+        this.isOutput = true;
         return this;
     }
 
@@ -50,6 +58,11 @@ public class BasicInventory extends InventoryBasic implements INBTWritable {
             }
         }
         return itemStacks;
+    }
+
+    @Override
+    public boolean isItemValidForSlot(int index, ItemStack stack) {
+        return !isOutput;
     }
 
     @Override
@@ -91,6 +104,83 @@ public class BasicInventory extends InventoryBasic implements INBTWritable {
         this.inventoryContents.set(index, stack);
         if (!stack.isEmpty() && stack.getCount() > this.getInventoryStackLimit()) {
             stack.setCount(this.getInventoryStackLimit());
+        }
+    }
+
+    // Like the implementation in the item handler
+    public ItemStack addItem(int slot, ItemStack stack, boolean simulate) {
+        if (stack.isEmpty())
+            return ItemStack.EMPTY;
+
+        ItemStack stackInSlot = getStackInSlot(slot);
+
+        int m;
+        if (!stackInSlot.isEmpty())
+        {
+            if (!ItemHandlerHelper.canItemStacksStack(stack, stackInSlot))
+                return stack;
+
+            m = Math.min(stack.getMaxStackSize(), getInventoryStackLimit()) - stackInSlot.getCount();
+
+            if (stack.getCount() <= m)
+            {
+                if (!simulate)
+                {
+                    ItemStack copy = stack.copy();
+                    copy.grow(stackInSlot.getCount());
+                    setInventorySlotContents(slot, copy);
+                    markDirty();
+                }
+
+                return ItemStack.EMPTY;
+            }
+            else
+            {
+                // copy the stack to not modify the original one
+                stack = stack.copy();
+                if (!simulate)
+                {
+                    ItemStack copy = stack.splitStack(m);
+                    copy.grow(stackInSlot.getCount());
+                    setInventorySlotContents(slot, copy);
+                    markDirty();
+                    return stack;
+                }
+                else
+                {
+                    stack.shrink(m);
+                    return stack;
+                }
+            }
+        }
+        else
+        {
+            m = Math.min(stack.getMaxStackSize(), getInventoryStackLimit());
+            if (m < stack.getCount())
+            {
+                // copy the stack to not modify the original one
+                stack = stack.copy();
+                if (!simulate)
+                {
+                    setInventorySlotContents(slot, stack.splitStack(m));
+                    markDirty();
+                    return stack;
+                }
+                else
+                {
+                    stack.shrink(m);
+                    return stack;
+                }
+            }
+            else
+            {
+                if (!simulate)
+                {
+                    setInventorySlotContents(slot, stack);
+                    markDirty();
+                }
+                return ItemStack.EMPTY;
+            }
         }
     }
 }

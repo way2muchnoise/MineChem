@@ -4,6 +4,8 @@ import minechem.Compendium;
 import minechem.apparatus.prefab.gui.ScaledButton;
 import minechem.apparatus.prefab.gui.container.BasicGuiContainer;
 import minechem.apparatus.prefab.gui.element.GuiArrow;
+import minechem.apparatus.prefab.gui.element.GuiEnergyBar;
+import minechem.apparatus.prefab.gui.element.GuiFluidTank;
 import minechem.helper.LocalizationHelper;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -11,7 +13,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import java.io.IOException;
 
 public class ItemPrinterGUI extends BasicGuiContainer {
-    private static int arrowX = 110, arrowY = 38;
+    private static int arrowX = 116, arrowY = 38;
 
     private GuiButton craftButton;
     private ItemPrinterTileEntity itemPrinter;
@@ -22,6 +24,8 @@ public class ItemPrinterGUI extends BasicGuiContainer {
         this.name = itemPrinter.getName();
         this.itemPrinter = itemPrinter;
         addGuiElement(new GuiArrow(arrowX - 1, arrowY - 1, itemPrinter::getProgression, true));
+        addGuiElement(new GuiEnergyBar(itemPrinter.getEnergy(), 10, 25));
+        addGuiElement(new GuiFluidTank(itemPrinter.getTank(), 30, 25));
     }
 
     @Override

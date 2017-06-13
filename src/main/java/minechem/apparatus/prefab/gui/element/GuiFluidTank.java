@@ -62,10 +62,10 @@ public class GuiFluidTank extends GuiElement {
         if (fluidStack != null && fluidStack.amount > 0) {
             TextureAtlasSprite icon = getStillTexture(fluidStack);
 
-            int width = this.width - 4;
-            int height = this.height - 4;
+            int width = this.width - 2;
+            int height = this.height - 2;
             int renderAmount = Math.max(Math.min(height, tank.getFluidAmount() * height / tank.getCapacity()), 1);
-            int posY = guiTop + this.posY + 2 + height - renderAmount;
+            int posY = guiTop + this.posY + 1 + height - renderAmount;
 
             bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
             int color = fluidStack.getFluid().getColor(fluidStack);
@@ -77,7 +77,7 @@ public class GuiFluidTank extends GuiElement {
                     int drawWidth = Math.min(width - i, 16);
                     int drawHeight = Math.min(renderAmount - j, 16);
 
-                    int drawX = guiLeft + this.posX + 2 + i;
+                    int drawX = guiLeft + this.posX + 1 + i;
                     int drawY = posY + j;
 
                     double minU = icon.getMinU();

@@ -1,5 +1,6 @@
 package minechem.apparatus.molecularConstructor;
 
+import minechem.Config;
 import minechem.apparatus.prefab.tileEntity.BasicTileTickingEntity;
 import minechem.apparatus.prefab.tileEntity.storageTypes.*;
 import minechem.chemical.ChemicalBase;
@@ -10,9 +11,13 @@ import minechem.item.chemical.ChemicalItem;
 import minechem.registry.BlockRegistry;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.items.CapabilityItemHandler;
 
 public class MolecularConstructorTileEntity extends BasicTileTickingEntity {
-    private BasicInventory input, output;
+    private ChemicalInventory input;
+    private BasicInventory output;
     private ProcessingInventory processingInventory;
     private BasicEnergyStorage energy;
     private ItemStack currentRecipe;
@@ -20,13 +25,15 @@ public class MolecularConstructorTileEntity extends BasicTileTickingEntity {
     public MolecularConstructorTileEntity() {
         super(BlockRegistry.molecularConstructor);
         this.input = new ChemicalInventory(9, "input").setListener(this).sendUpdates();
-        this.output = new BasicInventory(1, "output").setListener(this);
+        this.output = new BasicInventory(1, "output").setListener(this).setOutput();
         this.processingInventory = new ProcessingInventory(5).setListener(this);
         this.energy = new BasicEnergyStorage(10000).setListener(this);
+        attachCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, BasicInventory.asCapability(input, output));
+        attachCapability(CapabilityEnergy.ENERGY, this.energy);
         this.currentRecipe = getCurrentRecipeInternal();
     }
 
-    public BasicInventory getInput() {
+    public ChemicalInventory getInput() {
         return input;
     }
 
@@ -38,10 +45,6 @@ public class MolecularConstructorTileEntity extends BasicTileTickingEntity {
         return energy;
     }
 
-    public ProcessingInventory getProcessingInventory() {
-        return processingInventory;
-    }
-
     public int getProgression() {
         return processingInventory.getProgress();
     }
@@ -49,17 +52,7 @@ public class MolecularConstructorTileEntity extends BasicTileTickingEntity {
     @Override
     public void update() {
         super.update();
-        if (!processingInventory.isEmpty()) {
-            if (processingInventory.isDone() || (processingTick() && processingInventory.update())) {
-                ItemStack result = processingInventory.decrStackSize(0, 1);
-                if (output.asCapability().insertItem(0, result, true).isEmpty()) {
-                    output.asCapability().insertItem(0, result, false);
-                    processingInventory.reset();
-                } else {
-                    processingInventory.addItem(result);
-                }
-            }
-        }
+        doGeneralProcessUpdate(processingInventory, output);
     }
 
     public void startProcessing() {
@@ -74,6 +67,11 @@ public class MolecularConstructorTileEntity extends BasicTileTickingEntity {
                 }
             }
         }
+    }
+
+    @Override
+    protected boolean processingTick() {
+        return tryAndExtractEnergy(energy, 2 * Config.energyConsumption);
     }
 
     public ItemStack getCurrentRecipe() {

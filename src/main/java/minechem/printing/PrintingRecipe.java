@@ -39,4 +39,8 @@ public class PrintingRecipe {
     public int getCount() {
         return count;
     }
+
+    public Chemical[][] getRecipe() {
+        return recipe;
+    }
 }

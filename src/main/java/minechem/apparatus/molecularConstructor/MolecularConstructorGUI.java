@@ -4,6 +4,7 @@ import minechem.Compendium;
 import minechem.apparatus.prefab.gui.ScaledButton;
 import minechem.apparatus.prefab.gui.container.BasicGuiContainer;
 import minechem.apparatus.prefab.gui.element.GuiArrow;
+import minechem.apparatus.prefab.gui.element.GuiEnergyBar;
 import minechem.helper.LocalizationHelper;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -22,6 +23,7 @@ public class MolecularConstructorGUI extends BasicGuiContainer {
         this.name = molecularConstructor.getName();
         this.molecularConstructor = molecularConstructor;
         addGuiElement(new GuiArrow(arrowX - 1, arrowY - 1, molecularConstructor::getProgression, true));
+        addGuiElement(new GuiEnergyBar(molecularConstructor.getEnergy(), 15, 25));
     }
 
     @Override

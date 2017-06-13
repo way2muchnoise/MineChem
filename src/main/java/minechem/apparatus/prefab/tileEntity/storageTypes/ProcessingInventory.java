@@ -15,11 +15,12 @@ public class ProcessingInventory extends BasicInventory implements IUpdateable {
         this.timer = new Timer(duration, inventoryName);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public ProcessingInventory setListener(IChangeable changeable) {
+    public <T extends BasicInventory> T setListener(IChangeable changeable) {
         super.setListener(changeable);
         timer.setListener(changeable);
-        return this;
+        return (T) this;
     }
 
     @Override
