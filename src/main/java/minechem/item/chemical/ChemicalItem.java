@@ -54,6 +54,7 @@ public class ChemicalItem extends BasicItem
 
         ModelLoader.setCustomMeshDefinition(this, stack -> {
             ChemicalBase chemical = getChemicalBase(stack);
+            if (chemical == null) return liquid;
             boolean isElement = chemical.isElement();
             switch (chemical.form) {
                 case solid:
@@ -65,7 +66,7 @@ public class ChemicalItem extends BasicItem
                 case plasma:
                     return isElement ? plasma : plasma_molecule;
                 default:
-                    return null;
+                    return liquid;
             }
         });
     }
@@ -78,7 +79,8 @@ public class ChemicalItem extends BasicItem
             return itemStack.getTagCompound().getString("fullName");
         } else if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
             ChemicalBase chemical = getChemicalBase(itemStack);
-            if (chemical != null && ResearchHelper.hasResearch(Minecraft.getMinecraft().player, chemical.getResearchKey())) {
+            EntityPlayer player = Minecraft.getMinecraft().player;
+            if (chemical != null && (player.isCreative() || ResearchHelper.hasResearch(player, chemical.getResearchKey()))) {
                 return itemStack.getTagCompound().getString("fullName");
             }
         }

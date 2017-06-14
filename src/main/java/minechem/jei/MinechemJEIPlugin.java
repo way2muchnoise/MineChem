@@ -9,6 +9,7 @@ import minechem.registry.ItemRegistry;
 public class MinechemJEIPlugin implements IModPlugin {
     @Override
     public void registerItemSubtypes(ISubtypeRegistry subtypeRegistry) {
+        subtypeRegistry.useNbtForSubtypes(ItemRegistry.chemicalItem);
         subtypeRegistry.useNbtForSubtypes(ItemRegistry.ceramicBowl);
     }
 
@@ -23,6 +24,5 @@ public class MinechemJEIPlugin implements IModPlugin {
 
     @Override
     public void onRuntimeAvailable(IJeiRuntime jeiRuntime) {
-
     }
 }
