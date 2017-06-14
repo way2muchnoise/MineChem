@@ -53,8 +53,8 @@ public class ElectrolysisTileEntity extends BasicTileTickingEntity
 
     @Override
     public void update() {
-        doChemicalProcessUpdate(inventoryIn, inventoryOut, processingInventory, ChemicalProcessType.electrolysis);
         super.update();
+        doChemicalProcessUpdate(inventoryIn, inventoryOut, processingInventory, ChemicalProcessType.electrolysis);
     }
 
     @Override

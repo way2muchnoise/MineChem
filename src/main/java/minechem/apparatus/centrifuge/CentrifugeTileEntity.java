@@ -45,8 +45,8 @@ public class CentrifugeTileEntity extends BasicTileTickingEntity
 
     @Override
     public void update() {
-        doChemicalProcessUpdate(inventoryIn, inventoryOut, processingInventory, ChemicalProcessType.centrifuge);
         super.update();
+        doChemicalProcessUpdate(inventoryIn, inventoryOut, processingInventory, ChemicalProcessType.centrifuge);
     }
 
     @Override

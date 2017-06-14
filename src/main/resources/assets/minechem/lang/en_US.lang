@@ -22,6 +22,7 @@ tile.electrolysis.name=Electrolysis Apparatus
 tile.optical_microscope.name=Optical Microscope
 tile.electric_crucible.name=Electric Crucible
 tile.centrifuge.name=Centrifuge
+tile.acid_bath.name=Acid Bath
 tile.item_printer.name=Item Printer
 tile.molecular_constructor.name=Molecular Constructor
 
@@ -50,6 +51,8 @@ config.useDefaultReactions=Turns on to read the newest reactions list
 config.useDefaultReactions.tooltip=Use Default Reactions
 config.useDefaultFuels=Turns on to read the newest fuels list from jar
 config.useDefaultFuels.tooltip=Use Default Fuels
+config.useDefaultFuels=Turns on to read the newest acids list from jar
+config.useDefaultFuels.tooltip=Use Default Acids
 config.useDefaultPrinting.tooltip=Turns on to read the newest printing recipes list from jar
 config.useDefaultPrinting=Use Default Printing recipes
 config.playerPrivateKnowledge=The journal can't be written and will magically show what you know
@@ -60,6 +63,7 @@ command.minechem.reload.reactions=Reloaded chemical reactions.
 command.minechem.reload.pages=Reloaded Journal pages.
 command.minechem.reload.breakdowns=Reloaded item breakdowns.
 command.minechem.reload.breakdowns=Reloaded printing recipes.
+command.minechem.reload.breakdowns=Reloaded acids.
 
 achievement.minechem.item.journal=Start learning
 achievement.minechem.item.journal.desc=The journal is your gate to all the Minechem knowledge

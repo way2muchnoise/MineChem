@@ -1,6 +1,8 @@
 package minechem.registry;
 
 import minechem.Compendium;
+import minechem.apparatus.acidBath.AcidBathBlock;
+import minechem.apparatus.acidBath.AcidBathTileEntity;
 import minechem.apparatus.centrifuge.CentrifugeBlock;
 import minechem.apparatus.centrifuge.CentrifugeTileEntity;
 import minechem.apparatus.electricCrucible.ElectricCrucibleBlock;
@@ -32,6 +34,7 @@ public class BlockRegistry
     public static ElectrolysisBlock electrolysisBlock;
     public static ElectricCrucibleBlock electricCrucibleBlock;
     public static CentrifugeBlock centrifugeBlock;
+    public static AcidBathBlock acidBathBlock;
     public static MolecularConstructorBlock molecularConstructor;
     public static ItemPrinterBlock itemPrinter;
 
@@ -52,6 +55,9 @@ public class BlockRegistry
 
         electrolysisBlock = register(new ElectrolysisBlock());
         register(ElectrolysisTileEntity.class, Compendium.Naming.electrolysis);
+
+        acidBathBlock = register(new AcidBathBlock());
+        register(AcidBathTileEntity.class, Compendium.Naming.acidBath);
 
         molecularConstructor = register(new MolecularConstructorBlock());
         register(MolecularConstructorTileEntity.class, Compendium.Naming.molecularConstructor);

@@ -1,9 +1,6 @@
 package minechem.command;
 
-import minechem.handler.FuelHandler;
-import minechem.handler.PrintingHandler;
-import minechem.handler.ReactionHandler;
-import minechem.handler.StructuredJournalHandler;
+import minechem.handler.*;
 import minechem.registry.RecipeBreakdownsRegistry;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -16,7 +13,7 @@ import java.util.List;
 
 public class ReloadCommand implements ISubCommand {
 
-    public static final String[] reloadables = { "fuels", "reactions", "pages", "breakdowns", "printing" };
+    public static final String[] reloadables = { "fuels", "reactions", "pages", "breakdowns", "printing", "acids" };
 
     @Override
     public String getCommandName() {
@@ -44,6 +41,9 @@ public class ReloadCommand implements ISubCommand {
             } else if (reloadables[4].startsWith(arg)) {
                 PrintingHandler.reload();
                 reply = "command.minechem.reload.printing";
+            } else if (reloadables[5].startsWith(arg)) {
+                AcidHandler.reload();
+                reply = "command.minechem.reload.acids";
             }
             if (reply != null) {
                 sender.sendMessage(new TextComponentTranslation(reply));

@@ -68,7 +68,7 @@ public class Timer implements INBTWritable {
      * @return percentage of the time
      */
     public int getProgress() {
-        return (counter * 100) / reset;
+        return Math.min((counter * 100) / reset, 100);
     }
 
     public void writeNBT(NBTTagCompound tagCompound)

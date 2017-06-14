@@ -2,21 +2,22 @@ package minechem.apparatus.electricCrucible;
 
 import minechem.Config;
 import minechem.apparatus.prefab.tileEntity.BasicTileTickingEntity;
-import minechem.apparatus.prefab.tileEntity.storageTypes.*;
+import minechem.apparatus.prefab.tileEntity.storageTypes.BasicEnergyStorage;
+import minechem.apparatus.prefab.tileEntity.storageTypes.BasicInventory;
+import minechem.apparatus.prefab.tileEntity.storageTypes.INBTWritable;
+import minechem.apparatus.prefab.tileEntity.storageTypes.ProcessingInventory;
 import minechem.chemical.process.ChemicalProcessType;
 import minechem.registry.BlockRegistry;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.items.CapabilityItemHandler;
 
-public class ElectricCrucibleTileEntity extends BasicTileTickingEntity
-{
+public class ElectricCrucibleTileEntity extends BasicTileTickingEntity {
     private BasicInventory inventoryIn, inventoryOut;
     private ProcessingInventory processingInventory;
     private BasicEnergyStorage energy;
 
-    public ElectricCrucibleTileEntity()
-    {
+    public ElectricCrucibleTileEntity() {
         super(BlockRegistry.electricCrucibleBlock);
         this.inventoryIn = new BasicInventory(1, "insert").setListener(this);
         this.inventoryOut = new BasicInventory(6, "extract").setListener(this).setOutput();
@@ -45,8 +46,8 @@ public class ElectricCrucibleTileEntity extends BasicTileTickingEntity
 
     @Override
     public void update() {
-        doChemicalProcessUpdate(inventoryIn, inventoryOut, processingInventory, ChemicalProcessType.heat);
         super.update();
+        doChemicalProcessUpdate(inventoryIn, inventoryOut, processingInventory, ChemicalProcessType.heat);
     }
 
     @Override

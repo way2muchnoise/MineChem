@@ -98,6 +98,9 @@ public class Recipes {
         addShapelessRecipe(Jenkins.getStack("water"), PotionUtils.addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.WATER));
         addShapelessRecipe(PotionUtils.addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.WATER), Jenkins.getStack("water"));
         //endregion
+        //region book
+        addShapelessRecipe(new ItemStack(ItemRegistry.journal), Items.BOOK, ItemRegistry.chemicalItem);
+        //endregion
     }
 
     private static void addShapedRecipe(ItemStack output, Object... params) {

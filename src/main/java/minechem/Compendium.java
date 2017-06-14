@@ -65,6 +65,7 @@ public class Compendium
         public static final String reactionsJson = "reactions.json";
         public static final String printingJson = "printing.json";
         public static final String fuelsJson = "fuels.json";
+        public static final String acidJson = "acids.json";
         public static final String playerResearchData = "minechem/research_data.json";
     }
 
@@ -113,6 +114,7 @@ public class Compendium
         public static final String centrifugeCore = "centrifuge_core";
         public static final String molecularConstructor = "molecular_constructor";
         public static final String itemPrinter = "item_printer";
+        public static final String acidBath = "acid_bath";
     }
 
     public static final class Fontbox
@@ -163,6 +165,7 @@ public class Compendium
             public static final ResourceLocation centrifuge = new ResourceLocation(Compendium.Naming.id, Compendium.Texture.GUI.centrifuge);
             public static final ResourceLocation electricCrucible = new ResourceLocation(Compendium.Naming.id, Compendium.Texture.GUI.electricCrucible);
             public static final ResourceLocation electrolysis = new ResourceLocation(Compendium.Naming.id, Compendium.Texture.GUI.electrolysis);
+            public static final ResourceLocation acidBath = new ResourceLocation(Compendium.Naming.id, Compendium.Texture.GUI.acidBath);
             public static final ResourceLocation itemPrinter = new ResourceLocation(Compendium.Naming.id, Compendium.Texture.GUI.itemPrinter);
             public static final ResourceLocation molecularConstructor = new ResourceLocation(Compendium.Naming.id, Compendium.Texture.GUI.molecularConstructor);
             public static final ResourceLocation achievements = new ResourceLocation(Compendium.Naming.id, Compendium.Texture.GUI.achievements);
@@ -226,6 +229,7 @@ public class Compendium
             public static final String centrifuge = Compendium.Texture.GUI.prefix + "centrifuge.png";
             public static final String electricCrucible = Compendium.Texture.GUI.prefix + "electric_crucible.png";
             public static final String electrolysis = Compendium.Texture.GUI.prefix + "electrolysis.png";
+            public static final String acidBath = Compendium.Texture.GUI.prefix + "acid_bath.png";
             public static final String itemPrinter = Compendium.Texture.GUI.prefix + "item_printer.png";
             public static final String molecularConstructor = Compendium.Texture.GUI.prefix + "molecular_constructor.png";
             public static final String achievements = Compendium.Texture.GUI.prefix + "achievement_page.png";
