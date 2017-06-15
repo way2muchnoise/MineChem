@@ -3,6 +3,7 @@ package minechem.chemical;
 import java.util.List;
 import minechem.helper.Jenkins;
 import minechem.item.chemical.ChemicalItem;
+import minechem.registry.AcidRegistry;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -92,6 +93,14 @@ public abstract class ChemicalBase
     public abstract String getResearchKey();
 
     public abstract ChemicalBase copy();
+
+    public boolean isAcid() {
+        return getAcidicValue() > 0;
+    }
+
+    public int getAcidicValue() {
+        return AcidRegistry.getInstance().getAcidValue(this);
+    }
 
     @Override
     public String toString()

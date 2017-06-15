@@ -20,8 +20,9 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
 
-@Mod(modid = Compendium.Naming.id, name = Compendium.Naming.name, version = Compendium.Version.full, useMetadata = false, guiFactory = "minechem.proxy.client.gui.GuiFactory", acceptedMinecraftVersions = "[1.11.2,)", dependencies = "required-after:forge@[13.20.0.2282,);required-after:fontbox@[0.0.3,)")
+@Mod(modid = Compendium.Naming.id, name = Compendium.Naming.name, version = Compendium.Version.full, useMetadata = false, guiFactory = "minechem.proxy.client.gui.GuiFactory", acceptedMinecraftVersions = "[1.11.2,)", dependencies = "required-after:forge@[13.20.0.2282,);required-after:fontbox@[0.0.4,)")
 public class Minechem {
     // Instancing
     @Instance(value = Compendium.Naming.id)
@@ -77,9 +78,6 @@ public class Minechem {
         LogHelper.debug("Registering crafting recipes...");
         Recipes.register();
 
-        LogHelper.debug("Registering Journal...");
-        JournalRegistry.init();
-
         LogHelper.debug("Registering default chemical processes...");
         DefaultProcesses.register();
 
@@ -112,6 +110,11 @@ public class Minechem {
     public void postInit(FMLPostInitializationEvent event) {
         LogHelper.debug("Registering Reverse Recipes...");
         DefaultReverseRecipes.init();
+
+        if (event.getSide() == Side.CLIENT) {
+            LogHelper.debug("Registering Journal...");
+            JournalRegistry.init();
+        }
 
         LogHelper.info("Minechem has loaded");
     }

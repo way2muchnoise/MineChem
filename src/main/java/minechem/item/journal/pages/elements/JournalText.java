@@ -13,21 +13,28 @@ public class JournalText extends JournalElement
 {
     private String textKey;
     private AlignmentMode alignment;
+    private Object[] params;
 
     public JournalText(String pageKey)
     {
         this(pageKey, pageKey + ".text");
     }
 
-    public JournalText(String pageKey, String textKey)
+    public JournalText(String pageKey, String textKey, Object... params)
     {
         super(pageKey);
         this.textKey = "journal." + textKey;
-        this.alignment = AlignmentMode.JUSTIFY;
+        this.alignment = AlignmentMode.LEFT;
+        this.params = params;
     }
 
     public JournalText setText(String text) {
         textKey = text;
+        return this;
+    }
+
+    public JournalText setParams(Object... params) {
+        this.params = params;
         return this;
     }
 
@@ -41,7 +48,7 @@ public class JournalText extends JournalElement
     {
         if (isUnlocked(player, getKey()))
         {
-            String s = LocalizationHelper.getLocalString(textKey);
+            String s = LocalizationHelper.getFormattedString(textKey, params);
             return s.isEmpty() ? new Image(Compendium.Resource.GUI.noContent, 301, 294, AlignmentMode.JUSTIFY) : new Paragraph(new FormattedString(s), alignment);
         }
         return null;
@@ -52,7 +59,7 @@ public class JournalText extends JournalElement
     {
         if (isUnlocked(keys, getKey()))
         {
-            String s = LocalizationHelper.getLocalString(textKey);
+            String s = LocalizationHelper.getFormattedString(textKey, params);
             return s.isEmpty() ? new Image(Compendium.Resource.GUI.noContent, 301, 294, AlignmentMode.JUSTIFY) : new Paragraph(new FormattedString(s), alignment);
         }
         return null;

@@ -60,7 +60,7 @@ public class AcidBathTileEntity extends BasicTileTickingEntity {
             ItemStack stack = inventoryAcid.decrStackSize(0, 1);
             ChemicalBase chemicalBase = ChemicalItem.getChemicalBase(stack);
             if (chemicalBase != null) {
-                int acidValue = AcidRegistry.getInstance().getAcidValue(chemicalBase);
+                int acidValue = chemicalBase.getAcidicValue();
                 if (acidValue > 0) {
                     currentAcid = acidValue - 1;
                     return true;

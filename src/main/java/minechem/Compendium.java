@@ -138,6 +138,11 @@ public class Compendium {
             public boolean enableAssertion() {
                 return false;
             }
+
+            @Override
+            public boolean ignoreInvalidSymbols() {
+                return true;
+            }
         }
     }
 

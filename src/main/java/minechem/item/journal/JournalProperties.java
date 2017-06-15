@@ -22,7 +22,7 @@ public class JournalProperties implements IBookProperties {
 
         PageProperties properties = new PageProperties(221, 380, defaultFormat);
         properties.headingFormat(headingFormat);
-        properties.bothMargin(2).lineHeightSize(4).spaceSize(4).densitiy(0.33f);
+        properties.bothMargin(2).lineHeightSize(4).spaceSize(10).densitiy(0.33f);
 
         return properties;
     }

@@ -6,6 +6,7 @@ import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 import minechem.Compendium;
 import minechem.Config;
+import minechem.chemical.Element;
 import minechem.chemical.Molecule;
 import minechem.helper.FileHelper;
 import minechem.helper.Jenkins;
@@ -17,6 +18,8 @@ import minechem.item.journal.pages.elements.IJournalElement;
 import minechem.item.journal.pages.elements.JournalHeader;
 import minechem.item.journal.pages.elements.JournalImage;
 import minechem.item.journal.pages.elements.JournalText;
+import minechem.registry.AcidRegistry;
+import minechem.registry.ElementRegistry;
 import minechem.registry.JournalRegistry;
 import minechem.registry.MoleculeRegistry;
 import net.afterlifelochie.fontbox.api.formatting.layout.AlignmentMode;
@@ -53,8 +56,19 @@ public class StructuredJournalHandler {
     }
 
     public static void reload() {
-        // In the way this works it is fine to just rerun register on reload
-        init();
+        String[] fileDestSource = new String[2];
+        fileDestSource[0] = Compendium.Config.dataJsonPrefix + Compendium.Config.researchPagesJson;
+        fileDestSource[1] = Compendium.Config.configPrefix + Compendium.Config.dataJsonPrefix + Compendium.Config.researchPagesJson;
+
+        InputStream inputStream = FileHelper.getJsonFile(StructuredJournalHandler.class, fileDestSource, false);
+        readFromStream(inputStream);
+        if (inputStream != null) {
+            try {
+                inputStream.close();
+            } catch (IOException e) {
+                LogHelper.exception("Cannot close stream!", e, Level.WARN);
+            }
+        }
     }
 
     private static void readFromStream(InputStream inputStream) {
@@ -92,6 +106,8 @@ public class StructuredJournalHandler {
         List<IJournalPage> pages = new ArrayList<>();
         if (chapter.equals("chemicals.compounds")) {
             pages.addAll(getCompoundPages(chapter));
+        } else if (chapter.equals("chemicals.elements")) {
+            pages.addAll(getElementPages(chapter));
         } else {
             for (Map.Entry<String, JsonElement> pageEntry : object.entrySet()) {
                 if (pageEntry.getValue().isJsonNull()) {
@@ -223,11 +239,31 @@ public class StructuredJournalHandler {
         for (Molecule molecule : MoleculeRegistry.getInstance().getMolecules()) {
             List<IJournalElement> pageElements = new LinkedList<>();
             pageElements.add(new JournalHeader(molecule.getResearchKey()).setTitle(molecule.fullName));
+            pageElements.add(new JournalImage(molecule.getResearchKey(), molecule.getItemStack(), 54, 54, AlignmentMode.LEFT, FloatMode.LEFT));
+            pageElements.add(new JournalText(molecule.getResearchKey()).setText(molecule.getFormula()).setAlignment(AlignmentMode.LEFT));
             pageElements.add(new JournalText(molecule.getResearchKey()).setText("chemical.structure"));
             pageElements.add(new JournalImage(molecule.getResearchKey(), molecule.getStructureResource(), 200, 200, AlignmentMode.CENTER, FloatMode.NONE));
-            pageElements.add(new JournalText(molecule.getResearchKey()).setText(molecule.getFormula()).setAlignment(AlignmentMode.CENTER));
+            if (molecule.isAcid()) {
+                pageElements.add(new JournalText(molecule.getResearchKey()).setText("chemical.acidic").setParams(molecule.getAcidicValue()));
+            }
             compoundPages.add(new EntryPage(molecule.fullName.toLowerCase(), chapter, pageElements));
         }
         return compoundPages;
+    }
+
+    public static List<IJournalPage> getElementPages(String chapter) {
+        List<IJournalPage> elementPages = new LinkedList<>();
+        for (Element element : ElementRegistry.getInstance().getElements()) {
+            List<IJournalElement> pageElements = new LinkedList<>();
+            String name = element.fullName.toLowerCase();
+            pageElements.add(new JournalHeader(element.getResearchKey()));
+            pageElements.add(new JournalImage(element.getResearchKey(), element.getItemStack(), 54, 54, AlignmentMode.LEFT, FloatMode.LEFT));
+            pageElements.add(new JournalText(element.getResearchKey(), chapter + "." + name + ".text"));
+            if (element.isAcid()) {
+                pageElements.add(new JournalText(element.getResearchKey()).setText("chemical.acidic").setParams(element.getAcidicValue()));
+            }
+            elementPages.add(new EntryPage(name, chapter, pageElements));
+        }
+        return elementPages;
     }
 }
