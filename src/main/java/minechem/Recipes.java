@@ -94,6 +94,43 @@ public class Recipes {
             'G', "paneGlass",
             'C', new ItemStack(ItemRegistry.electricCore));
         //endregion
+        //region molecular constructor
+        addShapedRecipe(new ItemStack(ItemRegistry.printingHead),
+            "  I",
+            " I ",
+            "Q  ",
+            'I', "ingotIron",
+            'Q', new ItemStack(Items.QUARTZ));
+        addShapedRecipe(new ItemStack(BlockRegistry.molecularConstructor),
+            "L P",
+            "I I",
+            "III",
+            'I', "ingotIron",
+            'P', new ItemStack(ItemRegistry.printingHead),
+            'L', new ItemStack(ItemRegistry.microscopeLens));
+        //endregion
+        //region item printer
+        addShapedRecipe(new ItemStack(ItemRegistry.coolantTank),
+            "GGG",
+            "G G",
+            "GGG",
+            'G', "paneGlass");
+        addShapedRecipe(new ItemStack(BlockRegistry.itemPrinter),
+            "T P",
+            "I I",
+            "III",
+            'I', "ingotIron",
+            'P', new ItemStack(ItemRegistry.printingHead),
+            'T', new ItemStack(ItemRegistry.coolantTank));
+        //endregion
+        //region acid bath
+        addShapedRecipe(new ItemStack(BlockRegistry.acidBathBlock),
+            "G G",
+            "GCG",
+            "GGG",
+            'G', "paneGlass",
+            'C', CeramicBowlItem.getStack(true));
+        //endregion
         //region water
         addShapelessRecipe(Jenkins.getStack("water"), PotionUtils.addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.WATER));
         addShapelessRecipe(PotionUtils.addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.WATER), Jenkins.getStack("water"));

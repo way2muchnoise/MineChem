@@ -23,6 +23,8 @@ public class ItemRegistry {
     public static BasicItem heatingCore;
     public static BasicItem electricCore;
     public static BasicItem centrifugeCore;
+    public static BasicItem printingHead;
+    public static BasicItem coolantTank;
 
     public static void init(Side side) {
         //Basic items
@@ -32,6 +34,8 @@ public class ItemRegistry {
         heatingCore = register(Compendium.Naming.heatingCore);
         electricCore = register(Compendium.Naming.electricCore);
         centrifugeCore = register(Compendium.Naming.centrifugeCore);
+        printingHead = register(Compendium.Naming.printingHead);
+        coolantTank = register(Compendium.Naming.coolantTank);
 
         // Complex items
         journal = register(new JournalItem());
@@ -52,6 +56,8 @@ public class ItemRegistry {
         heatingCore.initModel();
         electricCore.initModel();
         centrifugeCore.initModel();
+        printingHead.initModel();
+        coolantTank.initModel();
 
         chemicalItem.initModel();
         journal.initModel();

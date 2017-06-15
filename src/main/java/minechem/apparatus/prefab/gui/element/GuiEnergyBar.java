@@ -45,8 +45,8 @@ public class GuiEnergyBar extends GuiElement {
         drawTexturedModalRectScaled(guiLeft + posX, guiTop + posY, 0, 40, defaultWidth, defaultHeight, width, height);
 
         if (energyStorage != null && energyStorage.getEnergyStored() > 0) {
-            float height = 1.0F * this.height / energyStorage.getMaxEnergyStored() * energyStorage.getEnergyStored();
-            drawTexturedModalRectScaled(guiLeft + posX, guiTop + posY + this.height - 1 - height, 18, 40, defaultWidth, height, width, height);
+            float height = 1.0F * (this.height - 1) * energyStorage.getEnergyStored() / energyStorage.getMaxEnergyStored();
+            drawTexturedModalRectScaled(guiLeft + posX, guiTop + posY + this.height - height - 1, 18, 40, defaultWidth, height, width, height);
         }
     }
 

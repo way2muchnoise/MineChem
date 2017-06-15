@@ -38,6 +38,8 @@ item.convex_lens.name=Convex Lens
 item.concave_lens.name=Concave Lens
 item.ceramic_bowl_fired.name=Ceramic Bowl
 item.ceramic_bowl_unfired.name=Unfired Ceramic Bowl
+item.printing_head.name=Printing Head
+item.coolant_tank.name=Coolant Tank
 
 config.debugMode=Turns on extra logging printouts
 config.debugMode.tooltip=Debug Mode

@@ -92,7 +92,7 @@ public class ChemicalItem extends BasicItem
     public void addInformation(ItemStack itemStack, EntityPlayer player, List<String> tooltip, boolean advanced)
     {
         ChemicalBase chemicalBase = getChemicalBase(itemStack);
-        if (chemicalBase != null && ResearchHelper.hasResearch(player, chemicalBase.getResearchKey())) {
+        if (chemicalBase != null && (player.isCreative() || ResearchHelper.hasResearch(player, chemicalBase.getResearchKey()))) {
             tooltip.addAll(chemicalBase.getToolTip());
         }
     }
