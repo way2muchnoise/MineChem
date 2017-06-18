@@ -22,7 +22,7 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
-@Mod(modid = Compendium.Naming.id, name = Compendium.Naming.name, version = Compendium.Version.full, useMetadata = false, guiFactory = "minechem.proxy.client.gui.GuiFactory", acceptedMinecraftVersions = "[1.11.2,)", dependencies = "required-after:forge@[13.20.0.2282,);required-after:fontbox@[0.0.4,)")
+@Mod(modid = Compendium.Naming.id, name = Compendium.Naming.name, version = Compendium.Version.full, useMetadata = false, guiFactory = "minechem.proxy.client.gui.GuiFactory", acceptedMinecraftVersions = "[1.11.2,)", dependencies = "required-after:forge@[13.20.0.2282,)")
 public class Minechem {
     // Instancing
     @Instance(value = Compendium.Naming.id)

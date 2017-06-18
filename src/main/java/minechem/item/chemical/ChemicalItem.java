@@ -1,6 +1,7 @@
 package minechem.item.chemical;
 
 import minechem.Compendium;
+import minechem.Minechem;
 import minechem.chemical.ChemicalBase;
 import minechem.helper.Jenkins;
 import minechem.helper.LocalizationHelper;
@@ -79,7 +80,7 @@ public class ChemicalItem extends BasicItem
             return itemStack.getTagCompound().getString("fullName");
         } else if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
             ChemicalBase chemical = getChemicalBase(itemStack);
-            EntityPlayer player = Minecraft.getMinecraft().player;
+            EntityPlayer player = Minechem.proxy.getPlayer();
             if (chemical != null && (player.isCreative() || ResearchHelper.hasResearch(player, chemical.getResearchKey()))) {
                 return itemStack.getTagCompound().getString("fullName");
             }
@@ -98,6 +99,7 @@ public class ChemicalItem extends BasicItem
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public void getSubItems(Item item, CreativeTabs tab, NonNullList<ItemStack> subItems) {
         ItemStack itemStack;
         NBTTagCompound tagCompound;

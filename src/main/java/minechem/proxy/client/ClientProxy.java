@@ -85,6 +85,11 @@ public class ClientProxy extends CommonProxy
     }
 
     @Override
+    public EntityPlayer getPlayer() {
+        return Minecraft.getMinecraft().player;
+    }
+
+    @Override
     public void registerFonts()
     {
         try
